@@ -22,7 +22,6 @@
 
   .view { display: none; } .view.active { display: block; }
 
-  /* List */
   .list-controls { padding: 16px 20px 8px; display: flex; gap: 10px; align-items: center; }
   .btn-add { background: var(--text); color: white; border: none; padding: 12px 20px; border-radius: var(--radius); font-size: 14px; font-weight: 600; cursor: pointer; flex-shrink: 0; }
   .search-input { flex: 1; border: 1.5px solid var(--border); border-radius: var(--radius); padding: 11px 14px; font-size: 14px; background: white; outline: none; font-family: var(--font); }
@@ -45,13 +44,17 @@
   .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
   .empty-state p { font-size: 14px; line-height: 1.6; }
 
-  /* Form */
   .form-header { background: white; padding: 16px 20px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; }
   .btn-back { background: none; border: none; font-size: 22px; cursor: pointer; padding: 0; line-height: 1; color: var(--text); }
   .form-header h2 { font-size: 16px; font-weight: 600; }
   .form-body { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
 
-  /* Photos */
+  label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+  input[type="text"], input[type="number"], input[type="url"], textarea, select { border: 1.5px solid var(--border); border-radius: var(--radius); padding: 12px 14px; font-size: 15px; font-family: var(--font); color: var(--text); background: white; outline: none; width: 100%; -webkit-appearance: none; }
+  input:focus, textarea:focus, select:focus { border-color: var(--text); }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
   .photos-label { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
   .photos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
   .photo-slot { aspect-ratio: 3/4; border-radius: 8px; overflow: hidden; position: relative; background: var(--bg); border: 2px dashed var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; }
@@ -61,7 +64,6 @@
   .photo-slot-icon { font-size: 24px; color: var(--border); pointer-events: none; }
   .photo-remove { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 50%; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2; }
 
-  /* AI button */
   .btn-ai { background: var(--text); color: white; border: none; padding: 16px 20px; border-radius: var(--radius); font-size: 15px; font-weight: 600; cursor: pointer; width: 100%; font-family: var(--font); display: flex; align-items: center; justify-content: center; gap: 8px; letter-spacing: 0.02em; }
   .btn-ai:disabled { opacity: 0.4; }
 
@@ -69,21 +71,11 @@
   .ai-status.ok { color: var(--green); font-weight: 600; }
   .ai-status.err { color: var(--red); }
 
-  /* Fields (hidden until AI runs or manual fallback) */
   .fields-section { display: none; flex-direction: column; gap: 16px; }
   .fields-section.visible { display: flex; }
-
-  .fields-header { display: flex; justify-content: space-between; align-items: center; }
   .fields-header-label { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
   .btn-manual { background: none; border: none; font-size: 12px; color: var(--muted); text-decoration: underline; cursor: pointer; font-family: var(--font); padding: 0; }
 
-  label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
-  input[type="text"], input[type="number"], input[type="url"], textarea, select { border: 1.5px solid var(--border); border-radius: var(--radius); padding: 12px 14px; font-size: 15px; font-family: var(--font); color: var(--text); background: white; outline: none; width: 100%; -webkit-appearance: none; }
-  input:focus, textarea:focus, select:focus { border-color: var(--text); }
-  textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
-  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-  /* Toggles */
   .toggle-row { display: flex; justify-content: space-between; align-items: center; background: white; border: 1.5px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
   .toggle-left { flex: 1; }
   .toggle-label { font-size: 14px; font-weight: 500; }
@@ -103,7 +95,6 @@
   .save-status.ok { color: var(--green); font-weight: 600; }
   .save-status.err { color: var(--red); }
 
-  /* Detail */
   .detail-header { background: white; padding: 16px 20px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; }
   .detail-actions { margin-left: auto; display: flex; gap: 8px; }
   .btn-edit { background: var(--text); color: white; border: none; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: var(--font); }
@@ -132,7 +123,6 @@
 </head>
 <body>
 
-<!-- LIST VIEW -->
 <div id="view-list" class="view active">
   <header><h1>Alphagallery</h1><span>Catalog</span></header>
   <div class="stats-bar">
@@ -149,42 +139,26 @@
   </div>
 </div>
 
-<!-- FORM VIEW -->
 <div id="view-form" class="view">
   <div class="form-header">
     <button class="btn-back" onclick="showList()">←</button>
     <h2 id="form-title">Add book</h2>
   </div>
   <div class="form-body">
-
-    <!-- Photos -->
     <div>
       <div class="photos-label">Photos — up to 6, then identify with AI</div>
       <div class="photos-grid" id="photos-grid"></div>
     </div>
 
-    <!-- AI button -->
-    <button class="btn-ai" id="btn-ai" onclick="identifyWithAI()">
-      ✦ Identify with AI
-    </button>
+    <button class="btn-ai" id="btn-ai" onclick="identifyWithAI()">✦ Identify with AI</button>
     <div class="ai-status" id="ai-status"></div>
 
-    <!-- Fields — hidden until AI runs -->
     <div class="fields-section" id="fields-section">
+      <div class="fields-header-label">Details — review and correct</div>
 
-      <div class="fields-header">
-        <div class="fields-header-label">Details — review and correct</div>
-      </div>
-
-      <label>Title *
-        <input type="text" id="f-title" placeholder="Book or magazine title">
-      </label>
-      <label>Author / Editor
-        <input type="text" id="f-author" placeholder="Name(s)">
-      </label>
-      <label>Publisher
-        <input type="text" id="f-publisher" placeholder="Publisher name">
-      </label>
+      <label>Title * <input type="text" id="f-title" placeholder="Book or magazine title"></label>
+      <label>Author / Editor <input type="text" id="f-author" placeholder="Name(s)"></label>
+      <label>Publisher <input type="text" id="f-publisher" placeholder="Publisher name"></label>
 
       <div class="row-2">
         <label>Type
@@ -205,23 +179,14 @@
         </label>
       </div>
 
-      <label>Description
-        <textarea id="f-description" placeholder="Brief description…"></textarea>
-      </label>
-      <label>Notes (private)
-        <textarea id="f-notes" placeholder="Signed copy, rare edition…" style="min-height:60px;"></textarea>
-      </label>
+      <label>Description <textarea id="f-description" placeholder="Brief description…"></textarea></label>
+      <label>Notes (private) <textarea id="f-notes" placeholder="Signed copy, rare edition…" style="min-height:60px;"></textarea></label>
 
       <div class="row-2">
-        <label>Price (¥)
-          <input type="number" id="f-price" placeholder="0" min="0">
-        </label>
-        <label>Link
-          <input type="url" id="f-link" placeholder="https://…">
-        </label>
+        <label>Price (¥) <input type="number" id="f-price" placeholder="0" min="0"></label>
+        <label>Link <input type="url" id="f-link" placeholder="https://…"></label>
       </div>
 
-      <!-- Available toggle -->
       <div class="toggle-row">
         <div class="toggle-left">
           <div class="toggle-label">Available to borrow</div>
@@ -230,14 +195,12 @@
         <button class="toggle on" id="toggle-available" onclick="toggleAvailable()"></button>
       </div>
 
-      <!-- Borrower -->
       <div class="borrower-section" id="borrower-section" style="display:none">
         <h3>Currently lent to</h3>
         <label>Name <input type="text" id="f-borrower" placeholder="Person's name"></label>
         <label>Contact <input type="text" id="f-borrower-contact" placeholder="Email or phone"></label>
       </div>
 
-      <!-- Private toggle -->
       <div class="toggle-row">
         <div class="toggle-left">
           <div class="toggle-label">Private</div>
@@ -250,15 +213,12 @@
       <button class="btn-save" id="btn-save" onclick="saveBook()">Save book</button>
     </div>
 
-    <!-- Manual fallback (shown before AI runs) -->
     <div id="manual-fallback" style="text-align:center;">
       <button class="btn-manual" onclick="showFieldsManually()">Skip AI — fill in manually</button>
     </div>
-
   </div>
 </div>
 
-<!-- DETAIL VIEW -->
 <div id="view-detail" class="view">
   <div class="detail-header">
     <button class="btn-back" onclick="showList()">←</button>
@@ -271,7 +231,6 @@
   <div class="detail-body" id="detail-body"></div>
 </div>
 
-<!-- Lightbox -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <button class="lightbox-close">×</button>
   <img id="lightbox-img" src="" alt="">
@@ -283,9 +242,26 @@ const SUPABASE_KEY = 'sb_publishable_Dn20aHNT1JqsyPGCXo4wxg_wOJEW5sJ';
 const MAX_PHOTOS = 6;
 
 let books = [], filteredBooks = [], editingId = null;
-let availableState = true, privateState = false;
-let currentBookId = null;
-let photoSlots = Array.from({length: MAX_PHOTOS}, () => ({ file: null, url: null, dataUrl: null }));
+let availableState = true, privateState = false, currentBookId = null;
+let photoSlots = Array.from({length: MAX_PHOTOS}, () => ({ file: null, url: null, dataUrl: null, compressedDataUrl: null }));
+
+// ── Image compression ─────────────────────────────────────────────────────────
+
+function compressImage(dataUrl, maxWidth = 800, quality = 0.7) {
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      let w = img.width, h = img.height;
+      if (w > maxWidth) { h = Math.round(h * maxWidth / w); w = maxWidth; }
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+      resolve(canvas.toDataURL('image/jpeg', quality));
+    };
+    img.src = dataUrl;
+  });
+}
 
 // ── API ───────────────────────────────────────────────────────────────────────
 
@@ -322,21 +298,22 @@ async function uploadPhoto(file, index) {
 
 async function identifyWithAI() {
   const filledSlots = photoSlots.filter(s => s.dataUrl);
-  if (!filledSlots.length) {
-    setAIStatus('err', 'Add at least one photo first.');
-    return;
-  }
+  if (!filledSlots.length) { setAIStatus('err', 'Add at least one photo first.'); return; }
 
   const btn = document.getElementById('btn-ai');
   btn.disabled = true;
-  setAIStatus('', 'Analyzing photos…');
+  setAIStatus('', 'Compressing images…');
 
   try {
-    const imageBlocks = filledSlots.map(slot => {
-      const [header, b64] = slot.dataUrl.split(',');
-      const mediaType = header.match(/:(.*?);/)[1];
-      return { type: 'image', source: { type: 'base64', media_type: mediaType, data: b64 } };
-    });
+    // Compress all images before sending
+    const imageBlocks = [];
+    for (const slot of filledSlots) {
+      const compressed = slot.compressedDataUrl || await compressImage(slot.dataUrl);
+      const [header, b64] = compressed.split(',');
+      imageBlocks.push({ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: b64 } });
+    }
+
+    setAIStatus('', 'Analyzing photos…');
 
     const response = await fetch('/api/identify', {
       method: 'POST',
@@ -391,7 +368,7 @@ If you cannot determine a field, use null.` }
     setAIStatus('ok', `✓ Done${note}`);
 
   } catch(e) {
-    setAIStatus('err', 'AI failed — fill in manually below.');
+    setAIStatus('err', 'AI failed — fill in manually below. (' + e.message + ')');
     showFields();
     document.getElementById('manual-fallback').style.display = 'none';
   } finally {
@@ -405,14 +382,8 @@ function setAIStatus(type, msg) {
   el.textContent = msg;
 }
 
-function showFields() {
-  document.getElementById('fields-section').classList.add('visible');
-}
-
-function showFieldsManually() {
-  showFields();
-  document.getElementById('manual-fallback').style.display = 'none';
-}
+function showFields() { document.getElementById('fields-section').classList.add('visible'); }
+function showFieldsManually() { showFields(); document.getElementById('manual-fallback').style.display = 'none'; }
 
 // ── Photo slots ───────────────────────────────────────────────────────────────
 
@@ -437,16 +408,18 @@ function handlePhotoSelect(input, index) {
   if (!file) return;
   photoSlots[index].file = file;
   const reader = new FileReader();
-  reader.onload = e => {
-    photoSlots[index].url = e.target.result;
-    photoSlots[index].dataUrl = e.target.result;
+  reader.onload = async e => {
+    const dataUrl = e.target.result;
+    photoSlots[index].url = dataUrl;
+    photoSlots[index].dataUrl = dataUrl;
+    photoSlots[index].compressedDataUrl = await compressImage(dataUrl);
     renderPhotoSlots();
   };
   reader.readAsDataURL(file);
 }
 
 function removePhoto(index) {
-  photoSlots[index] = { file: null, url: null, dataUrl: null };
+  photoSlots[index] = { file: null, url: null, dataUrl: null, compressedDataUrl: null };
   renderPhotoSlots();
 }
 
@@ -482,7 +455,7 @@ function showForm(book = null) {
 
   const existingUrls = book?.photo_urls || (book?.cover_url ? [book.cover_url] : []);
   photoSlots = Array.from({length: MAX_PHOTOS}, (_, i) => ({
-    file: null, url: existingUrls[i] || null, dataUrl: null
+    file: null, url: existingUrls[i] || null, dataUrl: null, compressedDataUrl: null
   }));
 
   document.getElementById('form-title').textContent = book ? 'Edit book' : 'Add book';
@@ -506,16 +479,10 @@ function showForm(book = null) {
   bs.style.display = availableState ? 'none' : 'flex';
   if (!availableState) bs.style.flexDirection = 'column';
 
-  // For edits, show fields immediately; for new books, hide until AI runs
   const fs = document.getElementById('fields-section');
   const mf = document.getElementById('manual-fallback');
-  if (book) {
-    fs.classList.add('visible');
-    mf.style.display = 'none';
-  } else {
-    fs.classList.remove('visible');
-    mf.style.display = 'block';
-  }
+  if (book) { fs.classList.add('visible'); mf.style.display = 'none'; }
+  else { fs.classList.remove('visible'); mf.style.display = 'block'; }
 
   renderPhotoSlots();
   setView('form');
@@ -533,7 +500,6 @@ function showDetail(id) {
 
   const availTag = book.available ? `<span class="tag tag-available">Available</span>` : `<span class="tag tag-lent">Lent out</span>`;
   const privateTag = book.private ? `<span class="tag tag-private">Private</span>` : '';
-
   const borrowerHtml = !book.available && book.borrower
     ? `<div class="borrower-section" style="margin-top:16px"><h3>Currently lent to</h3><div style="font-size:14px;margin-top:4px">${book.borrower}${book.borrower_contact ? ` · ${book.borrower_contact}` : ''}</div></div>`
     : '';
@@ -559,10 +525,7 @@ function showDetail(id) {
   setView('detail');
 }
 
-function openLightbox(url) {
-  document.getElementById('lightbox-img').src = url;
-  document.getElementById('lightbox').classList.add('open');
-}
+function openLightbox(url) { document.getElementById('lightbox-img').src = url; document.getElementById('lightbox').classList.add('open'); }
 function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
 
 // ── Save ──────────────────────────────────────────────────────────────────────
@@ -623,22 +586,13 @@ async function saveBook() {
   }
 }
 
-// ── Edit / Delete ─────────────────────────────────────────────────────────────
-
-function editCurrentBook() {
-  const book = books.find(b => b.id === currentBookId);
-  if (book) showForm(book);
-}
+function editCurrentBook() { const book = books.find(b => b.id === currentBookId); if (book) showForm(book); }
 
 async function deleteCurrentBook() {
   if (!confirm('Delete this book?')) return;
-  try {
-    await apiFetch(`books?id=eq.${currentBookId}`, { method: 'DELETE' });
-    showList();
-  } catch(e) { alert('Delete failed: ' + e.message); }
+  try { await apiFetch(`books?id=eq.${currentBookId}`, { method: 'DELETE' }); showList(); }
+  catch(e) { alert('Delete failed: ' + e.message); }
 }
-
-// ── Render ────────────────────────────────────────────────────────────────────
 
 function renderList() {
   const container = document.getElementById('book-list');
@@ -647,8 +601,7 @@ function renderList() {
     return;
   }
   container.innerHTML = filteredBooks.map(b => {
-    const thumb = (b.photo_urls?.[0] || b.cover_url)
-      ? `<img src="${b.photo_urls?.[0] || b.cover_url}" alt="">` : '📖';
+    const thumb = (b.photo_urls?.[0] || b.cover_url) ? `<img src="${b.photo_urls?.[0] || b.cover_url}" alt="">` : '📖';
     return `<div class="book-card" onclick="showDetail('${b.id}')">
       <div class="book-thumb">${thumb}</div>
       <div class="book-info">
