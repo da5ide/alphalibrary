@@ -220,17 +220,17 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
         }
 
         .library-header {
-          padding: 40px 0 0;
+          padding: 52px 0 0;
         }
 
         .library-about {
           font-family: 'EB Garamond', Georgia, serif;
-          font-size: 22px;
+          font-size: 24px;
           font-weight: 400;
-          line-height: 1.6;
+          line-height: 1.65;
           color: #8C4A2F;
           margin: 0;
-          padding-bottom: 24px;
+          padding-bottom: 36px;
           border-bottom: 1px solid #E8E4DF;
         }
 
@@ -263,7 +263,7 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
         .library-search::placeholder { color: #C0BCB8; }
 
         .library-count {
-          font-size: 13px;
+          font-size: 14px;
           color: #9B9793;
           letter-spacing: 0.02em;
           margin: 0;
@@ -276,7 +276,6 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
           flex-wrap: wrap;
           padding-bottom: 16px;
           align-items: center;
-          border-bottom: 1px solid #E8E4DF;
         }
 
         .library-filter-pill {
@@ -345,7 +344,7 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
 
         .book-title {
           font-family: 'EB Garamond', Georgia, serif;
-          font-size: 22px;
+          font-size: 23px;
           font-weight: 500;
           line-height: 1.25;
           letter-spacing: -0.01em;
@@ -354,20 +353,20 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
         }
 
         .book-author {
-          font-size: 14px;
+          font-size: 15px;
           color: #555250;
           margin-bottom: 2px;
         }
 
         .book-publisher {
-          font-size: 13px;
+          font-size: 14px;
           color: #9B9793;
         }
 
         .book-description-wrap { margin-top: 8px; }
 
         .book-description {
-          font-size: 14px;
+          font-size: 15px;
           line-height: 1.65;
           color: #444240;
           max-width: 560px;
@@ -462,10 +461,12 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
         .footer-sep { color: #D0CCC8; }
 
         @media (max-width: 600px) {
-          .library-inner { padding: 0 16px; }
-          .library-header { padding: 32px 0 22px; }
-          .library-about { font-size: 19px; }
-          .book-title { font-size: 20px; }
+          .library-inner { padding: 0 20px; }
+          .library-header { padding: 40px 0 0; }
+          .library-about { font-size: 21px; }
+          .book-title { font-size: 22px; }
+          .book-author { font-size: 15px; }
+          .book-description { font-size: 15px; }
           .library-top-row { flex-direction: column; align-items: flex-start; gap: 8px; }
           .library-search { width: 100%; }
         }
