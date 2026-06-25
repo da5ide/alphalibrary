@@ -362,6 +362,7 @@ If you cannot determine a field, use null.` }
 
     showFields();
     document.getElementById('manual-fallback').style.display = 'none';
+    document.getElementById('btn-save').disabled = false;
 
     const conf = parsed.confidence || 'medium';
     const note = conf === 'low' ? ' — low confidence, please review carefully' : '';
@@ -371,6 +372,7 @@ If you cannot determine a field, use null.` }
     setAIStatus('err', 'AI failed — fill in manually below. (' + e.message + ')');
     showFields();
     document.getElementById('manual-fallback').style.display = 'none';
+    document.getElementById('btn-save').disabled = false;
   } finally {
     btn.disabled = false;
   }
@@ -472,6 +474,7 @@ function showForm(book = null) {
   document.getElementById('f-borrower-contact').value = book?.borrower_contact || '';
   document.getElementById('save-status').textContent = '';
   document.getElementById('ai-status').textContent = '';
+  document.getElementById('btn-save').disabled = false;
   document.getElementById('toggle-available').className = 'toggle' + (availableState ? ' on' : '');
   document.getElementById('toggle-private').className = 'toggle' + (privateState ? ' on purple' : '');
 
