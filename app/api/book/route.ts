@@ -113,7 +113,7 @@ Alphagallery Library · Tokyo · instagram.com/alphagallery.co`,
   await resend.emails.send({
     from: 'Alphagallery Library <library@alphagallery.co>',
     to: 'da5ide+alphalibrary@gmail.com',
-    reply_to: email,
+    replyTo: email,
     subject: `New booking: ${book.title}`,
     text: `New booking received.
 
