@@ -273,7 +273,7 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
           display: flex;
           gap: 6px;
           flex-wrap: wrap;
-          padding-bottom: 12px;
+          padding-bottom: 32px;
           align-items: center;
           border-bottom: 1px solid #E8E4DF;
         }
@@ -308,10 +308,10 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
 
         .sort-pill:hover { border-style: solid; color: #111110; }
 
-        .library-main { padding: 24px 0 80px; }
+        .library-main { padding: 0 0 80px; }
         .book-list { list-style: none; padding: 0; margin: 0; }
 
-        .book-list li:first-child { padding-top: 20px; }
+        .book-list li:first-child { padding-top: 26px; }
 
         .book-entry {
           padding: 26px 0;
