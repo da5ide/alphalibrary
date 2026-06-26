@@ -1,0 +1,36 @@
+.wrap {
+  min-height: 100vh;
+  background: #FAFAF8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+  font-family: var(--font-inter), -apple-system, sans-serif;
+}
+
+.primary {
+  font-size: 15px;
+  color: #111110;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid #111110;
+  padding-bottom: 1px;
+  transition: border-color 0.15s;
+}
+
+.primary:hover {
+  border-bottom-color: transparent;
+}
+
+.secondary {
+  font-size: 15px;
+  color: #9B9793;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 0.15s;
+}
+
+.secondary:hover {
+  color: #111110;
+}

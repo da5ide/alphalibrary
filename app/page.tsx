@@ -1,33 +1,13 @@
 import Link from 'next/link'
+import styles from './page.module.css'
 
 export default function Home() {
   return (
-    <main style={{
-      minHeight: '100vh',
-      background: '#FAFAF8',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: 'column',
-      gap: '16px',
-      fontFamily: 'var(--font-inter), -apple-system, sans-serif',
-    }}>
-      <Link href="/library" style={{
-        fontSize: '15px',
-        color: '#111110',
-        textDecoration: 'none',
-        letterSpacing: '0.02em',
-        borderBottom: '1px solid #111110',
-        paddingBottom: '1px',
-      }}>
+    <main className={styles.wrap}>
+      <Link href="/library" className={styles.primary}>
         Enter the Library
       </Link>
-      <a href="https://www.instagram.com/alphagallery.co" target="_blank" rel="noopener noreferrer" style={{
-        fontSize: '15px',
-        color: '#9B9793',
-        textDecoration: 'none',
-        letterSpacing: '0.02em',
-      }}>
+      <a href="https://www.instagram.com/alphagallery.co" target="_blank" rel="noopener noreferrer" className={styles.secondary}>
         @alphagallery.co
       </a>
     </main>
