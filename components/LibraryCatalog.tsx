@@ -273,8 +273,9 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
           display: flex;
           gap: 6px;
           flex-wrap: wrap;
-          padding-bottom: 16px;
+          padding-bottom: 12px;
           align-items: center;
+          border-bottom: 1px solid #E8E4DF;
         }
 
         .library-filter-pill {
@@ -309,6 +310,8 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
 
         .library-main { padding: 24px 0 80px; }
         .book-list { list-style: none; padding: 0; margin: 0; }
+
+        .book-list li:first-child { padding-top: 20px; }
 
         .book-entry {
           padding: 26px 0;
