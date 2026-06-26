@@ -120,8 +120,7 @@ export default function BorrowForm({ book, slots }: { book: Book; slots: Slot[] 
 
                 <div className={styles.field}>
                   <div className={styles.fieldLabelRow}>
-                    <label className={styles.fieldLabel}>Note <span className={styles.fieldOptional}>(optional)</span></label>
-                    <span className={styles.fieldCount}>{note.length}/300</span>
+                    <label className={styles.fieldLabel}>Note <span className={styles.fieldOptional}>(optional {note.length}/300)</span></label>
                   </div>
                   <textarea
                     value={note}
