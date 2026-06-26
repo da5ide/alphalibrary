@@ -149,6 +149,31 @@
 }
 
 .fieldTextarea:focus { border-color: #8C4A2F; }
+
+.fieldSelect {
+  color: #C0BCB8;
+  border: 1.5px solid #E8E4DF;
+  border-radius: 8px;
+  padding: 13px 14px;
+  font-size: 15px;
+  font-family: var(--font-inter), sans-serif;
+  background: white;
+  color: #111110;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23B0ACA8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+.fieldSelect:focus { border-color: #8C4A2F; }
+.fieldSelect:disabled { opacity: 0.6; }
 .fieldTextarea::placeholder { color: #C0BCB8; }
 .fieldTextarea:disabled { opacity: 0.6; }
 
@@ -189,28 +214,32 @@
 .slotOption input[type="radio"] { display: none; }
 
 .submitBtn {
-  background: #E8E4DF;
-  color: #B0ACA8;
-  border: none;
   padding: 15px 28px;
   border-radius: 100px;
   font-size: 14px;
   font-family: var(--font-inter), sans-serif;
   font-weight: 500;
   letter-spacing: 0.03em;
-  cursor: not-allowed;
   transition: all 0.2s;
   align-self: flex-start;
   margin-top: 8px;
+  border: 1.5px solid #E8E4DF;
+  background: #E8E4DF;
+  color: #B0ACA8;
+  cursor: not-allowed;
+  -webkit-appearance: none;
+  appearance: none;
+  opacity: 1 !important;
 }
 
 .submitBtnActive {
-  background: #111110;
-  color: white;
+  background: transparent !important;
+  color: #8C4A2F !important;
+  border: 1.5px solid #8C4A2F !important;
   cursor: pointer;
 }
 
-.submitBtnActive:hover { opacity: 0.85; }
+.submitBtnActive:hover { background: #8C4A2F !important; color: white !important; }
 
 .formError {
   font-size: 13px;
@@ -305,4 +334,5 @@
   .nav { padding: 32px 0 32px; }
   .fieldInput { font-size: 16px; }
   .fieldTextarea { font-size: 16px; }
+  .fieldSelect { font-size: 16px; }
 }

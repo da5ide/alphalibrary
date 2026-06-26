@@ -97,14 +97,18 @@ export default function BorrowForm({ book, slots }: { book: Book; slots: Slot[] 
                       <a href="https://instagram.com/alphagallery.co" target="_blank" rel="noopener noreferrer">DM on Instagram</a>.
                     </div>
                   ) : (
-                    <div className={styles.slotList}>
+                    <select
+                      value={slotId}
+                      onChange={e => setSlotId(e.target.value)}
+                      disabled={status === 'loading'}
+                      className={styles.fieldSelect}
+                      style={{color: slotId ? '#111110' : '#C0BCB8'}}
+                    >
+                      <option value="" disabled>Select…</option>
                       {slots.map(slot => (
-                        <label key={slot.id} className={`${styles.slotOption} ${slotId === slot.id ? styles.selected : ''}`}>
-                          <input type="radio" name="slot" value={slot.id} checked={slotId === slot.id} onChange={() => setSlotId(slot.id)} disabled={status === 'loading'} />
-                          <span>{formatSlot(slot)}</span>
-                        </label>
+                        <option key={slot.id} value={slot.id}>{formatSlot(slot)}</option>
                       ))}
-                    </div>
+                    </select>
                   )}
                 </div>
 
@@ -135,9 +139,12 @@ export default function BorrowForm({ book, slots }: { book: Book; slots: Slot[] 
                 {errorMsg && <div className={styles.formError}>{errorMsg}</div>}
 
                 <button
-                  className={`${styles.submitBtn} ${canSubmit ? styles.submitBtnActive : ''}`}
+                  className={styles.submitBtn}
+                  style={canSubmit ? {background:'transparent', color:'#8C4A2F', border:'1.5px solid #8C4A2F', cursor:'pointer'} : {}}
                   onClick={handleSubmit}
-                  disabled={!canSubmit || status === 'loading'}
+                  disabled={status === 'loading'}
+                  onMouseEnter={e => { if (canSubmit) { (e.target as HTMLButtonElement).style.background='#8C4A2F'; (e.target as HTMLButtonElement).style.color='white'; }}}
+                  onMouseLeave={e => { if (canSubmit) { (e.target as HTMLButtonElement).style.background='transparent'; (e.target as HTMLButtonElement).style.color='#8C4A2F'; }}}
                 >
                   {status === 'loading' ? 'Booking…' : 'Book a visit'}
                 </button>
