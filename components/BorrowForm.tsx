@@ -26,17 +26,20 @@ export default function BorrowForm({ book, slots }: { book: Book; slots: Slot[] 
   const [email, setEmail] = useState('')
   const [slotId, setSlotId] = useState('')
   const [passphrase, setPassphrase] = useState('')
+  const [note, setNote] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
 
+  const canSubmit = name.trim() && email.trim() && slotId && passphrase.trim()
+
   const handleSubmit = async () => {
-    if (!name || !email || !slotId || !passphrase) { setErrorMsg('Please fill in all fields.'); return }
+    if (!canSubmit) return
     setStatus('loading'); setErrorMsg('')
     try {
       const res = await fetch('/api/book', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, slotId, passphrase, bookId: book.id })
+        body: JSON.stringify({ name, email, slotId, passphrase, bookId: book.id, note })
       })
       const data = await res.json()
       if (!res.ok) { setErrorMsg(data.error || 'Something went wrong.'); setStatus('error'); return }
@@ -106,30 +109,51 @@ export default function BorrowForm({ book, slots }: { book: Book; slots: Slot[] 
                 </div>
 
                 <div className={styles.field}>
-                  <label className={styles.fieldLabel}>Access code</label>
+                  <div className={styles.fieldLabelRow}>
+                    <label className={styles.fieldLabel}>Access code</label>
+                    <span className={styles.fieldHint}>
+                      (posted occasionally on <a href="https://instagram.com/alphagallery.co" target="_blank" rel="noopener noreferrer">@alphagallery.co</a>)
+                    </span>
+                  </div>
                   <input type="text" value={passphrase} onChange={e => setPassphrase(e.target.value)} placeholder="Enter the access code" disabled={status === 'loading'} className={styles.fieldInput} />
-                  <span className={styles.fieldHint}>Posted occasionally on <a href="https://instagram.com/alphagallery.co" target="_blank" rel="noopener noreferrer">@alphagallery.co</a></span>
+                </div>
+
+                <div className={styles.field}>
+                  <div className={styles.fieldLabelRow}>
+                    <label className={styles.fieldLabel}>Note <span className={styles.fieldOptional}>(optional)</span></label>
+                    <span className={styles.fieldCount}>{note.length}/300</span>
+                  </div>
+                  <textarea
+                    value={note}
+                    onChange={e => setNote(e.target.value.slice(0, 300))}
+                    placeholder="Anything you'd like to share…"
+                    disabled={status === 'loading'}
+                    className={styles.fieldTextarea}
+                    rows={3}
+                  />
                 </div>
 
                 {errorMsg && <div className={styles.formError}>{errorMsg}</div>}
 
-                {slots.length > 0 && (
-                  <button className={styles.submitBtn} onClick={handleSubmit} disabled={status === 'loading'}>
-                    {status === 'loading' ? 'Booking…' : 'Confirm visit'}
-                  </button>
-                )}
+                <button
+                  className={`${styles.submitBtn} ${canSubmit ? styles.submitBtnActive : ''}`}
+                  onClick={handleSubmit}
+                  disabled={!canSubmit || status === 'loading'}
+                >
+                  {status === 'loading' ? 'Booking…' : 'Book a visit'}
+                </button>
               </div>
             )}
 
             <div className={styles.guidelines}>
               <h2 className={styles.guidelinesTitle}>A few things to know</h2>
               <ul className={styles.guidelinesList}>
-                <li>Borrowing is free.</li>
+                <li>Borrowing is <strong>free</strong>.</li>
                 <li>One item at a time, please.</li>
-                <li>Come pick it up yourself — you'll receive the exact address by email after booking (the closest station is Omotesando).</li>
-                <li>Take your time with it, but please return it within 45 days; a reminder will be sent before then.</li>
-                <li>Return by post or drop it in the mailbox — no need to schedule a return visit.</li>
-                <li>If you can no longer make your visit, please cancel by email.</li>
+                <li><strong>Come pick it up yourself</strong> — you'll receive the exact address by email after booking (the closest station is Omotesando).</li>
+                <li>Take your time with it, but please <strong>return it within 45 days</strong>; a reminder will be sent before then.</li>
+                <li><strong>Return by post or drop it in the mailbox</strong> — no need to schedule a return visit.</li>
+                <li>If you can no longer make your visit, please <strong>cancel by email</strong>.</li>
                 <li>Please do not feel like you have to bring anything in exchange — but if there's a book or magazine you'd like to share, it's always welcome.</li>
                 <li>We trust you'll take good care of what you borrow and return it in the same condition.</li>
               </ul>

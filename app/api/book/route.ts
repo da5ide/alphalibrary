@@ -10,7 +10,7 @@ const supabase = createClient(
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(req: NextRequest) {
-  const { name, email, slotId, passphrase, bookId } = await req.json()
+  const { name, email, slotId, passphrase, bookId, note } = await req.json()
 
   // Validate passphrase
   if (passphrase !== process.env.LIBRARY_PASSPHRASE) {
@@ -65,6 +65,7 @@ export async function POST(req: NextRequest) {
       slot_id: slotId,
       borrower_name: name,
       borrower_email: email,
+      note: note || null,
     })
     .select()
     .single()
@@ -120,7 +121,8 @@ Alphagallery Library · Tokyo · instagram.com/alphagallery.co`,
 Borrower: ${name}
 Email: ${email}
 Book: ${book.title}${book.author ? ` by ${book.author}` : ''}
-Visit: ${slotFormatted}`,
+Visit: ${slotFormatted}${note ? `
+Note: ${note}` : ''}`,
   })
 
   // Update confirmation sent flag

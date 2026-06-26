@@ -13,7 +13,7 @@
 }
 
 .nav {
-  padding: 32px 0 40px;
+  padding: 48px 0 40px;
 }
 
 .backLink {
@@ -26,10 +26,9 @@
 
 .backLink:hover { color: #111110; }
 
-/* Book context */
 .bookContext {
-  margin-bottom: 40px;
-  padding-bottom: 32px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
   border-bottom: 1px solid #E8E4DF;
 }
 
@@ -44,11 +43,11 @@
 
 .bookTitle {
   font-family: var(--font-garamond), Georgia, serif;
-  font-size: 30px;
+  font-size: 32px;
   font-weight: 500;
   line-height: 1.2;
   letter-spacing: -0.01em;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .bookAuthor {
@@ -66,12 +65,11 @@
   line-height: 1.5;
 }
 
-/* Form */
 .form {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  margin-bottom: 48px;
+  margin-bottom: 32px;
 }
 
 .field {
@@ -80,18 +78,46 @@
   gap: 8px;
 }
 
+.fieldLabelRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
 .fieldLabel {
-  font-size: 11px;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: #6B6560;
   font-weight: 600;
 }
 
+.fieldOptional {
+  font-size: 11px;
+  color: #B0ACA8;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+.fieldHint {
+  font-size: 12px;
+  color: #9B9793;
+  white-space: nowrap;
+}
+
+.fieldHint a { color: #9B9793; text-decoration: none; }
+.fieldHint a:hover { color: #111110; }
+
+.fieldCount {
+  font-size: 11px;
+  color: #B0ACA8;
+}
+
 .fieldInput {
   border: 1.5px solid #E8E4DF;
   border-radius: 8px;
-  padding: 12px 14px;
+  padding: 13px 14px;
   font-size: 15px;
   font-family: var(--font-inter), sans-serif;
   background: white;
@@ -102,19 +128,30 @@
   box-sizing: border-box;
 }
 
-.fieldInput:focus { border-color: #111110; }
+.fieldInput:focus { border-color: #8C4A2F; }
 .fieldInput::placeholder { color: #C0BCB8; }
 .fieldInput:disabled { opacity: 0.6; }
 
-.fieldHint {
-  font-size: 12px;
-  color: #9B9793;
+.fieldTextarea {
+  border: 1.5px solid #E8E4DF;
+  border-radius: 8px;
+  padding: 13px 14px;
+  font-size: 15px;
+  font-family: var(--font-inter), sans-serif;
+  background: white;
+  color: #111110;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  line-height: 1.5;
 }
 
-.fieldHint a { color: #9B9793; }
-.fieldHint a:hover { color: #111110; }
+.fieldTextarea:focus { border-color: #8C4A2F; }
+.fieldTextarea::placeholder { color: #C0BCB8; }
+.fieldTextarea:disabled { opacity: 0.6; }
 
-/* Slots */
 .noSlots {
   font-size: 14px;
   color: #6B6560;
@@ -124,7 +161,7 @@
   border-radius: 8px;
 }
 
-.noSlots a { color: #6B6560; }
+.noSlots a { color: #6B6560; text-decoration: none; }
 .noSlots a:hover { color: #111110; }
 
 .slotList {
@@ -151,24 +188,29 @@
 .slotOption.selected { border-color: #111110; background: #111110; color: white; }
 .slotOption input[type="radio"] { display: none; }
 
-/* Submit */
 .submitBtn {
-  background: #111110;
-  color: white;
+  background: #E8E4DF;
+  color: #B0ACA8;
   border: none;
-  padding: 14px 24px;
+  padding: 15px 28px;
   border-radius: 100px;
   font-size: 14px;
   font-family: var(--font-inter), sans-serif;
   font-weight: 500;
   letter-spacing: 0.03em;
-  cursor: pointer;
-  transition: opacity 0.15s;
+  cursor: not-allowed;
+  transition: all 0.2s;
   align-self: flex-start;
+  margin-top: 8px;
 }
 
-.submitBtn:hover { opacity: 0.85; }
-.submitBtn:disabled { opacity: 0.4; cursor: default; }
+.submitBtnActive {
+  background: #111110;
+  color: white;
+  cursor: pointer;
+}
+
+.submitBtnActive:hover { opacity: 0.85; }
 
 .formError {
   font-size: 13px;
@@ -178,10 +220,10 @@
   border-radius: 6px;
 }
 
-/* Guidelines */
 .guidelines {
   border-top: 1px solid #E8E4DF;
-  padding-top: 32px;
+  padding-top: 28px;
+  margin-top: 0;
 }
 
 .guidelinesTitle {
@@ -190,7 +232,7 @@
   letter-spacing: 0.1em;
   color: #9B9793;
   font-weight: 600;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .guidelinesList {
@@ -199,25 +241,21 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .guidelinesList li {
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: 15px;
+  line-height: 1.65;
   color: #444240;
-  padding-left: 16px;
-  position: relative;
+  padding-left: 0;
 }
 
-.guidelinesList li::before {
-  content: '—';
-  position: absolute;
-  left: 0;
-  color: #C8C4BF;
+.guidelinesList li strong {
+  color: #111110;
+  font-weight: 500;
 }
 
-/* Success */
 .successState {
   padding-top: 40px;
   text-align: center;
@@ -264,4 +302,5 @@
 @media (max-width: 600px) {
   .inner { padding: 0 20px; }
   .bookTitle { font-size: 26px; }
+  .nav { padding: 32px 0 32px; }
 }
