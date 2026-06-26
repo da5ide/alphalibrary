@@ -230,11 +230,11 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
           line-height: 1.65;
           color: #8C4A2F;
           margin: 0;
-          padding-bottom: 36px;
+          padding-bottom: 20px;
         }
 
         .library-controls {
-          padding: 26px 0 0;
+          padding: 14px 0 0;
         }
 
         .library-top-row {
