@@ -149,7 +149,7 @@ export default function BorrowForm({ book, slots }: { book: Book; slots: Slot[] 
               <h2 className={styles.guidelinesTitle}>A few things to know</h2>
               <ul className={styles.guidelinesList}>
                 <li>Borrowing is <strong>free</strong>.</li>
-                <li>One item at a time, please.</li>
+                <li><strong>One item at a time</strong>, please.</li>
                 <li><strong>Come pick it up yourself</strong> — you'll receive the exact address by email after booking (the closest station is Omotesando).</li>
                 <li>Take your time with it, but please <strong>return it within 45 days</strong>; a reminder will be sent before then.</li>
                 <li><strong>Return by post or drop it in the mailbox</strong> — no need to schedule a return visit.</li>
