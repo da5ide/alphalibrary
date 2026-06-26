@@ -93,21 +93,22 @@ export async function POST(req: NextRequest) {
     subject: `Visit confirmed — ${book.title}`,
     text: `Hi ${name},
 
-Your visit to Alphagallery Library is confirmed.
+Your visit is confirmed.
 
-Book: ${book.title}${book.author ? ` by ${book.author}` : ''}
-Visit: ${slotFormatted}
+Book:
+${book.title}${book.author ? `\nby ${book.author}` : ''}
 
-You'll receive a reminder with the address the day before your visit.
+Visit:
+${slotFormatted.replace(' — ', '\n')}
+Address: 4-18-17 Jingumae, Shibuya-ku (you'll receive a reminder with the full address the day before your visit).
 
 A few things to remember:
-— Only one item per visit
-— Please return within 45 days
-— Cancel by replying to this email if your plans change
+Only one item per visit
+Please return it within 45 days
+Cancel by replying to this email if your plans change
 
 See you soon.
-
-Alphagallery Library · Tokyo · instagram.com/alphagallery.co`,
+instagram.com/alphagallery.co`,
   })
 
   // Send notification to Davide
