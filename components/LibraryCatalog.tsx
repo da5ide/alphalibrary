@@ -464,13 +464,14 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
 
         @media (max-width: 600px) {
           .library-inner { padding: 0 20px; }
-          .library-header { padding: 40px 0 0; }
-          .library-about { font-size: 21px; }
+          .library-header { padding: 28px 0 0; }
+          .library-about { font-size: 21px; padding-bottom: 20px; }
           .book-title { font-size: 22px; }
           .book-author { font-size: 15px; }
           .book-description { font-size: 15px; }
           .library-top-row { flex-direction: column; align-items: flex-start; gap: 8px; }
           .library-search { width: 100%; }
+          .library-controls { padding: 8px 0 0; }
         }
       `}</style>
     </div>
