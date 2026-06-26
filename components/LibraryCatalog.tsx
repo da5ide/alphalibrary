@@ -55,13 +55,19 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
       <div className={styles.controls}>
         <div className={styles.inner}>
           <div className={styles.topRow}>
+            <div className={styles.searchWrap}>
             <input
               type="text"
               placeholder={`Search… ${availableCount} items available`}
               value={search}
               onChange={e => setSearch(e.target.value)}
+              onKeyDown={e => e.key === 'Escape' && setSearch('')}
               className={styles.search}
             />
+            {search && (
+              <button className={styles.searchClear} onClick={() => setSearch('')} aria-label="Clear search">×</button>
+            )}
+            </div>
           </div>
           <div className={styles.filters}>
             {CATEGORIES.map(cat => (
@@ -127,7 +133,11 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
                     )}
                     {book.description && (
                       <div className={styles.bookDescriptionWrap}>
-                        <p className={`${styles.bookDescription} ${isExpanded ? styles.expanded : styles.collapsed}`}>
+                        <p
+                          className={`${styles.bookDescription} ${isExpanded ? styles.expanded : styles.collapsed}`}
+                          onClick={() => !isExpanded && setExpandedId(book.id)}
+                          style={!isExpanded ? {cursor: 'pointer'} : undefined}
+                        >
                           {book.description}
                         </p>
                         <div className={styles.bookInlineActions}>

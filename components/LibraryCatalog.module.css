@@ -11,7 +11,6 @@
   padding: 0 24px;
 }
 
-/* Header */
 .header {
   padding: 56px 0 0;
 }
@@ -26,7 +25,6 @@
   padding-bottom: 20px;
 }
 
-/* Controls */
 .controls {
   padding: 14px 0 0;
 }
@@ -38,11 +36,16 @@
   margin-bottom: 12px;
 }
 
-.search {
+.searchWrap {
+  position: relative;
   flex: 1;
+}
+
+.search {
+  width: 100%;
   border: 1.5px solid #E8E4DF;
   border-radius: 6px;
-  padding: 9px 13px;
+  padding: 9px 36px 9px 13px;
   font-size: 14px;
   font-family: var(--font-inter), sans-serif;
   background: white;
@@ -54,6 +57,23 @@
 
 .search:focus { border-color: #8C4A2F; }
 .search::placeholder { color: #C0BCB8; }
+
+.searchClear {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #B0ACA8;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  transition: color 0.12s;
+}
+
+.searchClear:hover { color: #555250; }
 
 .filters {
   display: flex;
@@ -94,7 +114,6 @@
 
 .sortPill:hover { border-style: solid; color: #111110; }
 
-/* Book list */
 .main { padding: 0 0 80px; }
 
 .bookList {
@@ -229,14 +248,12 @@
 
 .igLink:hover { opacity: 0.6; }
 
-/* Empty */
 .empty {
   padding: 60px 0;
   color: #9B9793;
   font-size: 15px;
 }
 
-/* Footer */
 .footer {
   border-top: 1px solid #E8E4DF;
   padding: 24px 0;
@@ -255,15 +272,15 @@
 .footerLink:hover { color: #111110; }
 .footerSep { color: #D0CCC8; }
 
-/* Mobile */
 @media (max-width: 600px) {
   .inner { padding: 0 20px; }
   .header { padding: 28px 0 0; }
   .about { font-size: 21px; padding-bottom: 20px; }
   .controls { padding: 8px 0 0; }
+  .search { font-size: 16px; }
   .bookTitle { font-size: 22px; }
   .bookAuthor { font-size: 15px; }
   .bookDescription { font-size: 15px; }
   .topRow { flex-direction: column; align-items: flex-start; gap: 8px; }
-  .search { width: 100%; }
+  .searchWrap { width: 100%; }
 }
