@@ -55,6 +55,12 @@
   textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
   .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
+  .tags-field { display: flex; flex-direction: column; gap: 8px; }
+  .tags-label { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  .tags-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tag-pill { border: 1.5px solid var(--border); background: white; border-radius: 100px; padding: 6px 14px; font-size: 13px; font-family: var(--font); color: var(--muted); cursor: pointer; transition: all 0.12s; }
+  .tag-pill.active { background: var(--text); border-color: var(--text); color: white; }
+
   .photos-label { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
   .photos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
   .photo-slot { aspect-ratio: 3/4; border-radius: 8px; overflow: hidden; position: relative; background: var(--bg); border: 2px dashed var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; }
@@ -341,7 +347,7 @@ Respond ONLY with a valid JSON object — no markdown, no explanation — with t
   "author": "...",
   "publisher": "...",
   "type": "book" or "magazine",
-  "category": one of: "art", "fashion", "architecture", "design", "photography", "other",
+  "tags": array of 1-3 values from: "art", "fashion", "architecture", "design", "photography", "other",
   "description": "2-3 sentence description of what this book is about",
   "confidence": "high", "medium", or "low"
 }
@@ -363,7 +369,8 @@ If you cannot determine a field, use null.` }
     if (parsed.author) document.getElementById('f-author').value = parsed.author;
     if (parsed.publisher) document.getElementById('f-publisher').value = parsed.publisher;
     if (parsed.type) document.getElementById('f-type').value = parsed.type;
-    if (parsed.category) document.getElementById('f-category').value = parsed.category;
+    if (parsed.tags && Array.isArray(parsed.tags)) setTags(parsed.tags);
+    else if (parsed.category) setTags([parsed.category]);
     if (parsed.description) document.getElementById('f-description').value = parsed.description;
 
     showFields();
@@ -472,6 +479,7 @@ function showForm(book = null) {
   document.getElementById('f-publisher').value = book?.publisher || '';
   document.getElementById('f-year').value = book?.year || '';
   document.getElementById('f-type').value = book?.type || 'book';
+  setTags(book?.tags || (book?.category ? [book.category] : []));
   document.getElementById('f-category').value = book?.category || 'art';
   document.getElementById('f-description').value = book?.description || '';
   document.getElementById('f-notes').value = book?.notes || '';
@@ -521,7 +529,7 @@ function showDetail(id) {
     ${book.author ? `<div class="detail-author">${book.author}</div>` : ''}
     <div class="detail-tags">
       <span class="tag tag-type">${book.type}</span>
-      <span class="tag tag-cat">${book.category}</span>
+      ${(book.tags && book.tags.length ? book.tags : [book.category]).filter(Boolean).map(t => `<span class="tag tag-cat">${t}</span>`).join('')}
       ${availTag}${privateTag}
     </div>
     <div class="detail-grid">
@@ -568,7 +576,8 @@ async function saveBook() {
       publisher: document.getElementById('f-publisher').value.trim() || null,
       year: document.getElementById('f-year').value ? parseInt(document.getElementById('f-year').value) : null,
       type: document.getElementById('f-type').value,
-      category: document.getElementById('f-category').value,
+      tags: selectedTags,
+      category: selectedTags[0] || 'other',
       description: document.getElementById('f-description').value.trim() || null,
       notes: document.getElementById('f-notes').value.trim() || null,
       price: document.getElementById('f-price').value || null,
@@ -622,7 +631,7 @@ function renderList() {
         <div class="book-author">${b.author || b.publisher || '—'}</div>
         <div class="book-tags">
           <span class="tag tag-type">${b.type}</span>
-          <span class="tag tag-cat">${b.category}</span>
+          ${(b.tags && b.tags.length ? b.tags : [b.category]).filter(Boolean).map(t => `<span class="tag tag-cat">${t}</span>`).join('')}
           <span class="tag ${b.available ? 'tag-available' : 'tag-lent'}">${b.available ? 'Available' : 'Lent out'}</span>
           ${b.private ? '<span class="tag tag-private">Private</span>' : ''}
         </div>

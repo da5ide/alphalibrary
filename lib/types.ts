@@ -22,6 +22,7 @@ export interface Book {
   borrowed_at: string | null
   due_at: string | null
   instagram_url: string | null
+  tags: string[] | null
   year: number | null
 }
 

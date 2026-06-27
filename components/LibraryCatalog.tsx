@@ -23,7 +23,7 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
 
   const filtered = useMemo(() => {
     let result = books
-    if (activeCategory !== 'all') result = result.filter(b => b.category === activeCategory)
+    if (activeCategory !== 'all') result = result.filter(b => b.tags?.includes(activeCategory) || b.category === activeCategory)
     if (search.trim()) {
       const q = search.toLowerCase()
       result = result.filter(b =>
@@ -104,7 +104,9 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
                   <li key={book.id} className={styles.bookEntry}>
                     <div className={styles.bookMetaTop}>
                       <span className={styles.bookTypeTag}>{book.type}</span>
-                      <span className={styles.bookCategoryTag}>{book.category}</span>
+                      {(book.tags && book.tags.length ? book.tags : [book.category]).filter(Boolean).map(tag => (
+                        <span key={tag} className={styles.bookCategoryTag}>{tag}</span>
+                      ))}
                     </div>
                     <h2 className={styles.bookTitle}>
                       {book.title}
