@@ -30,9 +30,9 @@ const MONTHS = ['January','February','March','April','May','June','July','August
 const DAYS = ['Su','Mo','Tu','We','Th','Fr','Sa']
 
 function isOverdue(booking: Booking): boolean {
-  if (!booking.books?.borrowed_at) return false
-  const borrowedAt = new Date(booking.books.borrowed_at)
-  const dueDate = new Date(borrowedAt.getTime() + 45 * 24 * 60 * 60 * 1000)
+  if (!booking.slots?.date) return false
+  const slotDate = new Date(booking.slots.date + 'T00:00:00')
+  const dueDate = new Date(slotDate.getTime() + 45 * 24 * 60 * 60 * 1000)
   return new Date() > dueDate
 }
 
@@ -42,9 +42,11 @@ function formatDate(d: string) {
 }
 
 function daysSinceBorrow(booking: Booking): number | null {
-  if (!booking.books?.borrowed_at) return null
-  const ms = new Date().getTime() - new Date(booking.books.borrowed_at).getTime()
-  return Math.floor(ms / (1000 * 60 * 60 * 24))
+  if (!booking.slots?.date) return null
+  const slotDate = new Date(booking.slots.date + 'T00:00:00')
+  const ms = new Date().getTime() - slotDate.getTime()
+  const days = Math.floor(ms / (1000 * 60 * 60 * 24))
+  return days >= 0 ? days : null
 }
 
 // ── Mini Calendar ─────────────────────────────────────────────────────────────
