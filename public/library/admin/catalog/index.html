@@ -490,7 +490,6 @@ function showForm(book = null) {
   document.getElementById('f-year').value = book?.year || '';
   document.getElementById('f-type').value = book?.type || 'book';
   setTags(book?.tags || (book?.category ? [book.category] : []));
-  document.getElementById('f-category').value = book?.category || 'art';
   document.getElementById('f-description').value = book?.description || '';
   document.getElementById('f-notes').value = book?.notes || '';
   document.getElementById('f-price').value = book?.price || '';
