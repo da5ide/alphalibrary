@@ -668,6 +668,29 @@ function updateStats() {
 
 
 
+
+// ── Tag management ────────────────────────────────────────────────────────────
+let selectedTags = [];
+
+function toggleTag(tag) {
+  const idx = selectedTags.indexOf(tag);
+  if (idx >= 0) selectedTags.splice(idx, 1);
+  else selectedTags.push(tag);
+  renderTagPills();
+}
+
+function renderTagPills() {
+  document.querySelectorAll('.tag-pill').forEach(pill => {
+    const tag = pill.dataset.tag;
+    pill.className = 'tag-pill' + (selectedTags.includes(tag) ? ' active' : '');
+  });
+}
+
+function setTags(tags) {
+  selectedTags = Array.isArray(tags) ? [...tags] : [];
+  renderTagPills();
+}
+
 // ── Auth gate ─────────────────────────────────────────────────────────────────
 async function checkAuth() {
   const stored = sessionStorage.getItem('ag_admin_pw');
