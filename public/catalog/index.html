@@ -158,7 +158,10 @@
 
       <label>Title * <input type="text" id="f-title" placeholder="Book or magazine title"></label>
       <label>Author / Editor <input type="text" id="f-author" placeholder="Name(s)"></label>
-      <label>Publisher <input type="text" id="f-publisher" placeholder="Publisher name"></label>
+      <div class="row-2">
+        <label>Publisher <input type="text" id="f-publisher" placeholder="Publisher name"></label>
+        <label>Year <input type="number" id="f-year" placeholder="2024" min="1800" max="2100"></label>
+      </div>
 
       <div class="row-2">
         <label>Type
@@ -186,6 +189,9 @@
         <label>Price (¥) <input type="number" id="f-price" placeholder="0" min="0"></label>
         <label>Link <input type="url" id="f-link" placeholder="https://…"></label>
       </div>
+      <label>Instagram post URL
+        <input type="url" id="f-instagram" placeholder="https://instagram.com/p/…">
+      </label>
 
       <div class="toggle-row">
         <div class="toggle-left">
@@ -464,12 +470,14 @@ function showForm(book = null) {
   document.getElementById('f-title').value = book?.title || '';
   document.getElementById('f-author').value = book?.author || '';
   document.getElementById('f-publisher').value = book?.publisher || '';
+  document.getElementById('f-year').value = book?.year || '';
   document.getElementById('f-type').value = book?.type || 'book';
   document.getElementById('f-category').value = book?.category || 'art';
   document.getElementById('f-description').value = book?.description || '';
   document.getElementById('f-notes').value = book?.notes || '';
   document.getElementById('f-price').value = book?.price || '';
   document.getElementById('f-link').value = book?.link || '';
+  document.getElementById('f-instagram').value = book?.instagram_url || '';
   document.getElementById('f-borrower').value = book?.borrower || '';
   document.getElementById('f-borrower-contact').value = book?.borrower_contact || '';
   document.getElementById('save-status').textContent = '';
@@ -517,7 +525,7 @@ function showDetail(id) {
       ${availTag}${privateTag}
     </div>
     <div class="detail-grid">
-      ${book.publisher ? `<div class="detail-field"><div class="detail-field-label">Publisher</div><div class="detail-field-value">${book.publisher}</div></div>` : ''}
+      ${book.publisher ? `<div class="detail-field"><div class="detail-field-label">Publisher</div><div class="detail-field-value">${book.publisher}${book.year ? ', ' + book.year : ''}</div></div>` : ''}
       ${book.price ? `<div class="detail-field"><div class="detail-field-label">Price</div><div class="detail-field-value">¥${Number(book.price).toLocaleString()}</div></div>` : ''}
     </div>
     ${book.description ? `<div class="detail-section"><div class="detail-section-label">Description</div><div class="detail-section-value">${book.description}</div></div>` : ''}
@@ -558,12 +566,14 @@ async function saveBook() {
       title,
       author: document.getElementById('f-author').value.trim() || null,
       publisher: document.getElementById('f-publisher').value.trim() || null,
+      year: document.getElementById('f-year').value ? parseInt(document.getElementById('f-year').value) : null,
       type: document.getElementById('f-type').value,
       category: document.getElementById('f-category').value,
       description: document.getElementById('f-description').value.trim() || null,
       notes: document.getElementById('f-notes').value.trim() || null,
       price: document.getElementById('f-price').value || null,
       link: document.getElementById('f-link').value.trim() || null,
+      instagram_url: document.getElementById('f-instagram').value.trim() || null,
       photo_urls: finalUrls,
       cover_url: finalUrls[0] || null,
       available: availableState,
