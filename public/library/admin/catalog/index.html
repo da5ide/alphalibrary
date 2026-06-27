@@ -461,7 +461,54 @@ function setView(name) {
   window.scrollTo(0,0);
 }
 
-function showList() { setView('list'); loadBooks(); }
+function showList() { setView('list'); // ── Auth gate ─────────────────────────────────────────────────────────────────
+async function checkAuth() {
+  const stored = sessionStorage.getItem('ag_admin_pw');
+  if (stored) {
+    const ok = await verifyPassword(stored);
+    if (ok) { adminPassword = stored; showApp(); return; }
+  }
+  document.getElementById('auth-screen').style.display = 'flex';
+}
+
+async function verifyPassword(pw) {
+  try {
+    const res = await fetch('/api/admin/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pw })
+    });
+    const data = await res.json();
+    return data.ok === true;
+  } catch(e) { return false; }
+}
+
+async function submitAuth() {
+  const pw = document.getElementById('auth-password').value;
+  const err = document.getElementById('auth-error');
+  const btn = document.getElementById('auth-btn');
+  btn.disabled = true;
+  btn.textContent = '…';
+  const ok = await verifyPassword(pw);
+  if (ok) {
+    adminPassword = pw;
+    sessionStorage.setItem('ag_admin_pw', pw);
+    document.getElementById('auth-screen').style.display = 'none';
+    showApp();
+  } else {
+    err.textContent = 'Wrong password.';
+    btn.disabled = false;
+    btn.textContent = 'Enter';
+  }
+}
+
+function showApp() {
+  document.getElementById('app').style.display = 'block';
+  loadBooks();
+}
+
+let adminPassword = '';
+checkAuth(); }
 
 function showForm(book = null) {
   editingId = book?.id || null;
@@ -657,7 +704,55 @@ function updateStats() {
   document.getElementById('stat-lent').textContent = books.filter(b=>!b.available).length;
 }
 
-loadBooks();
+// ── Auth gate ─────────────────────────────────────────────────────────────────
+async function checkAuth() {
+  const stored = sessionStorage.getItem('ag_admin_pw');
+  if (stored) {
+    const ok = await verifyPassword(stored);
+    if (ok) { adminPassword = stored; showApp(); return; }
+  }
+  document.getElementById('auth-screen').style.display = 'flex';
+}
+
+async function verifyPassword(pw) {
+  try {
+    const res = await fetch('/api/admin/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pw })
+    });
+    const data = await res.json();
+    return data.ok === true;
+  } catch(e) { return false; }
+}
+
+async function submitAuth() {
+  const pw = document.getElementById('auth-password').value;
+  const err = document.getElementById('auth-error');
+  const btn = document.getElementById('auth-btn');
+  btn.disabled = true;
+  btn.textContent = '…';
+  const ok = await verifyPassword(pw);
+  if (ok) {
+    adminPassword = pw;
+    sessionStorage.setItem('ag_admin_pw', pw);
+    document.getElementById('auth-screen').style.display = 'none';
+    showApp();
+  } else {
+    err.textContent = 'Wrong password.';
+    btn.disabled = false;
+    btn.textContent = 'Enter';
+  }
+}
+
+function showApp() {
+  document.getElementById('app').style.display = 'block';
+  loadBooks();
+}
+
+let adminPassword = '';
+checkAuth();
 </script>
+</div>
 </body>
 </html>

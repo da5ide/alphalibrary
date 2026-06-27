@@ -287,7 +287,10 @@ export default function AdminPage() {
 
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',padding:'40px 0 32px',borderBottom:'1px solid #E8E4DF',marginBottom:40}}>
           <h1 style={{fontFamily:'var(--font-garamond),Georgia,serif',fontSize:24,fontWeight:500,color:'#111110'}}>Admin</h1>
-          <a href="/library" style={{fontSize:13,color:'#9B9793',textDecoration:'none'}}>← Library</a>
+          <div style={{display:'flex',gap:20,alignItems:'center'}}>
+            <a href="/library/admin/catalog" style={{fontSize:13,color:'#9B9793',textDecoration:'none'}}>Catalog →</a>
+            <a href="/library" style={{fontSize:13,color:'#9B9793',textDecoration:'none'}}>← Library</a>
+          </div>
         </div>
 
         {/* Add availability */}
