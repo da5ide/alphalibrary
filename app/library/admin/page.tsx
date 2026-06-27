@@ -213,7 +213,7 @@ export default function AdminPage() {
       body: JSON.stringify({ password })
     })
     const d = await res.json()
-    if (d.ok) setAuthed(true)
+    if (d.ok) { setAuthed(true); sessionStorage.setItem('ag_admin_pw', password) }
     else setAuthError('Wrong password.')
   }
 

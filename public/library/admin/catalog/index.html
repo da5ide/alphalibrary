@@ -129,6 +129,16 @@
 </head>
 <body>
 
+<div id="auth-screen" style="display:none;position:fixed;inset:0;background:#f7f5f2;align-items:center;justify-content:center;flex-direction:column;gap:12px;font-family:-apple-system,sans-serif;z-index:999;">
+  <h1 style="font-size:18px;font-weight:600;letter-spacing:0.04em;color:#1a1a1a;margin-bottom:8px;">Alphagallery Catalog</h1>
+  <input id="auth-password" type="password" placeholder="Admin password" onkeydown="if(event.key==='Enter')submitAuth()" style="border:1.5px solid #e0dcd6;border-radius:10px;padding:12px 16px;font-size:15px;width:280px;outline:none;background:white;font-family:inherit;">
+  <p id="auth-error" style="font-size:13px;color:#c0392b;min-height:18px;margin:0;"></p>
+  <button id="auth-btn" onclick="submitAuth()" style="background:#1a1a1a;color:white;border:none;padding:13px 28px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;width:280px;font-family:inherit;">Enter</button>
+  <a href="/library/admin" style="font-size:12px;color:#888;text-decoration:none;margin-top:4px;">← Back to admin</a>
+</div>
+
+<div id="app" style="display:none;">
+
 <div id="view-list" class="view active">
   <header><h1>Alphagallery</h1><span>Catalog</span></header>
   <div class="stats-bar">
@@ -461,54 +471,7 @@ function setView(name) {
   window.scrollTo(0,0);
 }
 
-function showList() { setView('list'); // ── Auth gate ─────────────────────────────────────────────────────────────────
-async function checkAuth() {
-  const stored = sessionStorage.getItem('ag_admin_pw');
-  if (stored) {
-    const ok = await verifyPassword(stored);
-    if (ok) { adminPassword = stored; showApp(); return; }
-  }
-  document.getElementById('auth-screen').style.display = 'flex';
-}
-
-async function verifyPassword(pw) {
-  try {
-    const res = await fetch('/api/admin/auth', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: pw })
-    });
-    const data = await res.json();
-    return data.ok === true;
-  } catch(e) { return false; }
-}
-
-async function submitAuth() {
-  const pw = document.getElementById('auth-password').value;
-  const err = document.getElementById('auth-error');
-  const btn = document.getElementById('auth-btn');
-  btn.disabled = true;
-  btn.textContent = '…';
-  const ok = await verifyPassword(pw);
-  if (ok) {
-    adminPassword = pw;
-    sessionStorage.setItem('ag_admin_pw', pw);
-    document.getElementById('auth-screen').style.display = 'none';
-    showApp();
-  } else {
-    err.textContent = 'Wrong password.';
-    btn.disabled = false;
-    btn.textContent = 'Enter';
-  }
-}
-
-function showApp() {
-  document.getElementById('app').style.display = 'block';
-  loadBooks();
-}
-
-let adminPassword = '';
-checkAuth(); }
+function showList() { setView('list'); }
 
 function showForm(book = null) {
   editingId = book?.id || null;
@@ -704,6 +667,8 @@ function updateStats() {
   document.getElementById('stat-lent').textContent = books.filter(b=>!b.available).length;
 }
 
+
+
 // ── Auth gate ─────────────────────────────────────────────────────────────────
 async function checkAuth() {
   const stored = sessionStorage.getItem('ag_admin_pw');
@@ -730,8 +695,7 @@ async function submitAuth() {
   const pw = document.getElementById('auth-password').value;
   const err = document.getElementById('auth-error');
   const btn = document.getElementById('auth-btn');
-  btn.disabled = true;
-  btn.textContent = '…';
+  btn.disabled = true; btn.textContent = '…';
   const ok = await verifyPassword(pw);
   if (ok) {
     adminPassword = pw;
@@ -740,8 +704,7 @@ async function submitAuth() {
     showApp();
   } else {
     err.textContent = 'Wrong password.';
-    btn.disabled = false;
-    btn.textContent = 'Enter';
+    btn.disabled = false; btn.textContent = 'Enter';
   }
 }
 
@@ -753,6 +716,8 @@ function showApp() {
 let adminPassword = '';
 checkAuth();
 </script>
+</div>
+</div>
 </div>
 </body>
 </html>
