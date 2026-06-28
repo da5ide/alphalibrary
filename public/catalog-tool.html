@@ -17,10 +17,10 @@
   header h1 { font-size: 15px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
   header span { font-size: 12px; opacity: 0.5; letter-spacing: 0.04em; }
 
-  .stats-filter-bar { display: flex; gap: 8px; padding: 12px 20px; flex-wrap: wrap; border-bottom: 1px solid var(--border); background: white; }
-  .stat-pill { border: 1.5px solid var(--border); background: white; border-radius: 100px; padding: 7px 16px; font-size: 13px; font-family: var(--font); color: #6B6560; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.12s; }
-  .stat-pill b { font-size: 14px; font-weight: 600; }
-  .stat-pill span { font-size: 11px; letter-spacing: 0.04em; color: #9B9793; font-weight: 500; }
+  .stats-filter-bar { display: flex; gap: 8px; flex-wrap: wrap; border-bottom: 1px solid var(--border); background: var(--card); }
+  .stat-pill { border: 1.5px solid var(--border); background: var(--card); border-radius: 100px; padding: 5px 14px; font-size: 12px; font-family: var(--font); color: #6B6560; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.12s; }
+  .stat-pill b { font-size: 13px; font-weight: 600; }
+  .stat-pill span { font-size: 10px; letter-spacing: 0.06em; color: #9B9793; font-weight: 600; text-transform: uppercase; }
   .stat-pill:hover { border-color: #9B9793; }
   .stat-pill.active { background: #6B6560; border-color: #6B6560; color: white; }
   .stat-pill.active span { color: rgba(255,255,255,0.75); }
@@ -151,21 +151,26 @@
 <div id="app" style="display:none;">
 
 <div id="view-list" class="view active">
-  <header style="background:var(--text);color:white;padding:16px 20px;display:flex;align-items:baseline;gap:0;">
-    <a href="/" style="color:white;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;opacity:0.7;transition:opacity 0.15s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">Alphagallery</a>
-    <span style="opacity:0.3;margin:0 8px;font-size:13px;">/</span>
-    <a href="/library" style="color:white;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;opacity:0.7;transition:opacity 0.15s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">Library</a>
-    <span style="opacity:0.3;margin:0 8px;font-size:13px;">/</span>
-    <span style="font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;opacity:1;">Catalog</span>
+  <header style="background:var(--card);border-bottom:1px solid var(--border);padding:28px 20px 20px;">
+    <nav style="display:flex;align-items:center;flex-wrap:wrap;">
+      <a href="/" style="color:#9B9793;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:0.03em;transition:color 0.12s;" onmouseover="this.style.color='#111110'" onmouseout="this.style.color='#9B9793'">Alphagallery</a>
+      <span style="color:#D0CCC8;margin:0 8px;font-size:13px;">/</span>
+      <a href="/library" style="color:#9B9793;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:0.03em;transition:color 0.12s;" onmouseover="this.style.color='#111110'" onmouseout="this.style.color='#9B9793'">Library</a>
+      <span style="color:#D0CCC8;margin:0 8px;font-size:13px;">/</span>
+      <a href="/library/admin" style="color:#9B9793;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:0.03em;transition:color 0.12s;" onmouseover="this.style.color='#111110'" onmouseout="this.style.color='#9B9793'">Admin</a>
+      <span style="color:#D0CCC8;margin:0 8px;font-size:13px;">/</span>
+      <span style="color:#111110;font-size:13px;font-weight:500;letter-spacing:0.03em;">Catalog</span>
+    </nav>
   </header>
 
-  <div class="stats-filter-bar">
+  <div class="page-wrap"><div class="stats-filter-bar" style="padding:12px 0;">
     <button class="stat-pill" id="stat-pill-all" onclick="setStatFilter('all')"><b id="stat-total">0</b> <span>ITEMS</span></button>
     <button class="stat-pill" id="stat-pill-available" onclick="setStatFilter('available')"><b id="stat-available">0</b> <span>AVAILABLE</span></button>
     <button class="stat-pill" id="stat-pill-lent" onclick="setStatFilter('lent')"><b id="stat-lent">0</b> <span>ON LOAN</span></button>
     <button class="stat-pill" id="stat-pill-private" onclick="setStatFilter('private')"><b id="stat-private">0</b> <span>PRIVATE</span></button>
   </div>
-  <div class="list-controls">
+</div>
+  <div class="page-wrap"><div class="list-controls">
     <button class="btn-add" onclick="showForm()">+ Add item</button>
     <input class="search-input" id="search-input" type="text" placeholder="Search…" oninput="filterBooks(this.value)">
   </div>

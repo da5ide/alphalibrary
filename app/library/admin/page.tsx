@@ -261,15 +261,16 @@ export default function AdminPage() {
       <div style={{maxWidth:640,margin:'0 auto',padding:'0 24px'}}>
 
         {/* Header */}
-        <div style={{padding:'40px 0 32px',borderBottom:'1px solid #E8E4DF',marginBottom:40}}>
-          <div style={{display:'flex',flexDirection:'column',gap:10}}>
-            <a href="/library/admin/catalog" className="admin-nav-link">
-              <LockIcon /> Catalog →
-            </a>
-            <a href="/library" className="admin-nav-link">
-              <GlobeIcon /> Library →
-            </a>
-          </div>
+        <div style={{padding:'40px 0 28px',borderBottom:'1px solid #E8E4DF',marginBottom:40}}>
+          <nav style={{display:'flex',alignItems:'center',gap:0,flexWrap:'wrap'}}>
+            <a href="/" className="breadcrumb-link">Alphagallery</a>
+            <span className="breadcrumb-sep">/</span>
+            <a href="/library" className="breadcrumb-link">Library</a>
+            <span className="breadcrumb-sep">/</span>
+            <a href="/library/admin" className="breadcrumb-link breadcrumb-active">Admin</a>
+            <span className="breadcrumb-sep">/</span>
+            <a href="/library/admin/catalog" className="breadcrumb-link">Catalog</a>
+          </nav>
         </div>
 
         {/* Add availability */}
