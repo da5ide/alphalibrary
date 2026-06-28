@@ -167,7 +167,7 @@
   </div>
   <div class="list-controls">
     <button class="btn-add" onclick="showForm()">+ Add item</button>
-    <input class="search-input" type="text" placeholder="Search…" oninput="filterBooks(this.value)">
+    <input class="search-input" id="search-input" type="text" placeholder="Search…" oninput="filterBooks(this.value)">
   </div>
   <div class="book-list" id="book-list">
     <div class="empty-state"><p>No books yet.<br>Tap + Add book to start cataloging.</p></div>
@@ -700,12 +700,20 @@ function renderList() {
 
 function filterBooks(q) {
   const term = q.toLowerCase();
-  filteredBooks = books.filter(b =>
-    b.title?.toLowerCase().includes(term) ||
-    b.author?.toLowerCase().includes(term) ||
-    b.category?.toLowerCase().includes(term) ||
-    b.publisher?.toLowerCase().includes(term)
-  );
+  filteredBooks = books.filter(b => {
+    const matchesSearch = !term ||
+      b.title?.toLowerCase().includes(term) ||
+      b.author?.toLowerCase().includes(term) ||
+      b.publisher?.toLowerCase().includes(term) ||
+      b.category?.toLowerCase().includes(term) ||
+      b.tags?.some(t => t.toLowerCase().includes(term));
+    const matchesStat =
+      activeStatFilter === 'all' ||
+      (activeStatFilter === 'available' && b.available && !b.private) ||
+      (activeStatFilter === 'lent' && !b.available) ||
+      (activeStatFilter === 'private' && b.private);
+    return matchesSearch && matchesStat;
+  });
   renderList();
 }
 
