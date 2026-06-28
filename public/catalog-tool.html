@@ -7,39 +7,46 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #f7f5f2; --border: #e0dcd6;
-    --text: #1a1a1a; --muted: #888; --green: #2d6a4f; --red: #c0392b;
+    --bg: #FAFAF8; --border: #E8E4DF;
+    --text: #111110; --muted: #9B9793; --green: #2d6a4f; --red: #c0392b;
     --radius: 10px; --font: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    --card: white;
   }
   body { background: var(--bg); font-family: var(--font); color: var(--text); min-height: 100vh; padding-bottom: 60px; }
 
-  header { background: #FAFAF8; border-bottom: 1px solid #E8E4DF; padding: 32px 0 20px; }
-  .header-inner { max-width: 640px; margin: 0 auto; padding: 0 24px; }
+  /* ── Breadcrumb nav ── */
+  .page-header { background: var(--bg); border-bottom: 1px solid var(--border); padding: 28px 0 16px; }
+  .page-header-inner { max-width: 640px; margin: 0 auto; padding: 0 24px; }
   .breadcrumb { display: flex; align-items: center; flex-wrap: wrap; }
-  .breadcrumb a { color: #9B9793; text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.12s; }
-  .breadcrumb a:hover { color: #111110; text-decoration: underline; text-underline-offset: 3px; }
-  .breadcrumb-cur { color: #111110; font-size: 13px; font-weight: 500; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.12s; }
+  .breadcrumb a:hover { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+  .breadcrumb-cur { color: var(--text); font-size: 13px; font-weight: 500; }
   .breadcrumb-sep { color: #D0CCC8; margin: 0 8px; font-size: 13px; }
 
-  .stats-filter-bar { border-bottom: 1px solid #E8E4DF; padding: 12px 24px; }
-  .stats-filter-inner { max-width: 640px; margin: 0 auto; display: flex; gap: 8px; flex-wrap: wrap; }
-  .stat-pill { border: 1.5px solid #E8E4DF; background: white; border-radius: 100px; padding: 5px 14px; font-size: 12px; font-family: var(--font); color: #6B6560; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.12s; }
+  /* ── Stat pills ── */
+  .stats-filter-bar { border-bottom: 1px solid var(--border); padding: 10px 0; }
+  .stats-filter-inner { max-width: 640px; margin: 0 auto; padding: 0 24px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .stat-pill { border: 1.5px solid var(--border); background: var(--card); border-radius: 100px; padding: 5px 14px; font-size: 12px; font-family: var(--font); color: #6B6560; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.12s; }
   .stat-pill b { font-size: 13px; font-weight: 600; }
-  .stat-pill span { font-size: 10px; letter-spacing: 0.06em; color: #9B9793; font-weight: 600; text-transform: uppercase; }
+  .stat-pill span { font-size: 10px; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; text-transform: uppercase; }
   .stat-pill:hover { border-color: #9B9793; }
   .stat-pill.active { background: #6B6560; border-color: #6B6560; color: white; }
-  .stat-pill.active span { color: rgba(255,255,255,0.75); }
-  .stat-pill.active b { color: white; }
+  .stat-pill.active span, .stat-pill.active b { color: white; }
 
+  /* ── Views ── */
   .view { display: none; } .view.active { display: block; }
 
-  .list-controls { padding: 16px 24px 8px; display: flex; gap: 10px; align-items: center; max-width: 640px; margin: 0 auto; }
+  /* ── List controls ── */
+  .list-controls { max-width: 640px; margin: 0 auto; padding: 14px 24px 8px; display: flex; gap: 10px; align-items: center; }
   .btn-add { background: #6B6560; color: white; border: none; padding: 10px 18px; border-radius: 100px; font-size: 13px; font-weight: 500; cursor: pointer; flex-shrink: 0; letter-spacing: 0.02em; transition: background 0.12s; }
   .btn-add:hover { background: #555250; }
   .search-input { flex: 1; border: 1.5px solid var(--border); border-radius: var(--radius); padding: 11px 14px; font-size: 14px; background: white; outline: none; font-family: var(--font); }
   .search-input:focus { border-color: var(--text); }
-  .book-list { padding: 8px 24px; display: flex; flex-direction: column; gap: 10px; max-width: 640px; margin: 0 auto; }
+
+  /* ── Book list ── */
+  .book-list { max-width: 640px; margin: 0 auto; padding: 8px 24px; display: flex; flex-direction: column; gap: 10px; }
   .book-card { background: white; border-radius: var(--radius); padding: 14px; display: flex; gap: 12px; align-items: flex-start; cursor: pointer; border: 1.5px solid transparent; transition: border-color 0.15s; }
+  .book-card:hover { border-color: var(--border); }
   .book-card:active { border-color: var(--text); }
   .book-thumb { width: 44px; height: 58px; border-radius: 4px; background: var(--bg); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--border); overflow: hidden; }
   .book-thumb img { width: 100%; height: 100%; object-fit: cover; }
@@ -51,15 +58,16 @@
   .tag-type { background: #f0ede8; color: #666; }
   .tag-cat { background: #e8f0f5; color: #3a6080; }
   .tag-available { background: #e8f5ee; color: var(--green); }
-  .tag-lent { background: #fdecea; color: var(--red); } /* ON LOAN */
+  .tag-lent { background: #fdecea; color: var(--red); }
   .tag-private { background: #f0e8f5; color: #6a3a80; }
   .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
   .empty-state p { font-size: 14px; line-height: 1.6; }
 
-  .form-header { background: white; padding: 16px 20px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; }
+  /* ── Form ── */
+  .form-header { background: white; padding: 16px 24px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; max-width: 100%; }
   .btn-back { background: none; border: none; font-size: 22px; cursor: pointer; padding: 0; line-height: 1; color: var(--text); }
   .form-header h2 { font-size: 16px; font-weight: 600; }
-  .form-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; max-width: 640px; margin: 0 auto; }
+  .form-body { max-width: 640px; margin: 0 auto; padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
 
   label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
   input[type="text"], input[type="number"], input[type="url"], textarea, select { border: 1.5px solid var(--border); border-radius: var(--radius); padding: 12px 14px; font-size: 15px; font-family: var(--font); color: var(--text); background: white; outline: none; width: 100%; -webkit-appearance: none; }
@@ -68,7 +76,6 @@
   .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
   .tags-field { display: flex; flex-direction: column; gap: 8px; }
-  .tags-label { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
   .tags-label { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
   .tags-pills { display: flex; gap: 8px; flex-wrap: wrap; }
   .tag-pill { border: 1.5px solid var(--border); background: white; border-radius: 100px; padding: 6px 14px; font-size: 13px; font-family: var(--font); color: var(--muted); cursor: pointer; transition: all 0.12s; }
@@ -85,7 +92,6 @@
 
   .btn-ai { background: var(--text); color: white; border: none; padding: 16px 20px; border-radius: var(--radius); font-size: 15px; font-weight: 600; cursor: pointer; width: 100%; font-family: var(--font); display: flex; align-items: center; justify-content: center; gap: 8px; letter-spacing: 0.02em; }
   .btn-ai:disabled { opacity: 0.4; }
-
   .ai-status { text-align: center; font-size: 13px; color: var(--muted); min-height: 18px; line-height: 1.5; }
   .ai-status.ok { color: var(--green); font-weight: 600; }
   .ai-status.err { color: var(--red); }
@@ -114,11 +120,12 @@
   .save-status.ok { color: var(--green); font-weight: 600; }
   .save-status.err { color: var(--red); }
 
-  .detail-header { background: white; padding: 16px 20px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; }
+  /* ── Detail ── */
+  .detail-header { background: white; padding: 16px 24px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; }
   .detail-actions { margin-left: auto; display: flex; gap: 8px; }
   .btn-edit { background: var(--text); color: white; border: none; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: var(--font); }
   .btn-delete { background: none; color: var(--red); border: 1.5px solid var(--red); padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: var(--font); }
-  .detail-body { padding: 20px 24px; max-width: 640px; margin: 0 auto; }
+  .detail-body { max-width: 640px; margin: 0 auto; padding: 20px 24px; }
   .detail-photos { display: flex; gap: 10px; overflow-x: auto; margin-bottom: 20px; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; scroll-snap-type: x mandatory; }
   .detail-photos::-webkit-scrollbar { display: none; }
   .detail-photo { width: 140px; height: 186px; border-radius: 8px; object-fit: cover; flex-shrink: 0; cursor: pointer; scroll-snap-align: start; }
@@ -127,13 +134,14 @@
   .detail-author { font-size: 15px; color: var(--muted); margin-bottom: 14px; }
   .detail-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
   .detail-grid { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-  .detail-field { padding: 4px 0; text-align: left; display: flex; flex-direction: column; align-items: flex-start; }
+  .detail-field { padding: 4px 0; display: flex; flex-direction: column; align-items: flex-start; }
   .detail-field-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 4px; font-weight: 600; }
   .detail-field-value { font-size: 14px; font-weight: 500; }
   .detail-section { margin-bottom: 16px; }
   .detail-section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
   .detail-section-value { font-size: 14px; line-height: 1.6; }
 
+  /* ── Lightbox ── */
   .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 100; align-items: center; justify-content: center; }
   .lightbox.open { display: flex; }
   .lightbox img { max-width: 94vw; max-height: 90vh; object-fit: contain; border-radius: 4px; }
@@ -146,149 +154,142 @@
 </head>
 <body>
 
-<div id="auth-screen" style="display:none;position:fixed;inset:0;background:#f7f5f2;align-items:center;justify-content:center;flex-direction:column;gap:12px;font-family:-apple-system,sans-serif;z-index:999;">
-  <h1 style="font-size:18px;font-weight:600;letter-spacing:0.04em;color:#1a1a1a;margin-bottom:8px;">Alphagallery Catalog</h1>
-  <input id="auth-password" type="password" placeholder="Admin password" onkeydown="if(event.key==='Enter')submitAuth()" style="border:1.5px solid #e0dcd6;border-radius:10px;padding:12px 16px;font-size:15px;width:280px;outline:none;background:white;font-family:inherit;">
+<div id="auth-screen" style="display:none;position:fixed;inset:0;background:#FAFAF8;align-items:center;justify-content:center;flex-direction:column;gap:12px;font-family:-apple-system,sans-serif;z-index:999;">
+  <h1 style="font-size:18px;font-weight:600;letter-spacing:0.04em;color:#111110;margin-bottom:8px;">Alphagallery Catalog</h1>
+  <input id="auth-password" type="password" placeholder="Admin password" onkeydown="if(event.key==='Enter')submitAuth()" style="border:1.5px solid #E8E4DF;border-radius:10px;padding:12px 16px;font-size:15px;width:280px;outline:none;background:white;font-family:inherit;">
   <p id="auth-error" style="font-size:13px;color:#c0392b;min-height:18px;margin:0;"></p>
-  <button id="auth-btn" onclick="submitAuth()" style="background:#1a1a1a;color:white;border:none;padding:13px 28px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;width:280px;font-family:inherit;">Enter</button>
-  <a href="/library/admin" style="font-size:12px;color:#888;text-decoration:none;margin-top:4px;">← Back to admin</a>
+  <button id="auth-btn" onclick="submitAuth()" style="background:#111110;color:white;border:none;padding:13px 28px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;width:280px;font-family:inherit;">Enter</button>
+  <a href="/library/admin" style="font-size:12px;color:#9B9793;text-decoration:none;margin-top:4px;">← Back to admin</a>
 </div>
 
 <div id="app" style="display:none;">
 
-<div id="view-list" class="view active">
-  <header>
-    <div class="header-inner">
-      <nav class="breadcrumb">
-        <a href="/">Alphagallery</a>
-        <span class="breadcrumb-sep">/</span>
-        <a href="/library">Library</a>
-        <span class="breadcrumb-sep">/</span>
-        <a href="/library/admin">Admin</a>
-        <span class="breadcrumb-sep">/</span>
-        <span class="breadcrumb-cur">Catalog</span>
-      </nav>
-    </div>
-  </header>
-
-  <div class="stats-filter-bar"><div class="stats-filter-inner">
-    <button class="stat-pill" id="stat-pill-all" onclick="setStatFilter('all')"><b id="stat-total">0</b> <span>ITEMS</span></button>
-    <button class="stat-pill" id="stat-pill-available" onclick="setStatFilter('available')"><b id="stat-available">0</b> <span>AVAILABLE</span></button>
-    <button class="stat-pill" id="stat-pill-lent" onclick="setStatFilter('lent')"><b id="stat-lent">0</b> <span>ON LOAN</span></button>
-    <button class="stat-pill" id="stat-pill-private" onclick="setStatFilter('private')"><b id="stat-private">0</b> <span>PRIVATE</span></button>
-  </div></div>
-  <div class="list-controls">
-    <button class="btn-add" onclick="showForm()">+ Add item</button>
-    <input class="search-input" id="search-input" type="text" placeholder="Search…" oninput="filterBooks(this.value)">
-  </div>
-  <div class="book-list" id="book-list">
-    <div class="empty-state"><p>No books yet.<br>Tap + Add book to start cataloging.</p></div>
-  </div>
-
-<div id="view-form" class="view">
-  <div class="form-header">
-    <button class="btn-back" onclick="showList()">←</button>
-    <h2 id="form-title">Add book</h2>
-  </div>
-  <div class="form-body">
-    <div>
-      <div class="photos-label">Photos — up to 6, then identify with AI</div>
-      <div class="photos-grid" id="photos-grid"></div>
-    </div>
-
-    <button class="btn-ai" id="btn-ai" onclick="identifyWithAI()">✦ Identify with AI</button>
-    <div class="ai-status" id="ai-status"></div>
-
-    <div class="fields-section" id="fields-section">
-      <div class="fields-header-label">Details — review and correct</div>
-
-      <label>Title * <input type="text" id="f-title" placeholder="Book or magazine title"></label>
-      <label>Author / Editor <input type="text" id="f-author" placeholder="Name(s)"></label>
-      <div class="row-2">
-        <label>Publisher <input type="text" id="f-publisher" placeholder="Publisher name"></label>
-        <label>Year <input type="number" id="f-year" placeholder="2024" min="1800" max="2100"></label>
+  <div id="view-list" class="view active">
+    <div class="page-header">
+      <div class="page-header-inner">
+        <nav class="breadcrumb">
+          <a href="/">Alphagallery</a>
+          <span class="breadcrumb-sep">/</span>
+          <a href="/library">Library</a>
+          <span class="breadcrumb-sep">/</span>
+          <a href="/library/admin">Admin</a>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-cur">Catalog</span>
+        </nav>
       </div>
+    </div>
+    <div class="stats-filter-bar">
+      <div class="stats-filter-inner">
+        <button class="stat-pill" id="stat-pill-all" onclick="setStatFilter('all')"><b id="stat-total">0</b> <span>ITEMS</span></button>
+        <button class="stat-pill" id="stat-pill-available" onclick="setStatFilter('available')"><b id="stat-available">0</b> <span>AVAILABLE</span></button>
+        <button class="stat-pill" id="stat-pill-lent" onclick="setStatFilter('lent')"><b id="stat-lent">0</b> <span>ON LOAN</span></button>
+        <button class="stat-pill" id="stat-pill-private" onclick="setStatFilter('private')"><b id="stat-private">0</b> <span>PRIVATE</span></button>
+      </div>
+    </div>
+    <div class="list-controls">
+      <button class="btn-add" onclick="showForm()">+ Add item</button>
+      <input class="search-input" id="search-input" type="text" placeholder="Search…" oninput="filterBooks(this.value)">
+    </div>
+    <div class="book-list" id="book-list">
+      <div class="empty-state"><p>No books yet.<br>Tap + Add item to start cataloging.</p></div>
+    </div>
+  </div>
 
-      <div class="row-2">
-        <label>Type
-          <select id="f-type">
-            <option value="book">Book</option>
-            <option value="magazine">Magazine</option>
-          </select>
+  <div id="view-form" class="view">
+    <div class="form-header">
+      <button class="btn-back" onclick="showList()">←</button>
+      <h2 id="form-title">Add item</h2>
+    </div>
+    <div class="form-body">
+      <div>
+        <div class="photos-label">Photos — up to 6, then identify with AI</div>
+        <div class="photos-grid" id="photos-grid"></div>
+      </div>
+      <button class="btn-ai" id="btn-ai" onclick="identifyWithAI()">✦ Identify with AI</button>
+      <div class="ai-status" id="ai-status"></div>
+      <div class="fields-section" id="fields-section">
+        <div class="fields-header-label">Details — review and correct</div>
+        <label>Title * <input type="text" id="f-title" placeholder="Book or magazine title"></label>
+        <label>Author / Editor <input type="text" id="f-author" placeholder="Name(s)"></label>
+        <div class="row-2">
+          <label>Publisher <input type="text" id="f-publisher" placeholder="Publisher name"></label>
+          <label>Year <input type="number" id="f-year" placeholder="2024" min="1800" max="2100"></label>
+        </div>
+        <div class="row-2">
+          <label>Type
+            <select id="f-type">
+              <option value="book">Book</option>
+              <option value="magazine">Magazine</option>
+            </select>
+          </label>
+        </div>
+        <div class="tags-field">
+          <div class="tags-label">Tags</div>
+          <div class="tags-pills" id="tags-pills">
+            <button type="button" class="tag-pill" data-tag="art" onclick="toggleTag('art')">Art</button>
+            <button type="button" class="tag-pill" data-tag="fashion" onclick="toggleTag('fashion')">Fashion</button>
+            <button type="button" class="tag-pill" data-tag="architecture" onclick="toggleTag('architecture')">Architecture</button>
+            <button type="button" class="tag-pill" data-tag="design" onclick="toggleTag('design')">Design</button>
+            <button type="button" class="tag-pill" data-tag="photography" onclick="toggleTag('photography')">Photography</button>
+            <button type="button" class="tag-pill" data-tag="other" onclick="toggleTag('other')">Other</button>
+          </div>
+        </div>
+        <label>Description <textarea id="f-description" placeholder="Brief description…"></textarea></label>
+        <label>Notes (private) <textarea id="f-notes" placeholder="Signed copy, rare edition…" style="min-height:60px;"></textarea></label>
+        <div class="row-2">
+          <label>Price (¥) <input type="number" id="f-price" placeholder="0" min="0"></label>
+          <label>Link <input type="url" id="f-link" placeholder="https://…"></label>
+        </div>
+        <label>Instagram post URL
+          <input type="url" id="f-instagram" placeholder="https://instagram.com/p/…">
         </label>
-      </div>
-      <div class="tags-field">
-        <div class="tags-label">Tags</div>
-        <div class="tags-pills" id="tags-pills">
-          <button type="button" class="tag-pill" data-tag="art" onclick="toggleTag('art')">Art</button>
-          <button type="button" class="tag-pill" data-tag="fashion" onclick="toggleTag('fashion')">Fashion</button>
-          <button type="button" class="tag-pill" data-tag="architecture" onclick="toggleTag('architecture')">Architecture</button>
-          <button type="button" class="tag-pill" data-tag="design" onclick="toggleTag('design')">Design</button>
-          <button type="button" class="tag-pill" data-tag="photography" onclick="toggleTag('photography')">Photography</button>
-          <button type="button" class="tag-pill" data-tag="other" onclick="toggleTag('other')">Other</button>
+        <div class="toggle-row">
+          <div class="toggle-left">
+            <div class="toggle-label">Available to borrow</div>
+            <div class="toggle-sub">Show as available on public catalog</div>
+          </div>
+          <button class="toggle on" id="toggle-available" onclick="toggleAvailable()"></button>
         </div>
-      </div>
-
-      <label>Description <textarea id="f-description" placeholder="Brief description…"></textarea></label>
-      <label>Notes (private) <textarea id="f-notes" placeholder="Signed copy, rare edition…" style="min-height:60px;"></textarea></label>
-
-      <div class="row-2">
-        <label>Price (¥) <input type="number" id="f-price" placeholder="0" min="0"></label>
-        <label>Link <input type="url" id="f-link" placeholder="https://…"></label>
-      </div>
-      <label>Instagram post URL
-        <input type="url" id="f-instagram" placeholder="https://instagram.com/p/…">
-      </label>
-
-      <div class="toggle-row">
-        <div class="toggle-left">
-          <div class="toggle-label">Available to borrow</div>
-          <div class="toggle-sub">Show as available on public catalog</div>
+        <div class="borrower-section" id="borrower-section" style="display:none">
+          <h3>Currently lent to</h3>
+          <label>Name <input type="text" id="f-borrower" placeholder="Person's name"></label>
+          <label>Contact <input type="text" id="f-borrower-contact" placeholder="Email or phone"></label>
         </div>
-        <button class="toggle on" id="toggle-available" onclick="toggleAvailable()"></button>
-      </div>
-
-      <div class="borrower-section" id="borrower-section" style="display:none">
-        <h3>Currently lent to</h3>
-        <label>Name <input type="text" id="f-borrower" placeholder="Person's name"></label>
-        <label>Contact <input type="text" id="f-borrower-contact" placeholder="Email or phone"></label>
-      </div>
-
-      <div class="toggle-row">
-        <div class="toggle-left">
-          <div class="toggle-label">Private</div>
-          <div class="toggle-sub">Keep in your database but hide from public site</div>
+        <div class="toggle-row">
+          <div class="toggle-left">
+            <div class="toggle-label">Private</div>
+            <div class="toggle-sub">Keep in your database but hide from public site</div>
+          </div>
+          <button class="toggle" id="toggle-private" onclick="togglePrivate()"></button>
         </div>
-        <button class="toggle" id="toggle-private" onclick="togglePrivate()"></button>
+        <div class="save-status" id="save-status"></div>
+        <button class="btn-save" id="btn-save" onclick="saveBook()">Save item</button>
       </div>
-
-      <div class="save-status" id="save-status"></div>
-      <button class="btn-save" id="btn-save" onclick="saveBook()">Save book</button>
-    </div>
-
-    <div id="manual-fallback" style="text-align:center;">
-      <button class="btn-manual" onclick="showFieldsManually()">Skip AI — fill in manually</button>
+      <div id="manual-fallback" style="text-align:center;">
+        <button class="btn-manual" onclick="showFieldsManually()">Skip AI — fill in manually</button>
+      </div>
     </div>
   </div>
-</div>
 
-<div id="view-detail" class="view">
-  <div class="detail-header">
-    <button class="btn-back" onclick="showList()">←</button>
-    <div style="font-size:13px;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;">Item detail</div>
-    <div class="detail-actions">
-      <button class="btn-edit" onclick="editCurrentBook()">Edit</button>
-      <button class="btn-delete" onclick="deleteCurrentBook()">Delete</button>
+  <div id="view-detail" class="view">
+    <div class="detail-header">
+      <button class="btn-back" onclick="showList()">←</button>
+      <div style="font-size:13px;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;">Item detail</div>
+      <div class="detail-actions">
+        <button class="btn-edit" onclick="editCurrentBook()">Edit</button>
+        <button class="btn-delete" onclick="deleteCurrentBook()">Delete</button>
+      </div>
     </div>
+    <div class="detail-body" id="detail-body"></div>
   </div>
-  <div class="detail-body" id="detail-body"></div>
-</div>
 
-<div class="lightbox" id="lightbox">
-  <button class="lightbox-close" onclick="closeLightbox()">×</button>
-  <button class="lightbox-nav lightbox-prev" onclick="lightboxNav(-1)">‹</button>
-  <img id="lightbox-img" src="" alt="" onclick="lightboxNav(1)">
-  <button class="lightbox-nav lightbox-next" onclick="lightboxNav(1)">›</button>
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()">×</button>
+    <button class="lightbox-nav lightbox-prev" onclick="lightboxNav(-1)">‹</button>
+    <img id="lightbox-img" src="" alt="" onclick="lightboxNav(1)">
+    <button class="lightbox-nav lightbox-next" onclick="lightboxNav(1)">›</button>
+  </div>
+
 </div>
 
 <script>
@@ -299,9 +300,10 @@ const MAX_PHOTOS = 6;
 let books = [], filteredBooks = [], editingId = null;
 let availableState = true, privateState = false, currentBookId = null;
 let photoSlots = Array.from({length: MAX_PHOTOS}, () => ({ file: null, url: null, dataUrl: null, compressedDataUrl: null }));
+let selectedTags = [];
+let activeStatFilter = 'all';
 
 // ── Image compression ─────────────────────────────────────────────────────────
-
 function compressImage(dataUrl, maxWidth = 1200, quality = 0.85) {
   return new Promise(resolve => {
     const img = new Image();
@@ -310,8 +312,7 @@ function compressImage(dataUrl, maxWidth = 1200, quality = 0.85) {
       let w = img.width, h = img.height;
       if (w > maxWidth) { h = Math.round(h * maxWidth / w); w = maxWidth; }
       canvas.width = w; canvas.height = h;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, w, h);
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
       resolve(canvas.toDataURL('image/jpeg', quality));
     };
     img.src = dataUrl;
@@ -319,7 +320,6 @@ function compressImage(dataUrl, maxWidth = 1200, quality = 0.85) {
 }
 
 // ── API ───────────────────────────────────────────────────────────────────────
-
 async function apiFetch(path, opts = {}) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation', ...opts.headers },
@@ -350,88 +350,55 @@ async function uploadPhoto(file, index) {
 }
 
 // ── AI Identification ─────────────────────────────────────────────────────────
-
 async function identifyWithAI() {
   const filledSlots = photoSlots.filter(s => s.dataUrl);
   if (!filledSlots.length) { setAIStatus('err', 'Add at least one photo first.'); return; }
-
   const btn = document.getElementById('btn-ai');
   btn.disabled = true;
   setAIStatus('', 'Compressing images…');
-
   try {
-    // Compress all images before sending
     const imageBlocks = [];
     for (const slot of filledSlots) {
       const compressed = slot.compressedDataUrl || await compressImage(slot.dataUrl);
-      const [header, b64] = compressed.split(',');
+      const [, b64] = compressed.split(',');
       imageBlocks.push({ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: b64 } });
     }
-
     setAIStatus('', 'Analyzing photos…');
-
     const response = await fetch('/api/identify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
         max_tokens: 1000,
-        messages: [{
-          role: 'user',
-          content: [
-            ...imageBlocks,
-            { type: 'text', text: `You are helping catalog a private art/fashion/architecture/design/photography book library in Tokyo.
-
-Look at the provided photo(s) of this book or magazine and extract as much information as you can.
-
-Respond ONLY with a valid JSON object — no markdown, no explanation — with these exact keys:
-{
-  "title": "...",
-  "author": "...",
-  "publisher": "...",
-  "type": "book" or "magazine",
-  "tags": array of 1-3 values from: "art", "fashion", "architecture", "design", "photography", "other",
-  "description": "2-3 sentence description of what this book is about",
-  "confidence": "high", "medium", or "low"
-}
-
-If you cannot determine a field, use null.` }
-          ]
-        }]
+        messages: [{ role: 'user', content: [
+          ...imageBlocks,
+          { type: 'text', text: `You are helping catalog a private art/fashion/architecture/design/photography book library in Tokyo.\n\nLook at the provided photo(s) of this book or magazine and extract as much information as you can.\n\nRespond ONLY with a valid JSON object — no markdown, no explanation — with these exact keys:\n{\n  "title": "...",\n  "author": "...",\n  "publisher": "...",\n  "year": 2024,\n  "type": "book" or "magazine",\n  "tags": array of 1-3 values from: "art", "fashion", "architecture", "design", "photography", "other",\n  "description": "2-3 sentence description of what this book is about",\n  "confidence": "high", "medium", or "low"\n}\n\nIf you cannot determine a field, use null.` }
+        ]}]
       })
     });
-
     const data = await response.json();
     const text = data.content?.[0]?.text || '';
-
     let parsed;
     try { parsed = JSON.parse(text.replace(/```json|```/g, '').trim()); }
     catch(e) { throw new Error('Could not parse AI response'); }
-
     if (parsed.title) document.getElementById('f-title').value = parsed.title;
     if (parsed.author) document.getElementById('f-author').value = parsed.author;
     if (parsed.publisher) document.getElementById('f-publisher').value = parsed.publisher;
+    if (parsed.year) document.getElementById('f-year').value = parsed.year;
     if (parsed.type) document.getElementById('f-type').value = parsed.type;
     if (parsed.tags && Array.isArray(parsed.tags)) setTags(parsed.tags);
     else if (parsed.category) setTags([parsed.category]);
     if (parsed.description) document.getElementById('f-description').value = parsed.description;
-
     showFields();
     document.getElementById('manual-fallback').style.display = 'none';
     document.getElementById('btn-save').disabled = false;
-
-    const conf = parsed.confidence || 'medium';
-    const note = conf === 'low' ? ' — low confidence, please review carefully' : '';
-    setAIStatus('ok', `✓ Done${note}`);
-
+    setAIStatus('ok', `✓ Done${parsed.confidence === 'low' ? ' — low confidence, please review' : ''}`);
   } catch(e) {
     setAIStatus('err', 'AI failed — fill in manually below. (' + e.message + ')');
     showFields();
     document.getElementById('manual-fallback').style.display = 'none';
     document.getElementById('btn-save').disabled = false;
-  } finally {
-    btn.disabled = false;
-  }
+  } finally { btn.disabled = false; }
 }
 
 function setAIStatus(type, msg) {
@@ -439,25 +406,17 @@ function setAIStatus(type, msg) {
   el.className = 'ai-status' + (type ? ` ${type}` : '');
   el.textContent = msg;
 }
-
 function showFields() { document.getElementById('fields-section').classList.add('visible'); }
 function showFieldsManually() { showFields(); document.getElementById('manual-fallback').style.display = 'none'; }
 
 // ── Photo slots ───────────────────────────────────────────────────────────────
-
 function renderPhotoSlots() {
   const grid = document.getElementById('photos-grid');
   grid.innerHTML = photoSlots.map((slot, i) => {
     if (slot.url) {
-      return `<div class="photo-slot filled">
-        <img src="${slot.url}" alt="">
-        <button class="photo-remove" onclick="removePhoto(${i})">×</button>
-      </div>`;
+      return `<div class="photo-slot filled"><img src="${slot.url}" alt=""><button class="photo-remove" onclick="removePhoto(${i})">×</button></div>`;
     }
-    return `<div class="photo-slot">
-      <input type="file" accept="image/*" capture="environment" onchange="handlePhotoSelect(this,${i})">
-      <div class="photo-slot-icon">📷</div>
-    </div>`;
+    return `<div class="photo-slot"><input type="file" accept="image/*" capture="environment" onchange="handlePhotoSelect(this,${i})"><div class="photo-slot-icon">📷</div></div>`;
   }).join('');
 }
 
@@ -482,7 +441,6 @@ function removePhoto(index) {
 }
 
 // ── Toggles ───────────────────────────────────────────────────────────────────
-
 function toggleAvailable() {
   availableState = !availableState;
   document.getElementById('toggle-available').className = 'toggle' + (availableState ? ' on' : '');
@@ -490,33 +448,26 @@ function toggleAvailable() {
   bs.style.display = availableState ? 'none' : 'flex';
   if (!availableState) bs.style.flexDirection = 'column';
 }
-
 function togglePrivate() {
   privateState = !privateState;
   document.getElementById('toggle-private').className = 'toggle' + (privateState ? ' on purple' : '');
 }
 
 // ── Views ─────────────────────────────────────────────────────────────────────
-
 function setView(name) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.getElementById(`view-${name}`).classList.add('active');
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
 }
-
 function showList() { setView('list'); }
 
 function showForm(book = null) {
   editingId = book?.id || null;
   availableState = book ? book.available : true;
   privateState = book ? (book.private || false) : false;
-
   const existingUrls = book?.photo_urls || (book?.cover_url ? [book.cover_url] : []);
-  photoSlots = Array.from({length: MAX_PHOTOS}, (_, i) => ({
-    file: null, url: existingUrls[i] || null, dataUrl: null, compressedDataUrl: null
-  }));
-
-  document.getElementById('form-title').textContent = book ? 'Edit book' : 'Add book';
+  photoSlots = Array.from({length: MAX_PHOTOS}, (_, i) => ({ file: null, url: existingUrls[i] || null, dataUrl: null, compressedDataUrl: null }));
+  document.getElementById('form-title').textContent = book ? 'Edit item' : 'Add item';
   document.getElementById('f-title').value = book?.title || '';
   document.getElementById('f-author').value = book?.author || '';
   document.getElementById('f-publisher').value = book?.publisher || '';
@@ -535,16 +486,13 @@ function showForm(book = null) {
   document.getElementById('btn-save').disabled = false;
   document.getElementById('toggle-available').className = 'toggle' + (availableState ? ' on' : '');
   document.getElementById('toggle-private').className = 'toggle' + (privateState ? ' on purple' : '');
-
   const bs = document.getElementById('borrower-section');
   bs.style.display = availableState ? 'none' : 'flex';
   if (!availableState) bs.style.flexDirection = 'column';
-
   const fs = document.getElementById('fields-section');
   const mf = document.getElementById('manual-fallback');
   if (book) { fs.classList.add('visible'); mf.style.display = 'none'; }
   else { fs.classList.remove('visible'); mf.style.display = 'block'; }
-
   renderPhotoSlots();
   setView('form');
 }
@@ -553,19 +501,16 @@ function showDetail(id) {
   currentBookId = id;
   const book = books.find(b => b.id === id);
   if (!book) return;
-
   const photos = book.photo_urls?.filter(Boolean) || (book.cover_url ? [book.cover_url] : []);
   window._currentPhotos = photos;
   const photosHtml = photos.length
     ? `<div class="detail-photos">${photos.map((url, i) => `<img class="detail-photo" src="${url}" onclick="openLightbox(${i})">`).join('')}</div>`
     : `<div class="detail-photos"><div class="detail-no-photo">📖</div></div>`;
-
   const availTag = book.available ? `<span class="tag tag-available">Available</span>` : `<span class="tag tag-lent">ON LOAN</span>`;
   const privateTag = book.private ? `<span class="tag tag-private">Private</span>` : '';
   const borrowerHtml = !book.available && book.borrower
     ? `<div class="borrower-section" style="margin-top:16px"><h3>Currently on loan to</h3><div style="font-size:14px;margin-top:4px">${book.borrower}${book.borrower_contact ? ` · ${book.borrower_contact}` : ''}</div></div>`
     : '';
-
   document.getElementById('detail-body').innerHTML = `
     ${photosHtml}
     <div class="detail-title">${book.title}</div>
@@ -584,13 +529,12 @@ function showDetail(id) {
     </div>
     ${book.description ? `<div class="detail-section"><div class="detail-section-label">Description</div><div class="detail-section-value">${book.description}</div></div>` : ''}
     ${book.notes ? `<div class="detail-section"><div class="detail-section-label">Notes (private)</div><div class="detail-section-value">${book.notes}</div></div>` : ''}
-    ${borrowerHtml}
-  `;
+    ${borrowerHtml}`;
   setView('detail');
 }
 
-let lightboxUrls = [];
-let lightboxIndex = 0;
+// ── Lightbox ──────────────────────────────────────────────────────────────────
+let lightboxUrls = [], lightboxIndex = 0;
 
 function openLightbox(index) {
   lightboxUrls = window._currentPhotos || [];
@@ -599,46 +543,42 @@ function openLightbox(index) {
   document.getElementById('lightbox').classList.add('open');
   updateLightboxNav();
 }
-
 function lightboxNav(dir) {
   lightboxIndex = Math.max(0, Math.min(lightboxUrls.length - 1, lightboxIndex + dir));
   document.getElementById('lightbox-img').src = lightboxUrls[lightboxIndex];
   updateLightboxNav();
 }
-
 function updateLightboxNav() {
   const prev = document.querySelector('.lightbox-prev');
   const next = document.querySelector('.lightbox-next');
-  const multiple = lightboxUrls.length > 1;
-  if (prev) prev.style.display = (multiple && lightboxIndex > 0) ? 'block' : 'none';
-  if (next) next.style.display = (multiple && lightboxIndex < lightboxUrls.length - 1) ? 'block' : 'none';
+  const m = lightboxUrls.length > 1;
+  if (prev) prev.style.display = (m && lightboxIndex > 0) ? 'block' : 'none';
+  if (next) next.style.display = (m && lightboxIndex < lightboxUrls.length - 1) ? 'block' : 'none';
 }
-
 function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
 
-// ── Save ──────────────────────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key === 'ArrowRight') lightboxNav(1);
+  else if (e.key === 'ArrowLeft') lightboxNav(-1);
+  else if (e.key === 'Escape') closeLightbox();
+});
 
+// ── Save ──────────────────────────────────────────────────────────────────────
 async function saveBook() {
   const title = document.getElementById('f-title').value.trim();
   if (!title) { document.getElementById('save-status').textContent = 'Title is required.'; return; }
-
   const btn = document.getElementById('btn-save');
   const status = document.getElementById('save-status');
   btn.disabled = true;
   status.className = 'save-status';
-
   try {
     const finalUrls = [];
     for (let i = 0; i < MAX_PHOTOS; i++) {
       const slot = photoSlots[i];
-      if (slot.file) {
-        status.textContent = `Uploading photo ${i+1}…`;
-        finalUrls.push(await uploadPhoto(slot.file, i));
-      } else if (slot.url && slot.url.startsWith('http')) {
-        finalUrls.push(slot.url);
-      }
+      if (slot.file) { status.textContent = `Uploading photo ${i+1}…`; finalUrls.push(await uploadPhoto(slot.file, i)); }
+      else if (slot.url && slot.url.startsWith('http')) { finalUrls.push(slot.url); }
     }
-
     const payload = {
       title,
       author: document.getElementById('f-author').value.trim() || null,
@@ -659,16 +599,12 @@ async function saveBook() {
       borrower: !availableState ? (document.getElementById('f-borrower').value.trim() || null) : null,
       borrower_contact: !availableState ? (document.getElementById('f-borrower-contact').value.trim() || null) : null,
     };
-
     status.textContent = 'Saving…';
-    if (editingId) {
-      await apiFetch(`books?id=eq.${editingId}`, { method: 'PATCH', body: JSON.stringify(payload) });
-    } else {
-      await apiFetch('books', { method: 'POST', body: JSON.stringify(payload) });
-    }
-
+    if (editingId) { await apiFetch(`books?id=eq.${editingId}`, { method: 'PATCH', body: JSON.stringify(payload) }); }
+    else { await apiFetch('books', { method: 'POST', body: JSON.stringify(payload) }); }
     status.className = 'save-status ok';
-    status.textContent = editingId ? '✓ Updated.' : '✓ Book saved!';
+    status.textContent = editingId ? '✓ Updated.' : '✓ Saved!';
+    await loadBooks();
     setTimeout(() => showList(), 800);
   } catch(e) {
     status.className = 'save-status err';
@@ -678,17 +614,17 @@ async function saveBook() {
 }
 
 function editCurrentBook() { const book = books.find(b => b.id === currentBookId); if (book) showForm(book); }
-
 async function deleteCurrentBook() {
-  if (!confirm('Delete this book?')) return;
-  try { await apiFetch(`books?id=eq.${currentBookId}`, { method: 'DELETE' }); showList(); }
+  if (!confirm('Delete this item?')) return;
+  try { await apiFetch(`books?id=eq.${currentBookId}`, { method: 'DELETE' }); await loadBooks(); showList(); }
   catch(e) { alert('Delete failed: ' + e.message); }
 }
 
+// ── List & filters ────────────────────────────────────────────────────────────
 function renderList() {
   const container = document.getElementById('book-list');
   if (!filteredBooks.length) {
-    container.innerHTML = `<div class="empty-state"><p>${books.length ? 'No results.' : 'No books yet.<br>Tap + Add book to start cataloging.'}</p></div>`;
+    container.innerHTML = `<div class="empty-state"><p>${books.length ? 'No results.' : 'No items yet.<br>Tap + Add item to start cataloging.'}</p></div>`;
     return;
   }
   container.innerHTML = filteredBooks.map(b => {
@@ -730,55 +666,37 @@ function filterBooks(q) {
 
 function updateStats() {
   document.getElementById('stat-total').textContent = books.length;
-  document.getElementById('stat-available').textContent = books.filter(b=>b.available && !b.private).length;
-  document.getElementById('stat-lent').textContent = books.filter(b=>!b.available).length;
-  document.getElementById('stat-private').textContent = books.filter(b=>b.private).length;
+  document.getElementById('stat-available').textContent = books.filter(b => b.available && !b.private).length;
+  document.getElementById('stat-lent').textContent = books.filter(b => !b.available).length;
+  document.getElementById('stat-private').textContent = books.filter(b => b.private).length;
 }
 
-
-
-
-// ── Tag management ────────────────────────────────────────────────────────────
-let selectedTags = [];
-let activeStatFilter = 'all';
-
 function setStatFilter(filter) {
-  activeStatFilter = activeStatFilter === filter && filter !== 'all' ? 'all' : filter;
+  activeStatFilter = (activeStatFilter === filter && filter !== 'all') ? 'all' : filter;
   document.querySelectorAll('.stat-pill').forEach(p => p.classList.remove('active'));
   document.getElementById('stat-pill-' + activeStatFilter)?.classList.add('active');
   filterBooks(document.getElementById('search-input')?.value || '');
 }
 
+// ── Tags ──────────────────────────────────────────────────────────────────────
 function toggleTag(tag) {
   const idx = selectedTags.indexOf(tag);
-  if (idx >= 0) selectedTags.splice(idx, 1);
-  else selectedTags.push(tag);
+  if (idx >= 0) selectedTags.splice(idx, 1); else selectedTags.push(tag);
   renderTagPills();
 }
-
 function renderTagPills() {
   document.querySelectorAll('.tag-pill').forEach(pill => {
-    const tag = pill.dataset.tag;
-    pill.className = 'tag-pill' + (selectedTags.includes(tag) ? ' active' : '');
+    pill.className = 'tag-pill' + (selectedTags.includes(pill.dataset.tag) ? ' active' : '');
   });
 }
-
 function setTags(tags) {
   selectedTags = Array.isArray(tags) ? [...tags] : [];
   renderTagPills();
 }
 
+// ── Auth ──────────────────────────────────────────────────────────────────────
+let adminPassword = '';
 
-// Lightbox keyboard navigation
-document.addEventListener('keydown', function(e) {
-  const lightbox = document.getElementById('lightbox');
-  if (!lightbox.classList.contains('open')) return;
-  if (e.key === 'ArrowRight') lightboxNav(1);
-  else if (e.key === 'ArrowLeft') lightboxNav(-1);
-  else if (e.key === 'Escape') closeLightbox();
-});
-
-// ── Auth gate ─────────────────────────────────────────────────────────────────
 async function checkAuth() {
   const stored = sessionStorage.getItem('ag_admin_pw');
   if (stored) {
@@ -790,13 +708,8 @@ async function checkAuth() {
 
 async function verifyPassword(pw) {
   try {
-    const res = await fetch('/api/admin/auth', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: pw })
-    });
-    const data = await res.json();
-    return data.ok === true;
+    const res = await fetch('/api/admin/auth', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: pw }) });
+    return (await res.json()).ok === true;
   } catch(e) { return false; }
 }
 
@@ -823,11 +736,7 @@ function showApp() {
   document.getElementById('stat-pill-all')?.classList.add('active');
 }
 
-let adminPassword = '';
 checkAuth();
 </script>
-</div>
-</div>
-</div>
 </body>
 </html>
