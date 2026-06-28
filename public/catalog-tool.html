@@ -152,11 +152,12 @@
     <span style="opacity:0.3;margin:0 8px;font-size:13px;">/</span>
     <span style="font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;opacity:1;">Catalog</span>
   </header>
-  <div class="stats-bar">
-    <div><b id="stat-total">0</b> items</div>
-    <div><b id="stat-available">0</b> available</div>
-    <div><b id="stat-lent">0</b> on loan</div>
-    <div><b id="stat-private">0</b> private</div>
+
+  <div class="stats-filter-bar">
+    <button class="stat-pill" id="stat-pill-all" onclick="setStatFilter('all')"><b id="stat-total">0</b> <span>ITEMS</span></button>
+    <button class="stat-pill" id="stat-pill-available" onclick="setStatFilter('available')"><b id="stat-available">0</b> <span>AVAILABLE</span></button>
+    <button class="stat-pill" id="stat-pill-lent" onclick="setStatFilter('lent')"><b id="stat-lent">0</b> <span>ON LOAN</span></button>
+    <button class="stat-pill" id="stat-pill-private" onclick="setStatFilter('private')"><b id="stat-private">0</b> <span>PRIVATE</span></button>
   </div>
   <div class="list-controls">
     <button class="btn-add" onclick="showForm()">+ Add item</button>
@@ -714,6 +715,14 @@ function updateStats() {
 
 // ── Tag management ────────────────────────────────────────────────────────────
 let selectedTags = [];
+let activeStatFilter = 'all';
+
+function setStatFilter(filter) {
+  activeStatFilter = activeStatFilter === filter && filter !== 'all' ? 'all' : filter;
+  document.querySelectorAll('.stat-pill').forEach(p => p.classList.remove('active'));
+  document.getElementById('stat-pill-' + activeStatFilter)?.classList.add('active');
+  filterBooks(document.getElementById('search-input')?.value || '');
+}
 
 function toggleTag(tag) {
   const idx = selectedTags.indexOf(tag);
@@ -786,6 +795,7 @@ async function submitAuth() {
 function showApp() {
   document.getElementById('app').style.display = 'block';
   loadBooks();
+  document.getElementById('stat-pill-all')?.classList.add('active');
 }
 
 let adminPassword = '';
