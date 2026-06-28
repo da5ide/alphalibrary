@@ -66,7 +66,7 @@ export default function AdminCatalogPage() {
   return (
     <iframe
       ref={iframeRef}
-      src="/library/admin/catalog/tool"
+      src="/catalog-tool.html"
       style={{width:'100%',height:'100vh',border:'none',display:'block'}}
       title="Catalog tool"
     />
