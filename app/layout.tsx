@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Alphagallery Library',
     description: 'A private collection of art, fashion, architecture, design, and photography books available to borrow in Tokyo.',
+    icons: { icon: '/favicon.svg' },
     url: 'https://alphagallery.co/library',
     siteName: 'Alphagallery',
   },
