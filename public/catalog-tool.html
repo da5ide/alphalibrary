@@ -15,8 +15,8 @@
   body { background: var(--bg); font-family: var(--font); color: var(--text); min-height: 100vh; padding-bottom: 60px; }
 
   /* ── Breadcrumb nav ── */
-  .page-header { background: var(--bg); border-bottom: 1px solid var(--border); padding: 28px 0 16px; }
-  .page-header-inner { max-width: 640px; margin: 0 auto; padding: 0 24px; }
+  .page-header { background: var(--bg); padding: 28px 0 0; }
+  .page-header-inner { max-width: 640px; margin: 0 auto; padding: 0 24px 16px; border-bottom: 1px solid var(--border); }
   .breadcrumb { display: flex; align-items: center; flex-wrap: wrap; }
   .breadcrumb a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #D0CCC8; font-size: 20px; font-weight: 400; }
   .breadcrumb a:hover { text-decoration: none; }
@@ -24,8 +24,8 @@
   .breadcrumb-sep { color: #D0CCC8; margin: 0 4px; font-size: 20px; }
 
   /* ── Stat pills ── */
-  .stats-filter-bar { border-bottom: 1px solid var(--border); padding: 10px 0; }
-  .stats-filter-inner { max-width: 640px; margin: 0 auto; padding: 0 24px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .stats-filter-bar { padding: 10px 0 0; }
+  .stats-filter-inner { max-width: 640px; margin: 0 auto; padding: 0 24px 10px; display: flex; gap: 8px; flex-wrap: wrap; border-bottom: 1px solid var(--border); }
   .stat-pill { border: 1.5px solid var(--border); background: var(--card); border-radius: 100px; padding: 5px 13px; font-size: 12px; font-family: var(--font); color: #6B6560; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.12s; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500; }
   .stat-pill b { font-size: 12px; font-weight: 500; }
   .stat-pill span { font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: inherit; }
@@ -38,9 +38,9 @@
 
   /* ── List controls ── */
   .list-controls { max-width: 640px; margin: 0 auto; padding: 14px 24px 8px; display: flex; gap: 10px; align-items: center; }
-  .btn-add { background: #111110; color: white; border: 1.5px solid #111110; padding: 5px 13px; border-radius: 100px; font-size: 12px; font-weight: 500; cursor: pointer; flex-shrink: 0; letter-spacing: 0.06em; text-transform: uppercase; font-family: var(--font); transition: opacity 0.12s; }
+  .btn-add { background: #8C4A2F; color: white; border: 1.5px solid #8C4A2F; padding: 5px 13px; border-radius: 100px; font-size: 12px; font-weight: 500; cursor: pointer; flex-shrink: 0; letter-spacing: 0.06em; text-transform: uppercase; font-family: var(--font); transition: opacity 0.12s; }
   .btn-add:hover { opacity: 0.8; }
-  .search-input { flex: 1; border: 1.5px solid var(--border); border-radius: var(--radius); padding: 13px 16px; font-size: 16px; background: white; outline: none; font-family: var(--font); }
+  .search-input { flex: 1; border: 1.5px solid var(--border); border-radius: var(--radius); padding: 5px 13px; font-size: 14px; background: white; outline: none; font-family: var(--font); }
   .search-input:focus { border-color: var(--text); }
 
   /* ── Book list ── */
