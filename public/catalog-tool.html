@@ -18,19 +18,19 @@
   .page-header { background: var(--bg); border-bottom: 1px solid var(--border); padding: 28px 0 16px; }
   .page-header-inner { max-width: 640px; margin: 0 auto; padding: 0 24px; }
   .breadcrumb { display: flex; align-items: center; flex-wrap: wrap; }
-  .breadcrumb a { color: var(--text); text-decoration: none; font-size: 17px; font-weight: 400; transition: color 0.12s; }
-  .breadcrumb a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .breadcrumb a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #D0CCC8; font-size: 17px; font-weight: 400; transition: text-decoration-color 0.12s; }
+  .breadcrumb a:hover { text-decoration-color: var(--text); }
   .breadcrumb-cur { color: var(--text); font-size: 17px; font-weight: 500; }
   .breadcrumb-sep { color: #D0CCC8; margin: 0 4px; font-size: 17px; }
 
   /* ── Stat pills ── */
   .stats-filter-bar { border-bottom: 1px solid var(--border); padding: 10px 0; }
   .stats-filter-inner { max-width: 640px; margin: 0 auto; padding: 0 24px; display: flex; gap: 8px; flex-wrap: wrap; }
-  .stat-pill { border: 1.5px solid var(--border); background: var(--card); border-radius: 100px; padding: 7px 16px; font-size: 13px; font-family: var(--font); color: #6B6560; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.12s; }
-  .stat-pill b { font-size: 15px; font-weight: 600; }
-  .stat-pill span { font-size: 11px; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; text-transform: uppercase; }
-  .stat-pill:hover { border-color: #9B9793; }
-  .stat-pill.active { background: #111110; border-color: #111110; color: white; }
+  .stat-pill { border: 1.5px solid var(--border); background: var(--card); border-radius: 100px; padding: 5px 13px; font-size: 12px; font-family: var(--font); color: #6B6560; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.12s; letter-spacing: 0.03em; }
+  .stat-pill b { font-size: 12px; font-weight: 600; }
+  .stat-pill span { font-size: 12px; font-weight: 400; letter-spacing: 0.03em; text-transform: none; color: #6B6560; }
+  .stat-pill:hover { border-color: #555250; color: #111110; }
+  .stat-pill.active { background: #6B6560; border-color: #6B6560; color: white; }
   .stat-pill.active span, .stat-pill.active b { color: white; }
 
   /* ── Views ── */
