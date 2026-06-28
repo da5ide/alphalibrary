@@ -254,6 +254,10 @@ export default function AdminPage() {
         .admin-nav-link { color: #111110; text-decoration: none; font-size: 17px; display: flex; align-items: center; gap: 8px; }
         @media (max-width: 600px) { .admin-nav-link { padding: 4px 0; } }
         .admin-nav-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+        .breadcrumb-link { color: #111110; text-decoration: none; font-size: 17px; font-weight: 400; }
+        .breadcrumb-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+        .breadcrumb-active { font-weight: 500; }
+        .breadcrumb-sep { color: #D0CCC8; font-size: 17px; margin: 0 4px; }
         .slot-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: white; border: 1.5px solid #E8E4DF; border-radius: 8px; }
         .avail-row { display: flex; gap: 10px; align-items: center; }
         @media (max-width: 600px) { .avail-row { flex-direction: column; align-items: flex-start; } }
