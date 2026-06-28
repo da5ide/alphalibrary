@@ -18,7 +18,7 @@ const CATEGORIES: { value: Category | 'all'; label: string }[] = [
 export default function LibraryCatalog({ books }: { books: Book[] }) {
   const [search, setSearch] = useState('')
   const [activeCategory, setActiveCategory] = useState<Category | 'all'>('all')
-  const [sort, setSort] = useState<'title' | 'recent'>('title')
+  const [sort, setSort] = useState<'title' | 'recent'>('recent')
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
   const filtered = useMemo(() => {
@@ -47,7 +47,7 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
       <header className={styles.header}>
         <div className={styles.inner}>
           <p className={styles.about}>
-            A few hundred books and magazines on art, fashion, architecture, design, and photography, all free to borrow. Pick something from the catalog and come by. There's usually tea or coffee if you'd like to stay a moment. To visit and borrow, you'll need an access code.
+            A few hundred books and magazines on art, fashion, architecture, design, and photography, all free to borrow. Pick something from the catalog and come by. There's usually tea or coffee if you'd like to stay a moment. To book a visit, you'll need an access code.
           </p>
         </div>
       </header>
