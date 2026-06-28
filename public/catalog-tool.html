@@ -12,12 +12,13 @@
     --radius: 10px; --font: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
   }
   body { background: var(--bg); font-family: var(--font); color: var(--text); min-height: 100vh; padding-bottom: 60px; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 24px; }
 
   header { background: var(--text); color: white; padding: 18px 20px 14px; display: flex; align-items: baseline; gap: 0; }
   header h1 { font-size: 15px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
   header span { font-size: 12px; opacity: 0.5; letter-spacing: 0.04em; }
 
-  .stats-filter-bar { display: flex; gap: 8px; flex-wrap: wrap; border-bottom: 1px solid var(--border); background: var(--card); }
+  .stats-filter-bar { display: flex; gap: 8px; flex-wrap: wrap; border-bottom: 1px solid var(--border); padding: 12px 24px; }
   .stat-pill { border: 1.5px solid var(--border); background: var(--card); border-radius: 100px; padding: 5px 14px; font-size: 12px; font-family: var(--font); color: #6B6560; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.12s; }
   .stat-pill b { font-size: 13px; font-weight: 600; }
   .stat-pill span { font-size: 10px; letter-spacing: 0.06em; color: #9B9793; font-weight: 600; text-transform: uppercase; }
@@ -28,11 +29,11 @@
 
   .view { display: none; } .view.active { display: block; }
 
-  .list-controls { padding: 16px 20px 8px; display: flex; gap: 10px; align-items: center; }
+  .list-controls { padding: 16px 24px 8px; display: flex; gap: 10px; align-items: center; max-width: 640px; margin: 0 auto; }
   .btn-add { background: var(--text); color: white; border: none; padding: 12px 20px; border-radius: var(--radius); font-size: 14px; font-weight: 600; cursor: pointer; flex-shrink: 0; }
   .search-input { flex: 1; border: 1.5px solid var(--border); border-radius: var(--radius); padding: 11px 14px; font-size: 14px; background: white; outline: none; font-family: var(--font); }
   .search-input:focus { border-color: var(--text); }
-  .book-list { padding: 8px 20px; display: flex; flex-direction: column; gap: 10px; }
+  .book-list { padding: 8px 24px; display: flex; flex-direction: column; gap: 10px; max-width: 640px; margin: 0 auto; }
   .book-card { background: white; border-radius: var(--radius); padding: 14px; display: flex; gap: 12px; align-items: flex-start; cursor: pointer; border: 1.5px solid transparent; transition: border-color 0.15s; }
   .book-card:active { border-color: var(--text); }
   .book-thumb { width: 44px; height: 58px; border-radius: 4px; background: var(--bg); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--border); overflow: hidden; }
@@ -53,7 +54,7 @@
   .form-header { background: white; padding: 16px 20px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; }
   .btn-back { background: none; border: none; font-size: 22px; cursor: pointer; padding: 0; line-height: 1; color: var(--text); }
   .form-header h2 { font-size: 16px; font-weight: 600; }
-  .form-body { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+  .form-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; max-width: 640px; margin: 0 auto; }
 
   label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
   input[type="text"], input[type="number"], input[type="url"], textarea, select { border: 1.5px solid var(--border); border-radius: var(--radius); padding: 12px 14px; font-size: 15px; font-family: var(--font); color: var(--text); background: white; outline: none; width: 100%; -webkit-appearance: none; }
@@ -112,7 +113,7 @@
   .detail-actions { margin-left: auto; display: flex; gap: 8px; }
   .btn-edit { background: var(--text); color: white; border: none; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: var(--font); }
   .btn-delete { background: none; color: var(--red); border: 1.5px solid var(--red); padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: var(--font); }
-  .detail-body { padding: 20px; max-width: 600px; margin: 0 auto; }
+  .detail-body { padding: 20px 24px; max-width: 640px; margin: 0 auto; }
   .detail-photos { display: flex; gap: 10px; overflow-x: auto; margin-bottom: 20px; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; scroll-snap-type: x mandatory; }
   .detail-photos::-webkit-scrollbar { display: none; }
   .detail-photo { width: 140px; height: 186px; border-radius: 8px; object-fit: cover; flex-shrink: 0; cursor: pointer; scroll-snap-align: start; }
@@ -163,7 +164,7 @@
     </nav>
   </header>
 
-  <div class="page-wrap"><div class="stats-filter-bar" style="padding:12px 0;">
+  <div class="stats-filter-bar">
     <button class="stat-pill" id="stat-pill-all" onclick="setStatFilter('all')"><b id="stat-total">0</b> <span>ITEMS</span></button>
     <button class="stat-pill" id="stat-pill-available" onclick="setStatFilter('available')"><b id="stat-available">0</b> <span>AVAILABLE</span></button>
     <button class="stat-pill" id="stat-pill-lent" onclick="setStatFilter('lent')"><b id="stat-lent">0</b> <span>ON LOAN</span></button>
