@@ -13,7 +13,7 @@
   }
   body { background: var(--bg); font-family: var(--font); color: var(--text); min-height: 100vh; padding-bottom: 60px; }
 
-  header { background: var(--text); color: white; padding: 18px 20px 14px; display: flex; justify-content: space-between; align-items: baseline; }
+  header { background: var(--text); color: white; padding: 18px 20px 14px; display: flex; align-items: baseline; gap: 0; }
   header h1 { font-size: 15px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
   header span { font-size: 12px; opacity: 0.5; letter-spacing: 0.04em; }
 
@@ -113,7 +113,7 @@
   .detail-title { font-size: 22px; font-weight: 700; line-height: 1.2; margin-bottom: 6px; }
   .detail-author { font-size: 15px; color: var(--muted); margin-bottom: 14px; }
   .detail-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
-  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+  .detail-grid { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
   .detail-field { background: var(--bg); border-radius: 8px; padding: 12px; text-align: left; }
   .detail-field-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 4px; font-weight: 600; }
   .detail-field-value { font-size: 14px; font-weight: 500; }
@@ -282,7 +282,7 @@ let photoSlots = Array.from({length: MAX_PHOTOS}, () => ({ file: null, url: null
 
 // ── Image compression ─────────────────────────────────────────────────────────
 
-function compressImage(dataUrl, maxWidth = 800, quality = 0.7) {
+function compressImage(dataUrl, maxWidth = 1200, quality = 0.85) {
   return new Promise(resolve => {
     const img = new Image();
     img.onload = () => {
@@ -732,6 +732,16 @@ function setTags(tags) {
   selectedTags = Array.isArray(tags) ? [...tags] : [];
   renderTagPills();
 }
+
+
+// Lightbox keyboard navigation
+document.addEventListener('keydown', function(e) {
+  const lightbox = document.getElementById('lightbox');
+  if (!lightbox.classList.contains('open')) return;
+  if (e.key === 'ArrowRight') lightboxNav(1);
+  else if (e.key === 'ArrowLeft') lightboxNav(-1);
+  else if (e.key === 'Escape') closeLightbox();
+});
 
 // ── Auth gate ─────────────────────────────────────────────────────────────────
 async function checkAuth() {
