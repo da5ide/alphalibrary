@@ -57,6 +57,7 @@
 
   .tags-field { display: flex; flex-direction: column; gap: 8px; }
   .tags-label { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  .tags-label { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
   .tags-pills { display: flex; gap: 8px; flex-wrap: wrap; }
   .tag-pill { border: 1.5px solid var(--border); background: white; border-radius: 100px; padding: 6px 14px; font-size: 13px; font-family: var(--font); color: var(--muted); cursor: pointer; transition: all 0.12s; }
   .tag-pill.active { background: var(--text); border-color: var(--text); color: white; }
@@ -197,16 +198,17 @@
             <option value="magazine">Magazine</option>
           </select>
         </label>
-        <label>Category
-          <select id="f-category">
-            <option value="art">Art</option>
-            <option value="fashion">Fashion</option>
-            <option value="architecture">Architecture</option>
-            <option value="design">Design</option>
-            <option value="photography">Photography</option>
-            <option value="other">Other</option>
-          </select>
-        </label>
+      </div>
+      <div class="tags-field">
+        <div class="tags-label">Tags</div>
+        <div class="tags-pills" id="tags-pills">
+          <button type="button" class="tag-pill" data-tag="art" onclick="toggleTag('art')">Art</button>
+          <button type="button" class="tag-pill" data-tag="fashion" onclick="toggleTag('fashion')">Fashion</button>
+          <button type="button" class="tag-pill" data-tag="architecture" onclick="toggleTag('architecture')">Architecture</button>
+          <button type="button" class="tag-pill" data-tag="design" onclick="toggleTag('design')">Design</button>
+          <button type="button" class="tag-pill" data-tag="photography" onclick="toggleTag('photography')">Photography</button>
+          <button type="button" class="tag-pill" data-tag="other" onclick="toggleTag('other')">Other</button>
+        </div>
       </div>
 
       <label>Description <textarea id="f-description" placeholder="Brief description…"></textarea></label>
@@ -560,7 +562,7 @@ function showDetail(id) {
       ${book.year && !book.publisher ? `<div class="detail-field"><div class="detail-field-label">Year</div><div class="detail-field-value">${book.year}</div></div>` : ''}
       ${book.price ? `<div class="detail-field"><div class="detail-field-label">Price</div><div class="detail-field-value">¥${Number(book.price).toLocaleString()}</div></div>` : ''}
       ${book.instagram_url ? `<div class="detail-field"><div class="detail-field-label">Instagram</div><div class="detail-field-value"><a href="${book.instagram_url}" target="_blank" style="color:inherit;word-break:break-all;">View post ↗</a></div></div>` : ''}
-      ${book.link ? `<div class="detail-field"><div class="detail-field-label">Link</div><div class="detail-field-value"><a href="${book.link}" target="_blank" style="color:inherit;word-break:break-all;">Open ↗</a></div></div>` : ''}
+      ${book.link ? `<div class="detail-field"><div class="detail-field-label">Link</div><div class="detail-field-value"><a href="${book.link}" target="_blank" style="color:inherit;word-break:break-all;">${book.link}</a></div></div>` : ''}
     </div>
     ${book.description ? `<div class="detail-section"><div class="detail-section-label">Description</div><div class="detail-section-value">${book.description}</div></div>` : ''}
     ${book.notes ? `<div class="detail-section"><div class="detail-section-label">Notes (private)</div><div class="detail-section-value">${book.notes}</div></div>` : ''}
