@@ -10,17 +10,19 @@ const inter = Inter({
 
 const ebGaramond = EB_Garamond({
   subsets: ['latin'],
+  weight: ['400', '500'],
+  style: ['normal', 'italic'],
   variable: '--font-garamond',
-  display: 'swap',
+  display: 'block',
 })
 
 export const metadata: Metadata = {
   title: 'Alphagallery Library',
   description: 'A private collection of art, fashion, architecture, design, and photography books available to borrow in Tokyo.',
+  icons: { icon: '/favicon.svg' },
   openGraph: {
     title: 'Alphagallery Library',
     description: 'A private collection of art, fashion, architecture, design, and photography books available to borrow in Tokyo.',
-    icons: { icon: '/favicon.svg' },
     url: 'https://alphagallery.co/library',
     siteName: 'Alphagallery',
   },
