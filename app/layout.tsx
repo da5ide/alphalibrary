@@ -19,7 +19,6 @@ const ebGaramond = EB_Garamond({
 export const metadata: Metadata = {
   title: 'Alphagallery Library',
   description: 'A private collection of art, fashion, architecture, design, and photography books available to borrow in Tokyo.',
-  icons: { icon: '/favicon.svg' },
   openGraph: {
     title: 'Alphagallery Library',
     description: 'A private collection of art, fashion, architecture, design, and photography books available to borrow in Tokyo.',
