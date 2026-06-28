@@ -114,7 +114,7 @@
   .detail-author { font-size: 15px; color: var(--muted); margin-bottom: 14px; }
   .detail-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
   .detail-grid { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-  .detail-field { background: var(--bg); border-radius: 8px; padding: 12px; text-align: left; }
+  .detail-field { background: var(--bg); border-radius: 8px; padding: 10px 12px; text-align: left; display: flex; flex-direction: column; align-items: flex-start; }
   .detail-field-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 4px; font-weight: 600; }
   .detail-field-value { font-size: 14px; font-weight: 500; }
   .detail-section { margin-bottom: 16px; }
@@ -535,9 +535,9 @@ function showDetail(id) {
   if (!book) return;
 
   const photos = book.photo_urls?.filter(Boolean) || (book.cover_url ? [book.cover_url] : []);
-  const urlsJson = JSON.stringify(photos).replace(/"/g, '&quot;');
+  window._currentPhotos = photos;
   const photosHtml = photos.length
-    ? `<div class="detail-photos">${photos.map(url => `<img class="detail-photo" src="${url}" onclick="openLightbox('${url}', ${urlsJson})">`).join('')}</div>`
+    ? `<div class="detail-photos">${photos.map((url, i) => `<img class="detail-photo" src="${url}" onclick="openLightbox(${i})">`).join('')}</div>`
     : `<div class="detail-photos"><div class="detail-no-photo">📖</div></div>`;
 
   const availTag = book.available ? `<span class="tag tag-available">Available</span>` : `<span class="tag tag-lent">ON LOAN</span>`;
@@ -572,10 +572,9 @@ function showDetail(id) {
 let lightboxUrls = [];
 let lightboxIndex = 0;
 
-function openLightbox(url, urls) {
-  lightboxUrls = urls || [url];
-  lightboxIndex = lightboxUrls.indexOf(url);
-  if (lightboxIndex < 0) lightboxIndex = 0;
+function openLightbox(index) {
+  lightboxUrls = window._currentPhotos || [];
+  lightboxIndex = index || 0;
   document.getElementById('lightbox-img').src = lightboxUrls[lightboxIndex];
   document.getElementById('lightbox').classList.add('open');
   updateLightboxNav();
@@ -682,7 +681,7 @@ function renderList() {
         <div class="book-tags">
           <span class="tag tag-type">${b.type}</span>
           ${(b.tags && b.tags.length ? b.tags : [b.category]).filter(Boolean).map(t => `<span class="tag tag-cat">${t}</span>`).join('')}
-          <span class="tag ${b.available ? 'tag-available' : 'tag-lent'}">${b.available ? 'Available' : 'Lent out'}</span>
+          <span class="tag ${b.available ? 'tag-available' : 'tag-lent'}">${b.available ? 'Available' : 'ON LOAN'}</span>
           ${b.private ? '<span class="tag tag-private">Private</span>' : ''}
         </div>
       </div>
