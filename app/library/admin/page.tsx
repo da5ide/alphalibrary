@@ -251,7 +251,8 @@ export default function AdminPage() {
   return (
     <div style={{minHeight:'100vh',background:'#FAFAF8',fontFamily:'var(--font-inter),-apple-system,sans-serif',paddingBottom:80}}>
       <style>{`
-        .admin-nav-link { color: #111110; text-decoration: none; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+        .admin-nav-link { color: #111110; text-decoration: none; font-size: 17px; display: flex; align-items: center; gap: 8px; }
+        @media (max-width: 600px) { .admin-nav-link { padding: 4px 0; } }
         .admin-nav-link:hover { text-decoration: underline; text-underline-offset: 3px; }
         .slot-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: white; border: 1.5px solid #E8E4DF; border-radius: 8px; }
         .avail-row { display: flex; gap: 10px; align-items: center; }
@@ -299,7 +300,7 @@ export default function AdminPage() {
                 <div key={s.id} className="slot-row">
                   <span style={{fontSize:14,fontWeight:500,flex:1,color:'#111110'}}>{formatDate(s.date)}</span>
                   <span style={{fontSize:13,color:'#6B6560',marginLeft:'auto'}}>{s.start_time.slice(0,5)}–{s.end_time.slice(0,5)}</span>
-                  <span style={{fontSize:11,textTransform:'uppercase' as const,letterSpacing:'0.06em',padding:'3px 8px',borderRadius:100,background:s.booked?'#F2EFE9':'#E8F5EE',color:s.booked?'#9B9793':'#2D6A4F',width:52,textAlign:'center' as const}}>
+                  <span style={{fontSize:11,textTransform:'uppercase' as const,letterSpacing:'0.06em',padding:'3px 10px',borderRadius:100,background:s.booked?'#F2EFE9':'#E8F5EE',color:s.booked?'#9B9793':'#2D6A4F',minWidth:58,textAlign:'center' as const,whiteSpace:'nowrap' as const,flexShrink:0}}>
                     {s.booked ? 'Booked' : 'Open'}
                   </span>
                   <span style={{width:24,display:'flex',justifyContent:'center'}}>
