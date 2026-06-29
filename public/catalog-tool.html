@@ -395,7 +395,7 @@ async function identifyWithAI() {
         max_tokens: 1000,
         messages: [{ role: 'user', content: [
           ...imageBlocks,
-          { type: 'text', text: `You are helping catalog a private art/fashion/architecture/design/photography book library in Tokyo.\n\nLook at the provided photo(s) of this book or magazine and extract as much information as you can.\n\nRespond ONLY with a valid JSON object — no markdown, no explanation — with these exact keys:\n{\n  "title": "...",\n  "author": "...",\n  "publisher": "...",\n  "year": 2024,\n  "type": "book" or "magazine",\n  "tags": array of 1-3 values from: "art", "fashion", "architecture", "design", "photography", "other",\n  "description": "2-3 sentence description of what this book is about",\n  "confidence": "high", "medium", or "low"\n}\n\nIf you cannot determine a field, use null.` }
+          { type: 'text', text: `You are helping catalog a private art/architecture/design/fashion/food/photography/travel book library in Tokyo.\n\nLook at the provided photo(s) of this book or magazine and extract as much information as you can.\n\nRespond ONLY with a valid JSON object — no markdown, no explanation — with these exact keys:\n{\n  "title": "...",\n  "author": "...",\n  "publisher": "...",\n  "year": 2024,\n  "type": "book" or "magazine",\n  "tags": array of 1-3 values from: "architecture", "art", "design", "fashion", "food", "photography", "travel", "other",\n  "description": "2-3 sentence description of what this book is about",\n  "confidence": "high", "medium", or "low"\n}\n\nIf you cannot determine a field, use null.` }
         ]}]
       })
     });
