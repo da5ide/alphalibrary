@@ -47,7 +47,7 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
       <header className={styles.header}>
         <div className={styles.inner}>
           <p className={styles.about}>
-            A few hundred books and magazines on art, fashion, architecture, design, and photography, all free to borrow. Pick something from the catalog and come by. There's usually tea or coffee if you'd like to stay a moment. To book a visit, you'll need an access code.
+            A few hundred books and magazines on art, architecture, design, fashion, photography and more, all free to borrow. Pick something from the catalog and come by. There's usually tea or coffee if you'd like to stay a moment. To book a visit, you'll need an access code.
           </p>
         </div>
       </header>
