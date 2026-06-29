@@ -479,8 +479,7 @@ export default function AdminPage() {
         </section>
 
         {/* Past loans */}
-        {pastLoans.length > 0 && (
-          <section style={{marginTop:48}}>
+        <section style={{marginTop:48}}>
             <button onClick={() => setPastExpanded(e => !e)} style={{background:'none',border:'none',padding:0,cursor:'pointer',display:'flex',alignItems:'center',gap:8,width:'100%',textAlign:'left' as const}}>
               <h2 style={{...sectionLabel,marginBottom:0}}>Past loans ({pastLoans.length})</h2>
               <span style={{fontSize:11,color:'#9B9793',transition:'transform 0.15s',display:'inline-block',transform:pastExpanded?'rotate(90deg)':'rotate(0deg)'}}>›</span>
@@ -502,7 +501,6 @@ export default function AdminPage() {
               </div>
             )}
           </section>
-        )}
 
       </div>
     </div>
