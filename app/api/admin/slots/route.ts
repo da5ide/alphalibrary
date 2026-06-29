@@ -17,7 +17,6 @@ export async function GET(req: NextRequest) {
   const { data: bookings } = await supabase
     .from('bookings')
     .select('*, books(title, author, borrowed_at), slots(date, start_time, end_time)')
-    .eq('returned', false)
     .order('created_at', { ascending: false })
 
   return NextResponse.json({ slots: slots || [], bookings: bookings || [] })

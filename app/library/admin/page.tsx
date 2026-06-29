@@ -17,6 +17,7 @@ interface Booking {
   borrower_name: string
   borrower_email: string
   returned: boolean
+  returned_at: string | null
   books: { title: string; author: string | null; borrowed_at: string | null } | null
   slots: { date: string; start_time: string; end_time?: string } | null
 }
@@ -260,6 +261,7 @@ export default function AdminPage() {
   const [msg, setMsg] = useState('')
   const [confirm, setConfirm] = useState<{title:string; body:string; confirmLabel:string; onConfirm:()=>void} | null>(null)
   const [cancelModal, setCancelModal] = useState<{booking:Booking; slot:Slot} | null>(null)
+  const [pastExpanded, setPastExpanded] = useState(false)
 
   const auth = async () => {
     const res = await fetch('/api/admin/auth', {
@@ -335,6 +337,7 @@ export default function AdminPage() {
   const activeBookings = bookings.filter(b => !b.returned && b.slots?.date !== undefined && b.slots.date < today)
   const overdueBookings = activeBookings.filter(isOverdue)
   const currentBookings = activeBookings.filter(b => !isOverdue(b))
+  const pastLoans = bookings.filter(b => b.returned).sort((a, b) => (b.returned_at || '').localeCompare(a.returned_at || ''))
 
   if (!authed) {
     return (
@@ -474,6 +477,32 @@ export default function AdminPage() {
             </div>
           )}
         </section>
+
+        {/* Past loans */}
+        {pastLoans.length > 0 && (
+          <section style={{marginTop:48}}>
+            <button onClick={() => setPastExpanded(e => !e)} style={{background:'none',border:'none',padding:0,cursor:'pointer',display:'flex',alignItems:'center',gap:8,width:'100%',textAlign:'left' as const}}>
+              <h2 style={{...sectionLabel,marginBottom:0}}>Past loans ({pastLoans.length})</h2>
+              <span style={{fontSize:11,color:'#9B9793',transition:'transform 0.15s',display:'inline-block',transform:pastExpanded?'rotate(90deg)':'rotate(0deg)'}}>›</span>
+            </button>
+            {pastExpanded && (
+              <div style={{display:'flex',flexDirection:'column',gap:8,marginTop:16}}>
+                {pastLoans.map(b => (
+                  <div key={b.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:12,padding:'12px 16px',background:'white',border:'1.5px solid #E8E4DF',borderRadius:8}}>
+                    <div style={{display:'flex',flexDirection:'column',gap:3}}>
+                      <span style={{fontSize:14,fontWeight:500,color:'#111110'}}>{b.books?.title || '—'}</span>
+                      <span style={{fontSize:12,color:'#6B6560'}}>{b.borrower_name} · {b.borrower_email}</span>
+                    </div>
+                    <div style={{display:'flex',flexDirection:'column',gap:2,textAlign:'right' as const,flexShrink:0}}>
+                      {b.slots?.date && <span style={{fontSize:12,color:'#9B9793'}}>Visit {formatDate(b.slots.date)}</span>}
+                      {b.returned_at && <span style={{fontSize:12,color:'#9B9793'}}>Returned {formatDate(b.returned_at.split('T')[0])}</span>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
 
       </div>
     </div>
