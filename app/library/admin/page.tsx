@@ -332,7 +332,7 @@ export default function AdminPage() {
 
   const today = new Date().toISOString().split('T')[0]
   const upcomingSlots = slots.filter(s => s.date >= today).sort((a, b) => a.date.localeCompare(b.date))
-  const activeBookings = bookings.filter(b => !b.returned)
+  const activeBookings = bookings.filter(b => !b.returned && b.slots?.date !== undefined && b.slots.date < today)
   const overdueBookings = activeBookings.filter(isOverdue)
   const currentBookings = activeBookings.filter(b => !isOverdue(b))
 
@@ -404,25 +404,34 @@ export default function AdminPage() {
             <p style={emptyStyle}>No upcoming slots.</p>
           ) : (
             <div style={{display:'flex',flexDirection:'column',gap:8}}>
-              {upcomingSlots.map(s => (
-                <div key={s.id} className="slot-row">
-                  <span style={{fontSize:14,fontWeight:500,flex:1,color:'#111110'}}>{formatDate(s.date)}</span>
-                  <span style={{fontSize:13,color:'#6B6560',marginLeft:'auto'}}>{s.start_time.slice(0,5)}–{s.end_time.slice(0,5)}</span>
-                  <span style={{fontSize:11,textTransform:'uppercase' as const,letterSpacing:'0.06em',padding:'3px 10px',borderRadius:100,background:s.booked?'#F2EFE9':'#E8F5EE',color:s.booked?'#9B9793':'#2D6A4F',minWidth:58,textAlign:'center' as const,whiteSpace:'nowrap' as const,flexShrink:0}}>
-                    {s.booked ? 'Booked' : 'Open'}
-                  </span>
-                  <span style={{width:48,display:'flex',justifyContent:'center'}}>
-                    {!s.booked ? (
-                      <button onClick={() => setConfirm({ title:'Delete slot?', body:`Remove the slot for ${formatDate(s.date)}, ${s.start_time.slice(0,5)}–${s.end_time.slice(0,5)}? This cannot be undone.`, confirmLabel:'Delete', onConfirm:() => removeSlot(s.id) })} style={{background:'none',border:'none',color:'#C0BCB8',fontSize:18,cursor:'pointer',padding:0,lineHeight:1}}>×</button>
-                    ) : (() => {
-                      const booking = bookings.find(b => b.slot_id === s.id)
-                      return booking ? (
-                        <button onClick={() => setCancelModal({ booking, slot: s })} style={{background:'none',border:'none',fontSize:11,color:'#C0BCB8',cursor:'pointer',padding:0,fontFamily:'inherit',letterSpacing:'0.04em',textTransform:'uppercase',textDecoration:'underline',textUnderlineOffset:2}}>Cancel</button>
-                      ) : null
-                    })()}
-                  </span>
-                </div>
-              ))}
+              {upcomingSlots.map(s => {
+                const booking = s.booked ? bookings.find(b => b.slot_id === s.id) : undefined
+                return (
+                  <div key={s.id} className="slot-row" style={s.booked ? {flexDirection:'column',alignItems:'flex-start',gap:6} : {}}>
+                    <div style={{display:'flex',alignItems:'center',width:'100%',gap:12}}>
+                      <span style={{fontSize:14,fontWeight:500,flex:1,color:'#111110'}}>{formatDate(s.date)}</span>
+                      <span style={{fontSize:13,color:'#6B6560'}}>{s.start_time.slice(0,5)}–{s.end_time.slice(0,5)}</span>
+                      <span style={{fontSize:11,textTransform:'uppercase' as const,letterSpacing:'0.06em',padding:'3px 10px',borderRadius:100,background:s.booked?'#F2EFE9':'#E8F5EE',color:s.booked?'#9B9793':'#2D6A4F',minWidth:58,textAlign:'center' as const,whiteSpace:'nowrap' as const,flexShrink:0}}>
+                        {s.booked ? 'Booked' : 'Open'}
+                      </span>
+                      <span style={{width:48,display:'flex',justifyContent:'center',flexShrink:0}}>
+                        {!s.booked ? (
+                          <button onClick={() => setConfirm({ title:'Delete slot?', body:`Remove the slot for ${formatDate(s.date)}, ${s.start_time.slice(0,5)}–${s.end_time.slice(0,5)}? This cannot be undone.`, confirmLabel:'Delete', onConfirm:() => removeSlot(s.id) })} style={{background:'none',border:'none',color:'#C0BCB8',fontSize:18,cursor:'pointer',padding:0,lineHeight:1}}>×</button>
+                        ) : booking ? (
+                          <button onClick={() => setCancelModal({ booking, slot: s })} style={{background:'none',border:'none',fontSize:11,color:'#C0BCB8',cursor:'pointer',padding:0,fontFamily:'inherit',letterSpacing:'0.04em',textTransform:'uppercase' as const,textDecoration:'underline',textUnderlineOffset:2}}>Cancel</button>
+                        ) : null}
+                      </span>
+                    </div>
+                    {booking && (
+                      <div style={{fontSize:12,color:'#9B9793',paddingLeft:0}}>
+                        {booking.borrower_name}
+                        {booking.books?.title ? <span style={{color:'#C0BCB8'}}> · </span> : null}
+                        {booking.books?.title}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
             </div>
           )}
         </section>
