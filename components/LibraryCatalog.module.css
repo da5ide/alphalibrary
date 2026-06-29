@@ -77,11 +77,17 @@
 
 .filters {
   display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid #E8E4DF;
+}
+
+.filterRow {
+  display: flex;
   gap: 6px;
   flex-wrap: wrap;
-  padding-bottom: 32px;
   align-items: center;
-  border-bottom: 1px solid #E8E4DF;
 }
 
 .filterPill {

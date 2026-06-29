@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
-import { Book, Category } from '@/lib/types'
+import { Book, BookType, Category } from '@/lib/types'
 import styles from './LibraryCatalog.module.css'
 
 const CATEGORIES: { value: Category | 'all'; label: string }[] = [
@@ -12,18 +12,27 @@ const CATEGORIES: { value: Category | 'all'; label: string }[] = [
   { value: 'architecture', label: 'Architecture' },
   { value: 'design', label: 'Design' },
   { value: 'photography', label: 'Photography' },
+  { value: 'food', label: 'Food' },
+  { value: 'travel', label: 'Travel' },
   { value: 'other', label: 'Other' },
+]
+
+const TYPES: { value: BookType; label: string }[] = [
+  { value: 'book', label: 'Books' },
+  { value: 'magazine', label: 'Magazines' },
 ]
 
 export default function LibraryCatalog({ books }: { books: Book[] }) {
   const [search, setSearch] = useState('')
   const [activeCategory, setActiveCategory] = useState<Category | 'all'>('all')
+  const [activeType, setActiveType] = useState<BookType | 'all'>('all')
   const [sort, setSort] = useState<'title' | 'recent'>('recent')
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
   const filtered = useMemo(() => {
     let result = books
     if (activeCategory !== 'all') result = result.filter(b => b.tags?.includes(activeCategory) || b.category === activeCategory)
+    if (activeType !== 'all') result = result.filter(b => b.type === activeType)
     if (search.trim()) {
       const q = search.toLowerCase()
       result = result.filter(b =>
@@ -38,7 +47,7 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
       result = [...result].sort((a, b) => a.title.localeCompare(b.title))
     }
     return result
-  }, [books, search, activeCategory, sort])
+  }, [books, search, activeCategory, activeType, sort])
 
   const availableCount = books.filter(b => b.available).length
 
@@ -70,22 +79,35 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
             </div>
           </div>
           <div className={styles.filters}>
-            {CATEGORIES.map(cat => (
+            <div className={styles.filterRow}>
+              {CATEGORIES.map(cat => (
+                <button
+                  key={cat.value}
+                  onClick={() => setActiveCategory(cat.value)}
+                  className={`${styles.filterPill} ${activeCategory === cat.value ? styles.active : ''}`}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+            <div className={styles.filterRow}>
+              {TYPES.map(t => (
+                <button
+                  key={t.value}
+                  onClick={() => setActiveType(activeType === t.value ? 'all' : t.value)}
+                  className={`${styles.filterPill} ${activeType === t.value ? styles.active : ''}`}
+                >
+                  {t.label}
+                </button>
+              ))}
+              <div className={styles.filterDivider} />
               <button
-                key={cat.value}
-                onClick={() => setActiveCategory(cat.value)}
-                className={`${styles.filterPill} ${activeCategory === cat.value ? styles.active : ''}`}
+                onClick={() => setSort(sort === 'title' ? 'recent' : 'title')}
+                className={`${styles.filterPill} ${styles.sortPill}`}
               >
-                {cat.label}
+                {sort === 'title' ? 'A–Z' : 'Recent'}
               </button>
-            ))}
-            <div className={styles.filterDivider} />
-            <button
-              onClick={() => setSort(sort === 'title' ? 'recent' : 'title')}
-              className={`${styles.filterPill} ${styles.sortPill}`}
-            >
-              {sort === 'title' ? 'A–Z' : 'Recent'}
-            </button>
+            </div>
           </div>
         </div>
       </div>

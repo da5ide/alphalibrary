@@ -1,5 +1,5 @@
 export type BookType = 'book' | 'magazine'
-export type Category = 'art' | 'fashion' | 'architecture' | 'design' | 'photography' | 'other'
+export type Category = 'art' | 'fashion' | 'architecture' | 'design' | 'photography' | 'food' | 'travel' | 'other'
 
 export interface Book {
   id: string
