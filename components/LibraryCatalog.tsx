@@ -17,7 +17,8 @@ const CATEGORIES: { value: Category | 'all'; label: string }[] = [
   { value: 'other', label: 'Other' },
 ]
 
-const TYPES: { value: BookType; label: string }[] = [
+const TYPES: { value: BookType | 'all'; label: string }[] = [
+  { value: 'all', label: 'All' },
   { value: 'book', label: 'Books' },
   { value: 'magazine', label: 'Magazines' },
 ]
@@ -56,7 +57,7 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
       <header className={styles.header}>
         <div className={styles.inner}>
           <p className={styles.about}>
-            A few hundred books and magazines on art, architecture, design, fashion, photography and more, all free to borrow. Pick something from the catalog and come by. There's usually tea or coffee if you'd like to stay a moment. To book a visit, you'll need an access code.
+            A few hundred books and magazines on art, architecture, design, fashion, photography and more, all free to borrow. Pick something from the catalog and come by. There's usually tea or coffee if you'd like to stay a moment.<br />To book a visit, you'll need an access code.
           </p>
         </div>
       </header>
@@ -94,7 +95,7 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
               {TYPES.map(t => (
                 <button
                   key={t.value}
-                  onClick={() => setActiveType(activeType === t.value ? 'all' : t.value)}
+                  onClick={() => setActiveType(t.value)}
                   className={`${styles.filterPill} ${activeType === t.value ? styles.active : ''}`}
                 >
                   {t.label}
