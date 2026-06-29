@@ -60,7 +60,6 @@ export default function BorrowForm({ book, slots }: { book: Book; slots: Slot[] 
             <h1 className={styles.successTitle}>Booked.</h1>
             <p className={styles.successText}>
               You'll receive a confirmation email at <strong>{email}</strong> shortly.
-              The address will be included in your reminder email the day before your visit.
             </p>
             <Link href="/library" className={styles.backBtn}>Back to library</Link>
           </div>
