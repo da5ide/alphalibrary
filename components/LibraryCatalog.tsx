@@ -58,7 +58,7 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
             <div className={styles.searchWrap}>
             <input
               type="text"
-              placeholder={`Search… ${availableCount} items available`}
+              placeholder={`Search… ${availableCount} titles available`}
               value={search}
               onChange={e => setSearch(e.target.value)}
               onKeyDown={e => e.key === 'Escape' && setSearch('')}
