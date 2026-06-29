@@ -7,12 +7,12 @@ import styles from './LibraryCatalog.module.css'
 
 const CATEGORIES: { value: Category | 'all'; label: string }[] = [
   { value: 'all', label: 'All' },
-  { value: 'art', label: 'Art' },
-  { value: 'fashion', label: 'Fashion' },
   { value: 'architecture', label: 'Architecture' },
+  { value: 'art', label: 'Art' },
   { value: 'design', label: 'Design' },
-  { value: 'photography', label: 'Photography' },
+  { value: 'fashion', label: 'Fashion' },
   { value: 'food', label: 'Food' },
+  { value: 'photography', label: 'Photography' },
   { value: 'travel', label: 'Travel' },
   { value: 'other', label: 'Other' },
 ]
