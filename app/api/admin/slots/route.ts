@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
   const { data: slots } = await supabase.from('slots').select('*').order('date').order('start_time')
   const { data: bookings } = await supabase
     .from('bookings')
-    .select('*, books(title, author, borrowed_at), slots(date, start_time)')
+    .select('*, books(title, author, borrowed_at), slots(date, start_time, end_time)')
     .eq('returned', false)
     .order('created_at', { ascending: false })
 
