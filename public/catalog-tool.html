@@ -643,7 +643,7 @@ async function deleteCurrentBook() {
     'Delete',
     async () => {
       try { await apiFetch(`books?id=eq.${currentBookId}`, { method: 'DELETE' }); await loadBooks(); showList(); }
-      catch(e) { alert('Delete failed: ' + (e as Error).message); }
+      catch(e) { alert('Delete failed: ' + e.message); }
     }
   );
 }
