@@ -169,6 +169,24 @@ function TimePicker({ value, onChange }: { value: string; onChange: (t: string) 
 
 const navBtn: React.CSSProperties = {background:'none',border:'none',fontSize:18,cursor:'pointer',color:'#6B6560',padding:'0 8px',lineHeight:1,borderRadius:6}
 
+// ── Confirm Modal ─────────────────────────────────────────────────────────────
+function ConfirmModal({ title, body, confirmLabel = 'Confirm', onConfirm, onClose }: {
+  title: string; body: string; confirmLabel?: string; onConfirm: () => void; onClose: () => void
+}) {
+  return (
+    <div onClick={onClose} style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.35)',zIndex:200,display:'flex',alignItems:'center',justifyContent:'center',padding:24}}>
+      <div onClick={e => e.stopPropagation()} style={{background:'white',borderRadius:12,padding:24,maxWidth:360,width:'100%',boxShadow:'0 8px 40px rgba(0,0,0,0.12)'}}>
+        <p style={{fontSize:16,fontWeight:600,color:'#111110',marginBottom:8}}>{title}</p>
+        <p style={{fontSize:14,color:'#6B6560',lineHeight:1.5}}>{body}</p>
+        <div style={{display:'flex',gap:8,marginTop:20,justifyContent:'flex-end'}}>
+          <button onClick={onClose} style={{border:'1.5px solid #E8E4DF',background:'white',padding:'8px 16px',borderRadius:100,fontSize:13,fontFamily:'inherit',cursor:'pointer',color:'#111110'}}>Cancel</button>
+          <button onClick={() => { onConfirm(); onClose(); }} style={{background:'#111110',color:'white',border:'none',padding:'8px 16px',borderRadius:100,fontSize:13,fontFamily:'inherit',cursor:'pointer'}}>{confirmLabel}</button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ── Main Admin Page ───────────────────────────────────────────────────────────
 export default function AdminPage() {
   const [password, setPassword] = useState('')
@@ -181,6 +199,7 @@ export default function AdminPage() {
   const [newEnd, setNewEnd] = useState('11:00')
   const [saving, setSaving] = useState(false)
   const [msg, setMsg] = useState('')
+  const [confirm, setConfirm] = useState<{title:string; body:string; confirmLabel:string; onConfirm:()=>void} | null>(null)
 
   const auth = async () => {
     const res = await fetch('/api/admin/auth', {
@@ -250,6 +269,7 @@ export default function AdminPage() {
 
   return (
     <div style={{minHeight:'100vh',background:'#FAFAF8',fontFamily:'var(--font-inter),-apple-system,sans-serif',paddingBottom:80}}>
+      {confirm && <ConfirmModal {...confirm} onClose={() => setConfirm(null)} />}
       <style>{`
         .admin-nav-link { color: #111110; text-decoration: none; font-size: 17px; display: flex; align-items: center; gap: 8px; }
         @media (max-width: 600px) { .admin-nav-link { padding: 4px 0; } }
@@ -310,7 +330,7 @@ export default function AdminPage() {
                   </span>
                   <span style={{width:24,display:'flex',justifyContent:'center'}}>
                     {!s.booked && (
-                      <button onClick={() => removeSlot(s.id)} style={{background:'none',border:'none',color:'#C0BCB8',fontSize:18,cursor:'pointer',padding:0,lineHeight:1}}>×</button>
+                      <button onClick={() => setConfirm({ title:'Delete slot?', body:`Remove the slot for ${formatDate(s.date)}, ${s.start_time.slice(0,5)}–${s.end_time.slice(0,5)}? This cannot be undone.`, confirmLabel:'Delete', onConfirm:() => removeSlot(s.id) })} style={{background:'none',border:'none',color:'#C0BCB8',fontSize:18,cursor:'pointer',padding:0,lineHeight:1}}>×</button>
                     )}
                   </span>
                 </div>
@@ -348,7 +368,7 @@ export default function AdminPage() {
                         </span>
                       )}
                     </div>
-                    <button onClick={() => markReturned(b.id, b.book_id)} style={{border:'1.5px solid #E8E4DF',background:'white',padding:'6px 12px',borderRadius:100,fontSize:12,fontFamily:'inherit',cursor:'pointer',whiteSpace:'nowrap' as const,flexShrink:0}}>
+                    <button onClick={() => setConfirm({ title:'Mark as returned?', body:`This will close the loan for "${b.books?.title || 'this book'}" and mark it as available again.`, confirmLabel:'Mark returned', onConfirm:() => markReturned(b.id, b.book_id) })} style={{border:'1.5px solid #E8E4DF',background:'white',padding:'6px 12px',borderRadius:100,fontSize:12,fontFamily:'inherit',cursor:'pointer',whiteSpace:'nowrap' as const,flexShrink:0}}>
                       Mark returned
                     </button>
                   </div>

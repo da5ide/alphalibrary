@@ -150,6 +150,16 @@
   .lightbox-nav:hover { opacity: 1; }
   .lightbox-prev { left: 12px; }
   .lightbox-next { right: 12px; }
+
+  /* ── Confirm modal ── */
+  .confirm-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; align-items: center; justify-content: center; padding: 24px; }
+  .confirm-overlay.open { display: flex; }
+  .confirm-box { background: white; border-radius: 12px; padding: 24px; max-width: 360px; width: 100%; box-shadow: 0 8px 40px rgba(0,0,0,0.12); }
+  .confirm-title { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  .confirm-body { font-size: 14px; color: var(--muted); line-height: 1.5; }
+  .confirm-actions { display: flex; gap: 8px; margin-top: 20px; justify-content: flex-end; }
+  .confirm-cancel { border: 1.5px solid var(--border); background: white; padding: 8px 16px; border-radius: 100px; font-size: 13px; font-family: var(--font); cursor: pointer; color: var(--text); }
+  .confirm-ok { background: var(--text); color: white; border: none; padding: 8px 16px; border-radius: 100px; font-size: 13px; font-family: var(--font); cursor: pointer; }
 </style>
 </head>
 <body>
@@ -281,6 +291,17 @@
       </div>
     </div>
     <div class="detail-body" id="detail-body"></div>
+  </div>
+
+  <div class="confirm-overlay" id="confirm-overlay" onclick="closeConfirmModal()">
+    <div class="confirm-box" onclick="event.stopPropagation()">
+      <div class="confirm-title" id="confirm-title"></div>
+      <div class="confirm-body" id="confirm-body"></div>
+      <div class="confirm-actions">
+        <button class="confirm-cancel" onclick="closeConfirmModal()">Cancel</button>
+        <button class="confirm-ok" id="confirm-ok">Confirm</button>
+      </div>
+    </div>
   </div>
 
   <div class="lightbox" id="lightbox">
@@ -615,9 +636,29 @@ async function saveBook() {
 
 function editCurrentBook() { const book = books.find(b => b.id === currentBookId); if (book) showForm(book); }
 async function deleteCurrentBook() {
-  if (!confirm('Delete this item?')) return;
-  try { await apiFetch(`books?id=eq.${currentBookId}`, { method: 'DELETE' }); await loadBooks(); showList(); }
-  catch(e) { alert('Delete failed: ' + e.message); }
+  const book = books.find(b => b.id === currentBookId);
+  showConfirmModal(
+    'Delete this item?',
+    `"${book?.title || 'This item'}" will be permanently removed from the catalog.`,
+    'Delete',
+    async () => {
+      try { await apiFetch(`books?id=eq.${currentBookId}`, { method: 'DELETE' }); await loadBooks(); showList(); }
+      catch(e) { alert('Delete failed: ' + (e as Error).message); }
+    }
+  );
+}
+
+function showConfirmModal(title, body, okLabel, onConfirm) {
+  document.getElementById('confirm-title').textContent = title;
+  document.getElementById('confirm-body').textContent = body;
+  const okBtn = document.getElementById('confirm-ok');
+  okBtn.textContent = okLabel;
+  okBtn.onclick = () => { closeConfirmModal(); onConfirm(); };
+  document.getElementById('confirm-overlay').classList.add('open');
+}
+
+function closeConfirmModal() {
+  document.getElementById('confirm-overlay').classList.remove('open');
 }
 
 // ── List & filters ────────────────────────────────────────────────────────────
