@@ -94,11 +94,10 @@ export async function POST(req: NextRequest) {
   <p class="section-label">Address</p>
   <p class="section-value">4-18-17 Jingumae, Shibuya-ku<br><span style="color:#9B9793;">You'll receive a reminder with the full address the day before your visit.</span></p>
 
-  <p><strong>A few things to remember:</strong></p>
+  <p class="section-label">A few things to remember</p>
   <ul>
     <li>Borrowing is free.</li>
     <li>One item at a time, please.</li>
-    <li>Come pick it up yourself — you'll receive a reminder with the full address the day before your visit.</li>
     <li>Take your time with it, but please return it within 45 days; a reminder will be sent before then.</li>
     <li>Return by post or drop it in the mailbox — no need to schedule a return visit.</li>
     <li>If you can no longer make your visit, please cancel by email.</li>
@@ -135,7 +134,6 @@ A few things to remember:
 
 * Borrowing is free.
 * One item at a time, please.
-* Come pick it up yourself — you'll receive a reminder with the full address the day before your visit.
 * Take your time with it, but please return it within 45 days; a reminder will be sent before then.
 * Return by post or drop it in the mailbox — no need to schedule a return visit.
 * If you can no longer make your visit, please cancel by email.
