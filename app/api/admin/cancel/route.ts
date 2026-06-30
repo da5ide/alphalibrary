@@ -16,8 +16,15 @@ function formatDate(dateStr: string): string {
   })
 }
 
-function formatTime(t: string): string {
-  return t.slice(0, 5)
+function formatTimeRange(start: string, end: string): string {
+  const hm = (t: string) => {
+    const [h, m] = t.split(':')
+    const hour = parseInt(h)
+    return `${hour % 12 || 12}:${m}`
+  }
+  const endHour = parseInt(end.split(':')[0])
+  const ampm = endHour >= 12 ? 'PM' : 'AM'
+  return `${hm(start)} - ${hm(end)} ${ampm}`
 }
 
 const emailStyles = `
@@ -38,7 +45,7 @@ export async function POST(req: NextRequest) {
   const { bookingId, slotId, bookId, borrowerName, borrowerEmail, bookTitle, bookAuthor, slotDate, slotStart, slotEnd, note } = await req.json()
 
   const dateFormatted = formatDate(slotDate)
-  const timeFormatted = `${formatTime(slotStart)} – ${formatTime(slotEnd)}`
+  const timeFormatted = formatTimeRange(slotStart, slotEnd)
   const bookLine = `${bookTitle}${bookAuthor ? ` by ${bookAuthor}` : ''}`
 
   const cancellationHtml = `<!DOCTYPE html>

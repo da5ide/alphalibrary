@@ -49,14 +49,18 @@ export async function POST(req: NextRequest) {
   const slotDate = new Date(slot.date + 'T00:00:00')
   const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-  const formatTime = (t: string) => {
-    const [h, m] = t.split(':')
-    const hour = parseInt(h)
-    const ampm = hour >= 12 ? 'PM' : 'AM'
-    return `${hour % 12 || 12}:${m} ${ampm}`
+  const formatTimeRange = (start: string, end: string) => {
+    const hm = (t: string) => {
+      const [h, m] = t.split(':')
+      const hour = parseInt(h)
+      return `${hour % 12 || 12}:${m}`
+    }
+    const endHour = parseInt(end.split(':')[0])
+    const ampm = endHour >= 12 ? 'PM' : 'AM'
+    return `${hm(start)} - ${hm(end)} ${ampm}`
   }
   const dateFormatted = `${dayNames[slotDate.getDay()]}, ${monthNames[slotDate.getMonth()]} ${slotDate.getDate()}`
-  const timeFormatted = `${formatTime(slot.start_time)}–${formatTime(slot.end_time)}`
+  const timeFormatted = formatTimeRange(slot.start_time, slot.end_time)
   const slotFormatted = `${dateFormatted} — ${timeFormatted}`
 
   const bookLine = `${book.title}${book.author ? ` by ${book.author}` : ''}`
