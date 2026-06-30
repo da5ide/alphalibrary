@@ -148,7 +148,7 @@ export async function GET(request: Request) {
         const slot = tomorrowSlots.find((s: { id: string }) => s.id === booking.slot_id)
         if (!slot) continue
 
-        const book = booking.books as { title: string; author: string | null } | null
+        const book = booking.books as unknown as { title: string; author: string | null } | null
         const bookLine = book ? `${book.title}${book.author ? ` by ${book.author}` : ''}` : 'your book'
         const dateFormatted = formatDate(slot.date)
         const timeFormatted = formatTimeRange(slot.start_time, slot.end_time)
@@ -253,7 +253,7 @@ ${footerText}`
       errors.push(`30-day bookings query: ${returnBookingsError.message}`)
     } else if (returnBookings) {
       for (const booking of returnBookings) {
-        const book = booking.books as { title: string; author: string | null } | null
+        const book = booking.books as unknown as { title: string; author: string | null } | null
         const bookLine = book ? `${book.title}${book.author ? ` by ${book.author}` : ''}` : 'your book'
         const bookTitle = book?.title ?? 'your borrowed book'
         const visitDate = formatDate(slotDateMap[booking.slot_id] ?? '')
@@ -319,7 +319,7 @@ ${footerText}`
       errors.push(`45-day bookings query: ${lateBookingsError.message}`)
     } else if (lateBookings) {
       for (const booking of lateBookings) {
-        const book = booking.books as { title: string; author: string | null } | null
+        const book = booking.books as unknown as { title: string; author: string | null } | null
         const bookLine = book ? `${book.title}${book.author ? ` by ${book.author}` : ''}` : 'your book'
         const bookTitle = book?.title ?? 'your borrowed book'
         const visitDate = formatDate(slotDateMap[booking.slot_id] ?? '')
