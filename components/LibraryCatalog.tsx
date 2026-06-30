@@ -212,6 +212,8 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
             <a href="https://alphagallery.co" className={styles.footerLink}>Alphagallery</a>
             <span className={styles.footerSep}>·</span>
             <a href="https://instagram.com/alphagallery.co" target="_blank" rel="noopener noreferrer" className={styles.footerLink}>@alphagallery.co</a>
+            <span className={styles.footerSep}>·</span>
+            <a href="https://github.com/da5ide/alphalibrary" target="_blank" rel="noopener noreferrer" className={styles.footerLink}>Clone this project</a>
           </p>
         </div>
       </footer>
