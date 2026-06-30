@@ -178,7 +178,7 @@ function CancelModal({ booking, slot, onSend, onClose }: {
   onSend: (note: string) => void
   onClose: () => void
 }) {
-  const [note, setNote] = useState('I\'m sorry, something has come up and I\'m no longer available at this time. Please feel free to book another visit whenever you\'re ready.')
+  const [note, setNote] = useState('')
   const [sending, setSending] = useState(false)
 
   const handleSend = async () => {
