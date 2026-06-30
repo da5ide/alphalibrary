@@ -229,6 +229,53 @@ function CancelModal({ booking, slot, onSend, onClose }: {
   )
 }
 
+// ── Return Modal ──────────────────────────────────────────────────────────────
+function ReturnModal({ booking, onConfirm, onClose }: {
+  booking: Booking
+  onConfirm: (note: string) => void
+  onClose: () => void
+}) {
+  const [note, setNote] = useState('')
+  const [sending, setSending] = useState(false)
+
+  const handleConfirm = async () => {
+    setSending(true)
+    await onConfirm(note)
+    setSending(false)
+  }
+
+  return (
+    <div onClick={onClose} style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.35)',zIndex:200,display:'flex',alignItems:'center',justifyContent:'center',padding:24}}>
+      <div onClick={e => e.stopPropagation()} style={{background:'white',borderRadius:12,padding:28,maxWidth:480,width:'100%',boxShadow:'0 8px 40px rgba(0,0,0,0.12)'}}>
+        <p style={{fontSize:16,fontWeight:600,color:'#111110',marginBottom:20}}>Mark as returned</p>
+
+        <div style={{background:'#FAFAF8',border:'1.5px solid #E8E4DF',borderRadius:8,padding:'14px 16px',marginBottom:20,display:'flex',flexDirection:'column',gap:6}}>
+          <div style={{fontSize:13,fontWeight:500,color:'#111110'}}>{booking.books?.title || '—'}</div>
+          <div style={{fontSize:13,color:'#9B9793'}}>{booking.borrower_name} · {booking.borrower_email}</div>
+        </div>
+
+        <label style={{display:'block',fontSize:11,fontWeight:600,letterSpacing:'0.06em',textTransform:'uppercase',color:'#9B9793',marginBottom:8}}>
+          Note to {booking.borrower_name.split(' ')[0]} (optional)
+        </label>
+        <textarea
+          value={note}
+          onChange={e => setNote(e.target.value)}
+          rows={3}
+          placeholder="Add a personal note…"
+          style={{width:'100%',border:'1.5px solid #E8E4DF',borderRadius:8,padding:'12px 14px',fontSize:14,fontFamily:'inherit',color:'#111110',background:'white',outline:'none',resize:'vertical',lineHeight:1.55,boxSizing:'border-box'}}
+        />
+
+        <div style={{display:'flex',gap:8,marginTop:16,justifyContent:'flex-end'}}>
+          <button onClick={onClose} style={{border:'1.5px solid #E8E4DF',background:'white',padding:'8px 16px',borderRadius:100,fontSize:13,fontFamily:'inherit',cursor:'pointer',color:'#111110'}}>Cancel</button>
+          <button onClick={handleConfirm} disabled={sending} style={{background:'#111110',color:'white',border:'none',padding:'8px 16px',borderRadius:100,fontSize:13,fontFamily:'inherit',cursor:sending?'not-allowed':'pointer',opacity:sending?0.5:1}}>
+            {sending ? 'Saving…' : 'Mark returned'}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ── Confirm Modal ─────────────────────────────────────────────────────────────
 function ConfirmModal({ title, body, confirmLabel = 'Confirm', onConfirm, onClose }: {
   title: string; body: string; confirmLabel?: string; onConfirm: () => void; onClose: () => void
@@ -261,6 +308,7 @@ export default function AdminPage() {
   const [msg, setMsg] = useState('')
   const [confirm, setConfirm] = useState<{title:string; body:string; confirmLabel:string; onConfirm:()=>void} | null>(null)
   const [cancelModal, setCancelModal] = useState<{booking:Booking; slot:Slot} | null>(null)
+  const [returnModal, setReturnModal] = useState<{booking:Booking} | null>(null)
   const [pastExpanded, setPastExpanded] = useState(false)
 
   const auth = async () => {
@@ -323,12 +371,20 @@ export default function AdminPage() {
     load()
   }
 
-  const markReturned = async (bookingId: string, bookId: string) => {
+  const markReturned = async (booking: Booking, note: string) => {
     await fetch('/api/admin/return', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
-      body: JSON.stringify({ bookingId, bookId })
+      body: JSON.stringify({
+        bookingId: booking.id,
+        bookId: booking.book_id,
+        borrowerName: booking.borrower_name,
+        borrowerEmail: booking.borrower_email,
+        bookTitle: booking.books?.title || '',
+        note,
+      })
     })
+    setReturnModal(null)
     load()
   }
 
@@ -356,6 +412,7 @@ export default function AdminPage() {
     <div style={{minHeight:'100vh',background:'#FAFAF8',fontFamily:'var(--font-inter),-apple-system,sans-serif',paddingBottom:80}}>
       {confirm && <ConfirmModal {...confirm} onClose={() => setConfirm(null)} />}
       {cancelModal && <CancelModal booking={cancelModal.booking} slot={cancelModal.slot} onSend={(note) => cancelBooking(cancelModal.booking, cancelModal.slot, note)} onClose={() => setCancelModal(null)} />}
+      {returnModal && <ReturnModal booking={returnModal.booking} onConfirm={(note) => markReturned(returnModal.booking, note)} onClose={() => setReturnModal(null)} />}
       <style>{`
         .admin-nav-link { color: #111110; text-decoration: none; font-size: 17px; display: flex; align-items: center; gap: 8px; }
         @media (max-width: 600px) { .admin-nav-link { padding: 4px 0; } }
@@ -468,7 +525,7 @@ export default function AdminPage() {
                         </span>
                       )}
                     </div>
-                    <button onClick={() => setConfirm({ title:'Mark as returned?', body:`This will close the loan for "${b.books?.title || 'this book'}" and mark it as available again.`, confirmLabel:'Mark returned', onConfirm:() => markReturned(b.id, b.book_id) })} style={{border:'1.5px solid #E8E4DF',background:'white',padding:'6px 12px',borderRadius:100,fontSize:12,fontFamily:'inherit',cursor:'pointer',whiteSpace:'nowrap' as const,flexShrink:0}}>
+                    <button onClick={() => setReturnModal({ booking: b })} style={{border:'1.5px solid #E8E4DF',background:'white',padding:'6px 12px',borderRadius:100,fontSize:12,fontFamily:'inherit',cursor:'pointer',whiteSpace:'nowrap' as const,flexShrink:0}}>
                       Mark returned
                     </button>
                   </div>
