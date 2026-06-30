@@ -389,7 +389,10 @@ export default function AdminPage() {
   }
 
   const today = new Date().toISOString().split('T')[0]
-  const upcomingSlots = slots.filter(s => s.date >= today).sort((a, b) => a.date.localeCompare(b.date))
+  const upcomingSlots = slots.filter(s => {
+    const slotEnd = new Date(s.date + 'T' + (s.end_time || s.start_time || '23:59:59'))
+    return slotEnd >= new Date()
+  }).sort((a, b) => a.date.localeCompare(b.date))
   const activeBookings = bookings.filter(b => {
     if (b.returned || !b.slots?.date) return false
     const slotEnd = new Date(b.slots.date + 'T' + (b.slots.end_time || b.slots.start_time || '00:00:00'))
