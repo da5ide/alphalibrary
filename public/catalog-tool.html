@@ -382,7 +382,8 @@ async function identifyWithAI() {
   try {
     const imageBlocks = [];
     for (const slot of filledSlots) {
-      const compressed = slot.compressedDataUrl || await compressImage(slot.dataUrl);
+      // Use smaller compression for AI — it only needs to read text, not high res
+      const compressed = await compressImage(slot.dataUrl, 800, 0.72);
       const [, b64] = compressed.split(',');
       imageBlocks.push({ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: b64 } });
     }
@@ -399,6 +400,7 @@ async function identifyWithAI() {
         ]}]
       })
     });
+    if (!response.ok) throw new Error(`Server error ${response.status} — try fewer photos`);
     const data = await response.json();
     const text = data.content?.[0]?.text || '';
     let parsed;
