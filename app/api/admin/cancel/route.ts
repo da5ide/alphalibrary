@@ -50,16 +50,11 @@ export async function POST(req: NextRequest) {
 </head>
 <body>
 <div class="wrap">
-  <p>Hi ${borrowerName},<br>I am sorry but I need to cancel your upcoming visit to Alphagallery Library.</p>
+  <p>Hi ${borrowerName},<br>I am sorry but I need to cancel your upcoming visit for ${bookLine} on ${dateFormatted} ${timeFormatted}.</p>
 
   ${note ? `<p>${note.trim()}</p>` : ''}
+
   <p>You can book a new visit whenever you're ready at <a href="https://alphagallery.co/library" style="color:#111110;">alphagallery.co/library</a>.</p>
-
-  <p class="section-label">Visit</p>
-  <p class="section-value">${dateFormatted} ${timeFormatted}</p>
-
-  <p class="section-label">Book</p>
-  <p class="section-value">${bookLine}</p>
 
   <p>Sorry again for the inconvenience.</p>
 
@@ -73,15 +68,9 @@ export async function POST(req: NextRequest) {
 </html>`
 
   const cancellationText = `Hi ${borrowerName},
-I am sorry but I need to cancel your upcoming visit to Alphagallery Library.
+I am sorry but I need to cancel your upcoming visit for ${bookLine} on ${dateFormatted} ${timeFormatted}.
 ${note ? `\n${note.trim()}\n` : ''}
 You can book a new visit whenever you're ready at alphagallery.co/library.
-
-Visit:
-${dateFormatted} ${timeFormatted}
-
-Book:
-${bookLine}
 
 Sorry again for the inconvenience.
 
