@@ -392,8 +392,8 @@ export default function AdminPage() {
   const upcomingSlots = slots.filter(s => s.date >= today).sort((a, b) => a.date.localeCompare(b.date))
   const activeBookings = bookings.filter(b => {
     if (b.returned || !b.slots?.date) return false
-    const slotStart = new Date(b.slots.date + 'T' + (b.slots.start_time || '00:00:00'))
-    return slotStart < new Date()
+    const slotEnd = new Date(b.slots.date + 'T' + (b.slots.end_time || b.slots.start_time || '00:00:00'))
+    return slotEnd < new Date()
   })
   const overdueBookings = activeBookings.filter(isOverdue)
   const currentBookings = activeBookings.filter(b => !isOverdue(b))
