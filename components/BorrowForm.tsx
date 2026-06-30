@@ -50,10 +50,6 @@ export default function BorrowForm({ book, slots }: { book: Book; slots: Slot[] 
   return (
     <div className={styles.wrap}>
       <div className={styles.inner}>
-        <nav className={styles.nav}>
-          <Link href="/library" className={styles.backLink}>← Back to library</Link>
-        </nav>
-
         {status === 'success' ? (
           <div className={styles.successState}>
             <div className={styles.successIcon}>✓</div>
@@ -61,10 +57,13 @@ export default function BorrowForm({ book, slots }: { book: Book; slots: Slot[] 
             <p className={styles.successText}>
               You'll receive a confirmation email at <strong>{email}</strong> shortly.
             </p>
-            <Link href="/library" className={styles.backBtn}>Back to library</Link>
+            <Link href="/library" className={styles.backBtn}>Back to Library</Link>
           </div>
         ) : (
           <>
+            <nav className={styles.nav}>
+              <Link href="/library" className={styles.backLink}>← Back to library</Link>
+            </nav>
             <div className={styles.bookContext}>
               <p className={styles.bookLabel}>You'd like to borrow</p>
               <h1 className={styles.bookTitle}>{book.title}</h1>
