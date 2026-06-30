@@ -92,9 +92,9 @@ export async function POST(req: NextRequest) {
   <p class="section-value">${dateFormatted}<br>${timeFormatted}</p>
 
   <p class="section-label">Address</p>
-  <p class="section-value">4-18-17 Jingumae, Shibuya-ku<br><span style="color:#9B9793;">You'll receive a reminder with the full address the day before your visit.</span></p>
+  <p class="section-value">4-18-17 Jingumae, Shibuya-ku (<a href="https://maps.app.goo.gl/d8pAvPq7SasCLiYg7" style="color:#111110;">Google Maps</a>)<br><span style="color:#9B9793;">You'll receive a reminder with the full address the day before your visit.</span></p>
 
-  <p class="section-label">A few things to remember</p>
+  <p><span style="text-decoration: underline;">A few things to remember</span></p>
   <ul>
     <li>Borrowing is free.</li>
     <li>One item at a time, please.</li>
@@ -127,7 +127,7 @@ Visit:
 ${dateFormatted} ${timeFormatted}
 
 Address:
-4-18-17 Jingumae, Shibuya-ku
+4-18-17 Jingumae, Shibuya-ku (maps.app.goo.gl/d8pAvPq7SasCLiYg7)
 (You'll receive a reminder with the full address the day before your visit.)
 
 A few things to remember:
