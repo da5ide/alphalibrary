@@ -25,6 +25,9 @@ export const metadata: Metadata = {
     url: 'https://alphagallery.co/library',
     siteName: 'Alphagallery',
   },
+  icons: {
+    icon: '/favicon.svg?v=2',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
