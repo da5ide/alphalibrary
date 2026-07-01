@@ -14,10 +14,19 @@ New books get a subtle NEW badge or highlight on the public catalog for the firs
 Add a `language` field (EN / JP / FR / bilingual / other). Low priority since 99% of books are English, but useful for international visitors. Could be a simple pill on the book entry.
 
 **Series / collection grouping**
-Group related books (e.g. all Wallpaper City Guides, all Phaidon monographs) under a shared series label. Especially useful for magazines where multiple issues of the same title exist. Could be a `series` text field.
+Group related books (e.g. all Wallpaper City Guides, all Phaidon monographs) under a shared series label. Especially useful for magazines where multiple issues of the same title exist — they get scanned at different times and end up scattered when sorted by Recent. A `series` text field + group-by-series sort option would solve this more cleanly than manual drag-to-reorder.
 
 **Random book button**
 "Surprise me" — picks a random available book and opens it. Fun for people who don't know what they want.
+
+---
+
+## Catalog & Ordering
+
+**Manual sort order / editorial curation**
+Add a `sort_order` integer column to books. Drag-to-reorder in the catalog tool. Add a "Custom" sort option on the public catalog so Davide can control which books appear first — seasonal picks, highlights, new arrivals at the top. Non-trivial: requires managing sort_order across all records and handling gaps when new books are added.
+
+Note: if the goal is specifically to keep magazine issues of the same title together, **series grouping** (below) solves that more cleanly without the maintenance overhead of a custom order.
 
 ---
 
