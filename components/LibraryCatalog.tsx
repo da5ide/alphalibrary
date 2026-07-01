@@ -43,7 +43,7 @@ export default function LibraryCatalog({ books }: { books: Book[] }) {
       )
     }
     if (sort === 'recent') {
-      result = [...result].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+      result = [...result].sort((a, b) => (a.sort_order ?? 999999) - (b.sort_order ?? 999999))
     } else {
       result = [...result].sort((a, b) => a.title.localeCompare(b.title))
     }

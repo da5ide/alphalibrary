@@ -23,10 +23,7 @@ Group related books (e.g. all Wallpaper City Guides, all Phaidon monographs) und
 
 ## Catalog & Ordering
 
-**Manual sort order / editorial curation**
-Add a `sort_order` integer column to books. Drag-to-reorder in the catalog tool. Add a "Custom" sort option on the public catalog so Davide can control which books appear first — seasonal picks, highlights, new arrivals at the top. Non-trivial: requires managing sort_order across all records and handling gaps when new books are added.
-
-Note: if the goal is specifically to keep magazine issues of the same title together, **series grouping** (below) solves that more cleanly without the maintenance overhead of a custom order.
+~~**Manual sort order / editorial curation**~~ ✅ *Implemented July 1, 2026* — `sort_order` column on books, drag-to-reorder in catalog tool, public "Recent" sort = sort_order ASC.
 
 ---
 

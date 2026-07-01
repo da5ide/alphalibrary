@@ -42,6 +42,17 @@
   .btn-add:hover { opacity: 0.8; }
   .search-input { flex: 1; border: 1.5px solid var(--border); border-radius: var(--radius); padding: 5px 13px; font-size: 14px; background: white; outline: none; font-family: var(--font); }
   .search-input:focus { border-color: var(--text); }
+  .btn-reorder { border: 1.5px solid var(--border); background: white; padding: 5px 13px; border-radius: 100px; font-size: 12px; font-weight: 500; cursor: pointer; flex-shrink: 0; letter-spacing: 0.06em; text-transform: uppercase; font-family: var(--font); color: #6B6560; transition: all 0.12s; }
+  .btn-reorder:hover { border-color: #555250; color: var(--text); }
+  .btn-reorder.done { background: var(--green); border-color: var(--green); color: white; }
+
+  /* ── Reorder mode ── */
+  .reorder-hint { max-width: 640px; margin: 0 auto; padding: 0 24px 8px; font-size: 12px; color: var(--muted); display: none; }
+  .reorder-status { max-width: 640px; margin: 0 auto; padding: 0 24px 8px; font-size: 13px; color: var(--muted); display: none; }
+  .drag-handle { width: 28px; display: flex; align-items: center; justify-content: center; color: #C8C4C0; font-size: 16px; cursor: grab; user-select: none; flex-shrink: 0; line-height: 1; }
+  .drag-handle:active { cursor: grabbing; }
+  .book-card.dragging { opacity: 0.3; }
+  .book-card.drag-over { border-color: #6B6560 !important; background: #F5F3F0; }
 
   /* ── Book list ── */
   .book-list { max-width: 640px; margin: 0 auto; padding: 16px 24px; display: flex; flex-direction: column; gap: 10px; }
@@ -188,7 +199,7 @@
         </nav>
       </div>
     </div>
-    <div class="stats-filter-bar">
+    <div class="stats-filter-bar" id="stats-filter-bar">
       <div class="stats-filter-inner">
         <button class="stat-pill" id="stat-pill-all" onclick="setStatFilter('all')"><b id="stat-total">0</b> <span>ITEMS</span></button>
         <button class="stat-pill" id="stat-pill-available" onclick="setStatFilter('available')"><b id="stat-available">0</b> <span>AVAILABLE</span></button>
@@ -197,9 +208,12 @@
       </div>
     </div>
     <div class="list-controls">
-      <button class="btn-add" onclick="showForm()">+ Add item</button>
-      <input class="search-input" id="search-input" type="text" placeholder="Search…" oninput="filterBooks(this.value)">
+      <button class="btn-add" id="btn-add" onclick="showForm()">+ Add item</button>
+      <input class="search-input" id="search-input" type="text" placeholder="Search…" oninput="onSearchInput(this.value)">
+      <button class="btn-reorder" id="btn-reorder" onclick="toggleReorderMode()">Reorder</button>
     </div>
+    <div class="reorder-hint" id="reorder-hint">Clear search to drag items</div>
+    <div class="reorder-status" id="reorder-status"></div>
     <div class="book-list" id="book-list">
       <div class="empty-state"><p>No books yet.<br>Tap + Add item to start cataloging.</p></div>
     </div>
@@ -325,6 +339,8 @@ let availableState = true, privateState = false, currentBookId = null;
 let photoSlots = Array.from({length: MAX_PHOTOS}, () => ({ file: null, url: null, dataUrl: null, compressedDataUrl: null }));
 let selectedTags = [];
 let activeStatFilter = 'all';
+let reorderMode = false;
+let dragSrcIndex = null;
 
 // ── Image compression ─────────────────────────────────────────────────────────
 function compressImage(dataUrl, maxWidth = 1200, quality = 0.85) {
@@ -355,8 +371,8 @@ async function apiFetch(path, opts = {}) {
 
 async function loadBooks() {
   try {
-    books = await apiFetch('books?order=created_at.desc');
-    filteredBooks = books; renderList(); updateStats();
+    books = await apiFetch('books?order=sort_order.asc.nullslast,created_at.desc');
+    filteredBooks = [...books]; renderList(); updateStats();
   } catch(e) { console.error(e); }
 }
 
@@ -604,6 +620,7 @@ async function saveBook() {
       if (slot.file) { status.textContent = `Uploading photo ${i+1}…`; finalUrls.push(await uploadPhoto(slot.file, i)); }
       else if (slot.url && slot.url.startsWith('http')) { finalUrls.push(slot.url); }
     }
+    const maxSortOrder = books.reduce((max, b) => Math.max(max, b.sort_order ?? -1), -1);
     const payload = {
       title,
       author: document.getElementById('f-author').value.trim() || null,
@@ -624,6 +641,8 @@ async function saveBook() {
       borrower: !availableState ? (document.getElementById('f-borrower').value.trim() || null) : null,
       borrower_contact: !availableState ? (document.getElementById('f-borrower-contact').value.trim() || null) : null,
     };
+    // New books go to the end of the custom order
+    if (!editingId) payload.sort_order = maxSortOrder + 1;
     status.textContent = 'Saving…';
     if (editingId) { await apiFetch(`books?id=eq.${editingId}`, { method: 'PATCH', body: JSON.stringify(payload) }); }
     else { await apiFetch('books', { method: 'POST', body: JSON.stringify(payload) }); }
@@ -665,16 +684,130 @@ function closeConfirmModal() {
   document.getElementById('confirm-overlay').classList.remove('open');
 }
 
+// ── Reorder mode ──────────────────────────────────────────────────────────────
+function toggleReorderMode() {
+  if (!reorderMode) enterReorderMode();
+  else saveOrder();
+}
+
+function enterReorderMode() {
+  reorderMode = true;
+  // Clear any active search and stat filter
+  const searchEl = document.getElementById('search-input');
+  searchEl.value = '';
+  activeStatFilter = 'all';
+  document.querySelectorAll('.stat-pill').forEach(p => p.classList.remove('active'));
+  document.getElementById('stat-pill-all')?.classList.add('active');
+  filteredBooks = [...books];
+  // Update UI
+  document.getElementById('stats-filter-bar').style.display = 'none';
+  document.getElementById('btn-add').style.display = 'none';
+  document.getElementById('btn-reorder').textContent = 'Done';
+  document.getElementById('btn-reorder').classList.add('done');
+  renderList();
+}
+
+async function saveOrder() {
+  const statusEl = document.getElementById('reorder-status');
+  statusEl.style.display = 'block';
+  statusEl.textContent = 'Saving order…';
+  document.getElementById('btn-reorder').disabled = true;
+  try {
+    await Promise.all(books.map((book, i) =>
+      apiFetch(`books?id=eq.${book.id}`, {
+        method: 'PATCH',
+        headers: { 'Prefer': 'return=minimal' },
+        body: JSON.stringify({ sort_order: i })
+      })
+    ));
+    statusEl.textContent = '✓ Order saved';
+    setTimeout(() => { statusEl.style.display = 'none'; }, 2000);
+  } catch(e) {
+    statusEl.textContent = 'Error saving order — try again';
+    document.getElementById('btn-reorder').disabled = false;
+    return;
+  }
+  reorderMode = false;
+  document.getElementById('stats-filter-bar').style.display = '';
+  document.getElementById('btn-add').style.display = '';
+  document.getElementById('btn-reorder').textContent = 'Reorder';
+  document.getElementById('btn-reorder').classList.remove('done');
+  document.getElementById('btn-reorder').disabled = false;
+  document.getElementById('reorder-hint').style.display = 'none';
+  renderList();
+}
+
+// ── Drag and drop ─────────────────────────────────────────────────────────────
+function dragStart(e, index) {
+  dragSrcIndex = index;
+  setTimeout(() => {
+    const cards = document.querySelectorAll('.book-card[draggable]');
+    if (cards[index]) cards[index].classList.add('dragging');
+  }, 0);
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', index);
+}
+
+function dragOver(e, index) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  document.querySelectorAll('.book-card').forEach(c => c.classList.remove('drag-over'));
+  if (index !== dragSrcIndex) {
+    const cards = document.querySelectorAll('.book-card[draggable]');
+    if (cards[index]) cards[index].classList.add('drag-over');
+  }
+}
+
+function drop(e, toIndex) {
+  e.preventDefault();
+  if (dragSrcIndex === null || dragSrcIndex === toIndex) return;
+  // Move within the books array (source of truth for order)
+  const moved = books.splice(dragSrcIndex, 1)[0];
+  books.splice(toIndex, 0, moved);
+  filteredBooks = [...books];
+  dragSrcIndex = null;
+  renderList();
+}
+
+function dragEnd(e) {
+  document.querySelectorAll('.book-card').forEach(c => {
+    c.classList.remove('dragging');
+    c.classList.remove('drag-over');
+  });
+  dragSrcIndex = null;
+}
+
 // ── List & filters ────────────────────────────────────────────────────────────
+function onSearchInput(val) {
+  filterBooks(val);
+  if (reorderMode) {
+    const hasSearch = val.trim().length > 0;
+    document.getElementById('reorder-hint').style.display = hasSearch ? 'block' : 'none';
+    renderList();
+  }
+}
+
 function renderList() {
   const container = document.getElementById('book-list');
+  const searchVal = document.getElementById('search-input')?.value || '';
+  const showHandles = reorderMode && !searchVal.trim();
+
   if (!filteredBooks.length) {
     container.innerHTML = `<div class="empty-state"><p>${books.length ? 'No results.' : 'No items yet.<br>Tap + Add item to start cataloging.'}</p></div>`;
     return;
   }
-  container.innerHTML = filteredBooks.map(b => {
+
+  container.innerHTML = filteredBooks.map((b, i) => {
     const thumb = (b.photo_urls?.[0] || b.cover_url) ? `<img src="${b.photo_urls?.[0] || b.cover_url}" alt="">` : '📖';
-    return `<div class="book-card" onclick="showDetail('${b.id}')">
+    const handleHtml = showHandles ? `<div class="drag-handle" title="Drag to reorder">⠿</div>` : '';
+    const clickAttr = reorderMode ? '' : `onclick="showDetail('${b.id}')"`;
+    const cursorStyle = reorderMode && !showHandles ? 'cursor:default;' : '';
+    const draggableAttrs = showHandles
+      ? `draggable="true" ondragstart="dragStart(event,${i})" ondragover="dragOver(event,${i})" ondrop="drop(event,${i})" ondragend="dragEnd(event)"`
+      : '';
+
+    return `<div class="book-card" ${clickAttr} ${draggableAttrs} style="${cursorStyle}">
+      ${handleHtml}
       <div class="book-thumb">${thumb}</div>
       <div class="book-info">
         <div class="book-title">${b.title}</div>
@@ -717,6 +850,7 @@ function updateStats() {
 }
 
 function setStatFilter(filter) {
+  if (reorderMode) return;
   activeStatFilter = (activeStatFilter === filter && filter !== 'all') ? 'all' : filter;
   document.querySelectorAll('.stat-pill').forEach(p => p.classList.remove('active'));
   document.getElementById('stat-pill-' + activeStatFilter)?.classList.add('active');

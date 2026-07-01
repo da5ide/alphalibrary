@@ -24,6 +24,7 @@ export interface Book {
   instagram_url: string | null
   tags: string[] | null
   year: number | null
+  sort_order: number | null
 }
 
 export interface Slot {

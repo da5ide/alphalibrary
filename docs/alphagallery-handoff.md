@@ -82,6 +82,7 @@ alphalibrary/
 - AI identification calls `/api/identify` which proxies to Anthropic (CORS workaround)
 - Password is stored in `sessionStorage` under key `ag_admin_pw` — shared between admin and catalog pages (no re-entry)
 - Photos uploaded at original resolution; AI call uses a separate 800px/72% recompression to stay within Vercel's 4.5MB body limit
+- Drag-to-reorder: Reorder button in list-controls enters reorder mode (stat pills + Add button hidden). Drag handles appear on each card. Search still works but handles hide while search is active (hint shown). Pressing Done PATCHes all books with their new sort_order in parallel. Public catalog "Recent" sort = sort_order ASC.
 
 ---
 
@@ -113,6 +114,17 @@ alphalibrary/
 | private | boolean | default false — hides from public catalog |
 | instagram_url | text | URL to IG post; shows icon on public site |
 | year | int | publication year |
+| sort_order | int | custom catalog display order; lower = earlier; managed via drag-to-reorder in catalog tool |
+
+**sort_order notes:** new books are assigned `max(sort_order)+1` automatically (appear at bottom). To initialize `sort_order` on an existing DB, run:
+```sql
+ALTER TABLE books ADD COLUMN sort_order integer;
+WITH ranked AS (
+  SELECT id, ROW_NUMBER() OVER (ORDER BY created_at DESC) - 1 AS rn
+  FROM books
+)
+UPDATE books SET sort_order = rn FROM ranked WHERE books.id = ranked.id;
+```
 
 **CHECK constraint:** `books_category_check` — must include all valid tags. If adding a new tag, update this constraint in Supabase SQL:
 ```sql
