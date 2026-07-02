@@ -621,7 +621,7 @@ async function saveBook() {
       if (slot.file) { status.textContent = `Uploading photo ${i+1}…`; finalUrls.push(await uploadPhoto(slot.file, i)); }
       else if (slot.url && slot.url.startsWith('http')) { finalUrls.push(slot.url); }
     }
-    const maxSortOrder = books.reduce((max, b) => Math.max(max, b.sort_order ?? -1), -1);
+    const minSortOrder = books.reduce((min, b) => Math.min(min, b.sort_order ?? 1), 1);
     const payload = {
       title,
       author: document.getElementById('f-author').value.trim() || null,
@@ -643,7 +643,7 @@ async function saveBook() {
       borrower_contact: !availableState ? (document.getElementById('f-borrower-contact').value.trim() || null) : null,
     };
     // New books go to the end of the custom order
-    if (!editingId) payload.sort_order = maxSortOrder + 1;
+    if (!editingId) payload.sort_order = minSortOrder - 1;
     status.textContent = 'Saving…';
     if (editingId) { await apiFetch(`books?id=eq.${editingId}`, { method: 'PATCH', body: JSON.stringify(payload) }); }
     else { await apiFetch('books', { method: 'POST', body: JSON.stringify(payload) }); }
